@@ -244,7 +244,7 @@
       <tag name="controller.service_arguments"/>
       <argument type="service" id="messenger.bus.default"/>
     </service>
-    <service id="Academy\ActivityItinerary\EntryPoint\Http\Controller\GetItineraryByIdController" class="Academy\ActivityItinerary\EntryPoint\Http\Controller\GetItineraryByIdController" public="true" autowire="true" autoconfigure="true">
+    <service id="Academy\ActivityItinerary\EntryPoint\Http\Controller\GetActivitiesByItineraryUuidController" class="Academy\ActivityItinerary\EntryPoint\Http\Controller\GetActivitiesByItineraryUuidController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <argument type="service" id="messenger.bus.default"/>
     </service>

@@ -1,6 +1,6 @@
-itinerary_get_by_id:
-  path: /itineraries/{id}
-  controller: Academy\ActivityItinerary\EntryPoint\Http\Controller\GetItineraryByIdController
+activities_itinerary_get_by_id:
+  path: /itineraries/{id}/activity
+  controller: Academy\ActivityItinerary\EntryPoint\Http\Controller\GetActivitiesByItineraryUuidController
   defaults: { auth: false }
   methods:  [GET|HEAD]
 

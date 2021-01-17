@@ -208,3 +208,5 @@
 172.23.0.1 - - [17/Jan/2021:23:50:50 +0000] "GET /itineraries/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1" 200 214 "-" "PostmanRuntime/7.26.8"
 172.23.0.1 - - [17/Jan/2021:23:50:57 +0000] "POST /itineraries/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e/activity?XDEBUG_SESSION_START=PHPSTORM&name=A2 HTTP/1.1" 201 163 "-" "PostmanRuntime/7.26.8"
 172.23.0.1 - - [17/Jan/2021:23:51:00 +0000] "GET /itineraries/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1" 200 290 "-" "PostmanRuntime/7.26.8"
+172.23.0.1 - - [17/Jan/2021:23:54:34 +0000] "GET /itineraries/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1" 200 290 "-" "PostmanRuntime/7.26.8"
+172.23.0.1 - - [17/Jan/2021:23:55:10 +0000] "GET /itineraries/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e/activity?XDEBUG_SESSION_START=PHPSTORM HTTP/1.1" 200 290 "-" "PostmanRuntime/7.26.8"

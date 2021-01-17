@@ -1,7 +1,7 @@
 <?php return array (
   0 => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController',
   1 => 'Academy\\ActivityItinerary\\EntryPoint\\Http\\Controller\\AddActivityItineraryController',
-  2 => 'Academy\\ActivityItinerary\\EntryPoint\\Http\\Controller\\GeItineraryByIdController',
+  2 => 'Academy\\ActivityItinerary\\EntryPoint\\Http\\Controller\\GetActivitiesByItineraryUuidController',
   3 => 'Academy\\App\\Controller\\IndexController',
   4 => 'Doctrine\\Bundle\\DoctrineBundle\\Controller\\ProfilerController',
   5 => 'Doctrine\\ORM\\Cache\\Persister\\Entity\\AbstractEntityPersister',
