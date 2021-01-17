@@ -6,6 +6,8 @@ namespace Academy\Activity\Domain;
 
 final class Activity
 {
+    public const SEPARATOR_FOR_SOLUTIONS = '_';
+
     private ActivityUuid $uuid;
     private ActivityName $name;
     private ActivityLevel $level;

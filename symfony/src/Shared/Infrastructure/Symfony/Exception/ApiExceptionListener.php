@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Shared\Infrastructure\Symfony\Exception;
 
+use Academy\Shared\Infrastructure\Symfony\ApiResponseResource;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;

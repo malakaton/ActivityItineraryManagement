@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Academy\ActivityItinerary\EntryPoint\Http\Controller;
 
 use Academy\ActivityItinerary\Application\AddActivity\AddActivityCommand;
-use Academy\Shared\Infrastructure\Symfony\Exception\ApiResponseResource;
+use Academy\Shared\Infrastructure\Symfony\ApiResponseResource;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;

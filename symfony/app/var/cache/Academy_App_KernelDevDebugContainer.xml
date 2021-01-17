@@ -197,6 +197,10 @@
       <argument type="service" id="Academy\Activity\Domain\ActivityAnswers"/>
     </service>
     <service id="Academy\Activity\Domain\ActivityAnswers" class="Academy\Activity\Domain\ActivityAnswers" autowire="true" autoconfigure="true"/>
+    <service id="Academy\Activity\Domain\ActivityGuard" class="Academy\Activity\Domain\ActivityGuard" autowire="true" autoconfigure="true">
+      <argument type="service" id="Academy\Activity\Infrastructure\Persistence\ActivityRepositoryMysql"/>
+      <argument type="service" id="monolog.logger"/>
+    </service>
     <service id="Academy\Activity\Domain\ActivityLevel" class="Academy\Activity\Domain\ActivityLevel" autowire="true" autoconfigure="true"/>
     <service id="Academy\Activity\Domain\ActivityName" class="Academy\Activity\Domain\ActivityName" autowire="true" autoconfigure="true"/>
     <service id="Academy\Activity\Domain\ActivityTime" class="Academy\Activity\Domain\ActivityTime" autowire="true" autoconfigure="true"/>
@@ -211,9 +215,19 @@
       <tag name="messenger.message_handler"/>
       <argument type="service" id="Academy\ActivityItinerary\Domain\ActivityAdder"/>
     </service>
+    <service id="Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityCommand" class="Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityCommand" autowire="true" autoconfigure="true"/>
+    <service id="Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityHandler" class="Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityHandler" autowire="true" autoconfigure="true">
+      <tag name="messenger.message_handler"/>
+      <argument type="service" id="Academy\ActivityItinerary\Domain\ActivityFinder"/>
+    </service>
     <service id="Academy\ActivityItinerary\Domain\ActivityAdder" class="Academy\ActivityItinerary\Domain\ActivityAdder" autowire="true" autoconfigure="true">
-      <argument type="service" id="Academy\Itinerary\Infrastructure\Persistence\ItineraryRepositoryMysql"/>
-      <argument type="service" id="Academy\Activity\Infrastructure\Persistence\ActivityRepositoryMysql"/>
+      <argument type="service" id="Academy\Itinerary\Domain\ItineraryGuard"/>
+      <argument type="service" id="Academy\Activity\Domain\ActivityGuard"/>
+      <argument type="service" id="Academy\ActivityItinerary\Infrastructure\Persistence\ActivityItineraryRepositoryMysql"/>
+      <argument type="service" id="monolog.logger"/>
+    </service>
+    <service id="Academy\ActivityItinerary\Domain\ActivityFinder" class="Academy\ActivityItinerary\Domain\ActivityFinder" autowire="true" autoconfigure="true">
+      <argument type="service" id="Academy\Itinerary\Domain\ItineraryGuard"/>
       <argument type="service" id="Academy\ActivityItinerary\Infrastructure\Persistence\ActivityItineraryRepositoryMysql"/>
       <argument type="service" id="monolog.logger"/>
     </service>
@@ -225,11 +239,12 @@
     </service>
     <service id="Academy\ActivityItinerary\Domain\ActivityItineraryPosition" class="Academy\ActivityItinerary\Domain\ActivityItineraryPosition" autowire="true" autoconfigure="true"/>
     <service id="Academy\ActivityItinerary\Domain\ActivityItineraryUuid" class="Academy\ActivityItinerary\Domain\ActivityItineraryUuid" autowire="true" autoconfigure="true"/>
+    <service id="Academy\ActivityItinerary\Domain\Exception\DuplicatedActivity" class="Academy\ActivityItinerary\Domain\Exception\DuplicatedActivity" autowire="true" autoconfigure="true"/>
     <service id="Academy\ActivityItinerary\EntryPoint\Http\Controller\AddActivityItineraryController" class="Academy\ActivityItinerary\EntryPoint\Http\Controller\AddActivityItineraryController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <argument type="service" id="messenger.bus.default"/>
     </service>
-    <service id="Academy\ActivityItinerary\EntryPoint\Http\Controller\GeItineraryByIdController" class="Academy\ActivityItinerary\EntryPoint\Http\Controller\GeItineraryByIdController" public="true" autowire="true" autoconfigure="true">
+    <service id="Academy\ActivityItinerary\EntryPoint\Http\Controller\GetItineraryByIdController" class="Academy\ActivityItinerary\EntryPoint\Http\Controller\GetItineraryByIdController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <argument type="service" id="messenger.bus.default"/>
     </service>
@@ -240,6 +255,10 @@
     <service id="Academy\Itinerary\Domain\Exception\ItineraryNotFound" class="Academy\Itinerary\Domain\Exception\ItineraryNotFound" autowire="true" autoconfigure="true"/>
     <service id="Academy\Itinerary\Domain\Itinerary" class="Academy\Itinerary\Domain\Itinerary" autowire="true" autoconfigure="true">
       <argument type="service" id="Academy\Itinerary\Domain\ItineraryUuid"/>
+    </service>
+    <service id="Academy\Itinerary\Domain\ItineraryGuard" class="Academy\Itinerary\Domain\ItineraryGuard" autowire="true" autoconfigure="true">
+      <argument type="service" id="Academy\Itinerary\Infrastructure\Persistence\ItineraryRepositoryMysql"/>
+      <argument type="service" id="monolog.logger"/>
     </service>
     <service id="Academy\Itinerary\Domain\ItineraryUuid" class="Academy\Itinerary\Domain\ItineraryUuid" autowire="true" autoconfigure="true"/>
     <service id="Academy\Itinerary\Infrastructure\Persistence\Doctrine\ItineraryUuidType" class="Academy\Itinerary\Infrastructure\Persistence\Doctrine\ItineraryUuidType" autowire="true" autoconfigure="true"/>
@@ -934,6 +953,12 @@
               <argument type="collection"/>
             </argument>
           </argument>
+          <argument key="Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityCommand" type="collection">
+            <argument type="collection">
+              <argument>Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityHandler</argument>
+              <argument type="collection"/>
+            </argument>
+          </argument>
         </argument>
       </argument>
       <call method="setName">
@@ -1250,16 +1275,22 @@
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="Academy\ActivityItinerary\Application\AddActivity\AddActivityHandler" type="service" id="Academy\ActivityItinerary\Application\AddActivity\AddActivityHandler" on-invalid="ignore_uninitialized"/>
+        <argument key="Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityHandler" type="service" id="Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityHandler" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\ActivityItinerary\Domain\ActivityAdder" type="service" id="Academy\ActivityItinerary\Domain\ActivityAdder" on-invalid="ignore_uninitialized"/>
+        <argument key="Academy\ActivityItinerary\Domain\ActivityFinder" type="service" id="Academy\ActivityItinerary\Domain\ActivityFinder" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\ActivityItinerary\Domain\ActivityItinerary" type="service" id="Academy\ActivityItinerary\Domain\ActivityItinerary" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\ActivityItinerary\Domain\ActivityItineraryRepository" type="service" id="Academy\ActivityItinerary\Infrastructure\Persistence\ActivityItineraryRepositoryMysql" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\ActivityItinerary\Infrastructure\Persistence\ActivityItineraryRepositoryMysql" type="service" id="Academy\ActivityItinerary\Infrastructure\Persistence\ActivityItineraryRepositoryMysql" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\ActivityItinerary\Infrastructure\Persistence\Doctrine\ActivityItineraryUuidType" type="service" id="Academy\ActivityItinerary\Infrastructure\Persistence\Doctrine\ActivityItineraryUuidType" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\Activity\Domain\Activity" type="service" id="Academy\Activity\Domain\Activity" on-invalid="ignore_uninitialized"/>
+        <argument key="Academy\Activity\Domain\ActivityGuard" type="service" id="Academy\Activity\Domain\ActivityGuard" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\Activity\Domain\ActivityRepository" type="service" id="Academy\Activity\Infrastructure\Persistence\ActivityRepositoryMysql" on-invalid="ignore_uninitialized"/>
+        <argument key="Academy\Activity\Domain\IActivityGuard" type="service" id="Academy\Activity\Domain\ActivityGuard" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\Activity\Infrastructure\Persistence\ActivityRepositoryMysql" type="service" id="Academy\Activity\Infrastructure\Persistence\ActivityRepositoryMysql" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\Activity\Infrastructure\Persistence\Doctrine\ActivityUuidType" type="service" id="Academy\Activity\Infrastructure\Persistence\Doctrine\ActivityUuidType" on-invalid="ignore_uninitialized"/>
+        <argument key="Academy\Itinerary\Domain\IItineraryGuard" type="service" id="Academy\Itinerary\Domain\ItineraryGuard" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\Itinerary\Domain\Itinerary" type="service" id="Academy\Itinerary\Domain\Itinerary" on-invalid="ignore_uninitialized"/>
+        <argument key="Academy\Itinerary\Domain\ItineraryGuard" type="service" id="Academy\Itinerary\Domain\ItineraryGuard" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\Itinerary\Domain\ItineraryRepository" type="service" id="Academy\Itinerary\Infrastructure\Persistence\ItineraryRepositoryMysql" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\Itinerary\Infrastructure\Persistence\Doctrine\ItineraryUuidType" type="service" id="Academy\Itinerary\Infrastructure\Persistence\Doctrine\ItineraryUuidType" on-invalid="ignore_uninitialized"/>
         <argument key="Academy\Itinerary\Infrastructure\Persistence\ItineraryRepositoryMysql" type="service" id="Academy\Itinerary\Infrastructure\Persistence\ItineraryRepositoryMysql" on-invalid="ignore_uninitialized"/>
@@ -2695,6 +2726,8 @@
     </service>
     <service id=".instanceof.Symfony\Component\Messenger\Handler\MessageHandlerInterface.0.Academy\ActivityItinerary\Application\AddActivity\AddActivityHandler" class="Academy\ActivityItinerary\Application\AddActivity\AddActivityHandler" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.Academy\ActivityItinerary\Application\AddActivity\AddActivityHandler" class="Academy\ActivityItinerary\Application\AddActivity\AddActivityHandler" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Messenger\Handler\MessageHandlerInterface.0.Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityHandler" class="Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityHandler" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityHandler" class="Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityHandler" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.Academy\App\Controller\IndexController" class="Academy\App\Controller\IndexController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.Academy\App\Controller\IndexController" class="Academy\App\Controller\IndexController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.Academy\App\Controller\IndexController" class="Academy\App\Controller\IndexController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -2778,10 +2811,17 @@
       <argument type="service" id="Academy\ActivityItinerary\Application\AddActivity\AddActivityHandler"/>
       <argument type="collection"/>
     </service>
+    <service id=".messenger.handler_descriptor.HSUkrVB" class="Symfony\Component\Messenger\Handler\HandlerDescriptor">
+      <argument type="service" id="Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityHandler"/>
+      <argument type="collection"/>
+    </service>
     <service id="messenger.bus.default.messenger.handlers_locator" class="Symfony\Component\Messenger\Handler\HandlersLocator">
       <argument type="collection">
         <argument key="Academy\ActivityItinerary\Application\AddActivity\AddActivityCommand" type="iterator">
           <argument type="service" id=".messenger.handler_descriptor.J4_kSUk"/>
+        </argument>
+        <argument key="Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityCommand" type="iterator">
+          <argument type="service" id=".messenger.handler_descriptor.HSUkrVB"/>
         </argument>
       </argument>
     </service>
@@ -3040,7 +3080,8 @@
     <service id="Academy\Itinerary\Domain\ItineraryRepository" alias="Academy\Itinerary\Infrastructure\Persistence\ItineraryRepositoryMysql"/>
     <service id="Academy\Activity\Domain\ActivityRepository" alias="Academy\Activity\Infrastructure\Persistence\ActivityRepositoryMysql"/>
     <service id="Academy\ActivityItinerary\Domain\ActivityItineraryRepository" alias="Academy\ActivityItinerary\Infrastructure\Persistence\ActivityItineraryRepositoryMysql"/>
-    <service id="Academy\Shared\Domain\Command" alias="Academy\ActivityItinerary\Application\AddActivity\AddActivityCommand" public="false"/>
+    <service id="Academy\Activity\Domain\IActivityGuard" alias="Academy\Activity\Domain\ActivityGuard" public="false"/>
+    <service id="Academy\Itinerary\Domain\IItineraryGuard" alias="Academy\Itinerary\Domain\ItineraryGuard" public="false"/>
     <service id="Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface" alias="parameter_bag" public="false"/>
     <service id="Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface" alias="parameter_bag" public="false"/>
     <service id="Symfony\Component\EventDispatcher\EventDispatcherInterface" alias="event_dispatcher" public="false"/>

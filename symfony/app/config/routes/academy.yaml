@@ -1,8 +1,8 @@
-#itinerary_get_by_id:
-#  path: /itineraries/{id}
-#  controller: Academy\ActivityItinerary\EntryPoint\Http\Controller\GetBookByIdController
-#  defaults: { auth: false }
-#  methods:  [GET|HEAD]
+itinerary_get_by_id:
+  path: /itineraries/{id}
+  controller: Academy\ActivityItinerary\EntryPoint\Http\Controller\GetItineraryByIdController
+  defaults: { auth: false }
+  methods:  [GET|HEAD]
 
 itinerary_store_activity:
   path: /itineraries/{id}/activity

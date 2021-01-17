@@ -6,8 +6,7 @@ namespace Academy\ActivityItinerary\Application\AddActivity;
 
 use Academy\Activity\Domain\ActivityName;
 use Academy\ActivityItinerary\Domain\ActivityAdder;
-use Academy\Activity\Domain\Exception\ActivityNotFound;
-use Academy\Itinerary\Domain\Exception\ItineraryNotFound;
+use Academy\ActivityItinerary\Domain\Exception\DuplicatedActivity;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
@@ -23,8 +22,7 @@ final class AddActivityHandler implements MessageHandlerInterface
     /**
      * @param AddActivityCommand $command
      * @return string|null
-     * @throws ActivityNotFound
-     * @throws ItineraryNotFound
+     * @throws DuplicatedActivity
      */
     public function __invoke(AddActivityCommand $command): ?string
     {

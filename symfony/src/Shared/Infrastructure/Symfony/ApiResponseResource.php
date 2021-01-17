@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Academy\Shared\Infrastructure\Symfony\Exception;
+namespace Academy\Shared\Infrastructure\Symfony;
 
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 final class ApiResponseResource
 {

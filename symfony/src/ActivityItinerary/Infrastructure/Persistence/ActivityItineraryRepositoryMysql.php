@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Academy\ActivityItinerary\Infrastructure\Persistence;
 
+use Academy\Activity\Domain\Activity;
+use Academy\Activity\Domain\ActivityUuid;
 use Academy\ActivityItinerary\Domain\ActivityItinerary;
 use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\ActivityItinerary\Domain\ActivityItineraryRepository;
@@ -37,13 +39,17 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
 
     /**
      * @param ItineraryUuid $itineraryUuid
-     * @return ActivityItinerary|null
+     * @return array|null
      */
-    public function searchByItineraryUuid(ItineraryUuid $itineraryUuid): ?ActivityItinerary
+    public function searchActivitiesByItineraryUuid(ItineraryUuid $itineraryUuid): ?array
     {
-        $t = $this->repository->findBy(['itinerary_uuid' => $itineraryUuid]);
-
-        return null;
+        return $this->repository->createQueryBuilder("ai")
+                ->select('ai.position.value, a.name.value, a.level.value, a.time.value, a.answers.value')
+                ->leftJoin(Activity::class, 'a', 'WITH', 'a.uuid=ai.activityUuid')
+                ->where('ai.itineraryUuid = (:id)')
+                ->setParameter('id', $itineraryUuid)
+                ->getQuery()
+                ->getResult();
     }
 
     public function getNextPositionByItineraryUuid(ItineraryUuid $itineraryUuid): ActivityItineraryPosition
@@ -57,5 +63,12 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
             ->getFirstResult() ?? self::FIRST_ORDER_ACTIVITY_ITINERARY;
 
         return new ActivityItineraryPosition($position + self::ADD_ORDER);
+    }
+
+    public function isDuplicatedActivity(ItineraryUuid $itineraryUuid, ActivityUuid $activityUuid): bool
+    {
+        $result = $this->repository->findOneBy(['itineraryUuid' => $itineraryUuid, 'activityUuid' => $activityUuid]);
+
+        return is_null($result) ? false : true;
     }
 }

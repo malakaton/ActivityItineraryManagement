@@ -25,7 +25,7 @@ CREATE TABLE `activities_itineraries` (
   `activity_uuid` char(36) NOT NULL,
   `position` integer NOT NULL,
   PRIMARY KEY (`uuid`),
-  KEY (`position`)
+  KEY (`activity_uuid`, `position`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `evaluations` (
