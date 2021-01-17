@@ -1,0 +1,10 @@
+framework:
+  test: true
+
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+
+  Academy\Tests\:
+    resource: '../../../tests/'

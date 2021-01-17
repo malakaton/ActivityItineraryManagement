@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+docker-compose up --build -d
+#docker-compose exec php rm -Rf app/var
+docker-compose exec php composer install
+docker-compose exec php bin/console cache:clear
+docker-compose exec php chmod 0777 app/var/log -R

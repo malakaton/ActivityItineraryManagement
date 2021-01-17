@@ -1,0 +1,65 @@
+{
+    "name": "malakaton/activity-itinerary-manager",
+    "license": "proprietary",
+    "type": "project",
+    "keywords": ["symfony", "ddd", "management", "sample app"],
+    "description": "Symfony app to manage the activities involved on itinerary where student need to resolve some exercises on itineration. Symfony 5 + PHP 7.4 + DDD + MySQL.",
+    "autoload": {
+        "psr-4": {
+            "Academy\\": "src/",
+            "Academy\\App\\": "app/src/"
+        },
+        "classmap": [
+            "app/src/Kernel.php"
+        ]
+    },
+    "require": {
+        "php": "^7.4",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-json": "*",
+        "doctrine/annotations": "^1.0",
+        "doctrine/doctrine-bundle": "^2.1",
+        "doctrine/orm": "^2.7",
+        "fakerphp/faker": "^1.13",
+        "mockery/mockery": "^1.4",
+        "phpdocumentor/reflection-docblock": "^5.2",
+        "phpunit/phpunit": "^9.3",
+        "ramsey/uuid": "^4.1",
+        "symfony/console": "5.1.*",
+        "symfony/dependency-injection": "5.1.*",
+        "symfony/dotenv": "5.1.*",
+        "symfony/flex": "^1.3.1",
+        "symfony/framework-bundle": "5.1.*",
+        "symfony/messenger": "5.1.*",
+        "symfony/monolog-bundle": "^3.5",
+        "symfony/property-access": "5.1.*",
+        "symfony/property-info": "5.1.*",
+        "symfony/serializer": "5.1.*",
+        "symfony/validator": "5.1.*",
+        "symfony/yaml": "5.1.*"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Academy\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "dama/doctrine-test-bundle": "^6.3",
+        "symfony/browser-kit": "5.1.*",
+        "symfony/phpunit-bridge": "^5.1"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        }
+    }
+}

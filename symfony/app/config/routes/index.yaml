@@ -1,0 +1,3 @@
+index:
+  path: /
+  controller: Itinerary\App\Controller\IndexController
