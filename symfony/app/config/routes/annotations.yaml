@@ -1,0 +1,3 @@
+controllers_activity_itinerary:
+  resource: ../../../src/ActivityItinerary/EntryPoint/Http/Controller
+  type: annotation

@@ -1,0 +1,10 @@
+nelmio_api_doc:
+  documentation:
+    info:
+      title: Activity Itinerary Management API
+      description: An API for manage the academic itineraries to add an activity, show activity list, calculate the next activity for student and show score of student
+      version: 1.0.0
+  areas: # Include everything available at /api except the doc APIs.
+    default:
+      path_patterns:
+        - ^/api(?!/(doc.json|doc)$)

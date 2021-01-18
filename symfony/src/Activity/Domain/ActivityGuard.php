@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 
 final class ActivityGuard implements IActivityGuard
 {
-    private Activity $activity;
+    private ?Activity $activity;
     private ActivityRepository $activityRepository;
     private LoggerInterface $logger;
 
