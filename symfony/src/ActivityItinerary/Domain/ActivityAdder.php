@@ -46,7 +46,7 @@ final class ActivityAdder
         $this->activityGuard->guard($activityName);
         $this->guardDuplicateActivity($itineraryUuid, $this->activityGuard->getActivity());
 
-        $activityItinerary = ActivityItinerary::add(
+        $activityItinerary = ActivityItinerary::create(
             $itineraryUuid,
             $this->activityGuard->getActivity()->uuid(),
             $this->activityItineraryRepository->getNextPositionByItineraryUuid($itineraryUuid)

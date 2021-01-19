@@ -26,6 +26,11 @@ final class ActivityFinder
         $this->logger = $logger;
     }
 
+    /**
+     * @param ItineraryUuid $itineraryUuid
+     * @return array|null
+     * @throws \JsonException
+     */
     public function __invoke(
         ItineraryUuid $itineraryUuid
     ): ?array
@@ -42,6 +47,11 @@ final class ActivityFinder
         ];
     }
 
+    /**
+     * @param array $activityList
+     * @return array
+     * @throws \JsonException
+     */
     private function _toArray(array $activityList): array
     {
         $response = [];
@@ -52,18 +62,23 @@ final class ActivityFinder
                 'order' => $activity['position.value'],
                 'level' => $activity['level.value'],
                 'time' => $activity['time.value'],
-                'solution' => $this->jsonSolutionsToString($activity['answers.value'])
+                'solution' => $this->jsonSolutionsToString($activity['solution.value'])
             ];
         }
 
         return $response;
     }
 
-    private function jsonSolutionsToString(string $solutions): string
+    /**
+     * @param string $solution
+     * @return string
+     * @throws \JsonException
+     */
+    private function jsonSolutionsToString(string $solution): string
     {
         return implode(
-            Activity::SEPARATOR_FOR_SOLUTIONS,
-            json_decode($solutions, true, 512, JSON_THROW_ON_ERROR) ?? []
+            Activity::SEPARATOR_FOR_SOLUTION,
+            json_decode($solution, true, 512, JSON_THROW_ON_ERROR) ?? []
         );
     }
 }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Academy\ActivityItinerary\EntryPoint\Http\Controller;
+namespace Academy\Itinerary\EntryPoint\Http\Controller;
 
-use Academy\ActivityItinerary\Application\ShowListActivity\ShowListActivityCommand;
+use Academy\Itinerary\Application\ListingActivity\ListingActivityCommand;
 use Academy\Shared\Infrastructure\Symfony\ApiResponseResource;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +13,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class GetActivitiesByItineraryUuidController
+final class ListingActivityController
 {
     private MessageBusInterface $commandBus;
 
@@ -157,7 +157,7 @@ final class GetActivitiesByItineraryUuidController
     {
         /** @var HandledStamp $envelope */
         $envelope = $this->commandBus->dispatch(
-            new ShowListActivityCommand(
+            new ListingActivityCommand(
                 $request->get('uuid')
             )
         )->last(HandledStamp::class);

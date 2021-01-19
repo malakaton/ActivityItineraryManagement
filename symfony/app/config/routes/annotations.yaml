@@ -1,7 +1,7 @@
-controllers_activity_itinerary:
-  resource: ../../../src/ActivityItinerary/EntryPoint/Http/Controller
+controllers_itinerary:
+  resource: ../../../src/Itinerary/EntryPoint/Http/Controller
   type: annotation
 
-controllers_student_itinerary_progress:
-  resource: ../../../src/StudentItineraryProgress/EntryPoint/Http/Controller
+controllers_student:
+  resource: ../../../src/Student/EntryPoint/Http/Controller
   type: annotation

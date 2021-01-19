@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Academy\ActivityItinerary\Application\AddActivity;
+namespace Academy\Itinerary\Application\AddActivity;
 
 use Academy\Shared\Domain\Command;
 

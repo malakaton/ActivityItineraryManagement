@@ -7,6 +7,7 @@ doctrine:
       activity_uuid: Academy\Activity\Infrastructure\Persistence\Doctrine\ActivityUuidType
       activity_itinerary_uuid: Academy\ActivityItinerary\Infrastructure\Persistence\Doctrine\ActivityItineraryUuidType
       student_uuid: Academy\Student\Infrastructure\Persistence\Doctrine\StudentUuidType
+      evaluation_uuid: Academy\Evaluation\Infrastructure\Persistence\Doctrine\EvaluationUuidType
       student_itinerary_progress_uuid: Academy\StudentItineraryProgress\Infrastructure\Persistence\Doctrine\StudentItineraryProgressUuidType
 
     # IMPORTANT: You MUST configure your server version,
@@ -44,6 +45,13 @@ doctrine:
         is_bundle: false
         prefix: 'Academy\Student\Domain'
         alias: Academy\Student\Domain
+
+      Evaluation:
+        type: xml
+        dir: "%kernel.project_dir%/../src/Evaluation/Infrastructure/Persistence/Doctrine"
+        is_bundle: false
+        prefix: 'Academy\Evaluation\Domain'
+        alias: Academy\Evaluation\Domain
 
       StudentItineraryProgress:
         type: xml

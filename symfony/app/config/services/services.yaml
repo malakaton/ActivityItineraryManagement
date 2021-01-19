@@ -20,12 +20,12 @@ services:
 
   # controllers are imported separately to make sure they're public
   # and have a tag that allows actions to type-hint services
-  Academy\ActivityItinerary\EntryPoint\Http\Controller\:
-    resource: '../../../src/ActivityItinerary/EntryPoint/Http/Controller'
+  Academy\Itinerary\EntryPoint\Http\Controller\:
+    resource: '../../../src/Itinerary/EntryPoint/Http/Controller'
     tags: ['controller.service_arguments']
 
-  Academy\StudentItineraryProgress\EntryPoint\Http\Controller\:
-    resource: '../../../src/StudentItineraryProgress/EntryPoint/Http/Controller'
+  Academy\Student\EntryPoint\Http\Controller\:
+    resource: '../../../src/Student/EntryPoint/Http/Controller'
     tags: [ 'controller.service_arguments' ]
 
   Academy\App\Controller\:
@@ -40,4 +40,5 @@ services:
   Academy\Activity\Domain\ActivityRepository: '@Academy\Activity\Infrastructure\Persistence\ActivityRepositoryMysql'
   Academy\ActivityItinerary\Domain\ActivityItineraryRepository: '@Academy\ActivityItinerary\Infrastructure\Persistence\ActivityItineraryRepositoryMysql'
   Academy\Student\Domain\StudentRepository: '@Academy\Student\Infrastructure\Persistence\StudentRepositoryMysql'
+  Academy\Evaluation\Domain\EvaluationRepository: '@Academy\Evaluation\Infrastructure\Persistence\EvaluationRepositoryMysql'
   Academy\StudentItineraryProgress\Domain\StudentItineraryProgressRepo: '@Academy\StudentItineraryProgress\Infrastructure\Persistence\StudentItineraryProgressRepoMysql'

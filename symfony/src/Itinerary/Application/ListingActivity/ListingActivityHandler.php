@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Academy\ActivityItinerary\Application\ShowListActivity;
+namespace Academy\Itinerary\Application\ListingActivity;
 
 use Academy\ActivityItinerary\Domain\ActivityFinder;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class ShowListActivityHandler implements MessageHandlerInterface
+final class ListingActivityHandler implements MessageHandlerInterface
 {
     private ActivityFinder $activityFinder;
 
@@ -18,10 +18,11 @@ final class ShowListActivityHandler implements MessageHandlerInterface
     }
 
     /**
-     * @param ShowListActivityCommand $command
+     * @param ListingActivityCommand $command
      * @return array|null
+     * @throws \JsonException
      */
-    public function __invoke(ShowListActivityCommand $command): ?array
+    public function __invoke(ListingActivityCommand $command): ?array
     {
         $itineraryUuid = new ItineraryUuid($command->itineraryUuid());
 

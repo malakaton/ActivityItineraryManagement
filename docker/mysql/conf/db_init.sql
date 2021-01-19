@@ -14,7 +14,7 @@ CREATE TABLE `activities` (
   `name` varchar(32) NOT NULL,
   `level` integer NOT NULL,
   `time` integer NOT NULL,
-  `answers` JSON NOT NULL,
+  `solution` JSON NOT NULL,
   PRIMARY KEY (`uuid`),
   KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -33,8 +33,10 @@ CREATE TABLE `evaluations` (
   `itinerary_uuid` char(36) NOT NULL,
   `activity_uuid` char(36) NOT NULL,
   `student_uuid` char(36) NOT NULL,
-  `score` integer NOT NULL,
+  `answer` varchar(32) NOT NULL,
   `inverted_time` integer NOT NULL,
+  `score` integer NOT NULL,
+  `score_inverted_time` integer NOT NULL,
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

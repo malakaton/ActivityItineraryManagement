@@ -6,7 +6,7 @@ namespace Academy\Activity\Domain;
 
 use Academy\Shared\Domain\ValueObject\JsonValueObject;
 
-final class ActivityAnswers extends JsonValueObject
+final class ActivitySolution extends JsonValueObject
 {
 
 }

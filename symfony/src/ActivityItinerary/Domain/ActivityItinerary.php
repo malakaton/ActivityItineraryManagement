@@ -27,7 +27,7 @@ final class ActivityItinerary
         $this->position = $position;
     }
 
-    public static function add(
+    public static function create(
         ItineraryUuid $itineraryUuid,
         ActivityUuid $activityUuid,
         ActivityItineraryPosition $position

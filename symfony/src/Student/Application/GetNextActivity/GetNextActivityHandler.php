@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Academy\StudentItineraryProgress\Application\GetNextActivity;
+namespace Academy\Student\Application\GetNextActivity;
 
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Academy\StudentItineraryProgress\Domain\StudentNextActivity;

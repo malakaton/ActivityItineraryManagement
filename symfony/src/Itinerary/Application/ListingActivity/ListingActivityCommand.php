@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Academy\ActivityItinerary\Application\ShowListActivity;
+namespace Academy\Itinerary\Application\ListingActivity;
 
 use Academy\Shared\Domain\Command;
 
-final class ShowListActivityCommand implements Command
+final class ListingActivityCommand implements Command
 {
     private string $itineraryUuid;
 

@@ -6,27 +6,27 @@ namespace Academy\Activity\Domain;
 
 final class Activity
 {
-    public const SEPARATOR_FOR_SOLUTIONS = '_';
+    public const SEPARATOR_FOR_SOLUTION = '_';
 
     private ActivityUuid $uuid;
     private ActivityName $name;
     private ActivityLevel $level;
     private ActivityTime $time;
-    private ActivityAnswers $answers;
+    private ActivitySolution $solution;
 
     public function __construct(
         ActivityUuid $uuid,
         ActivityName $name,
         ActivityLevel $level,
         ActivityTime $time,
-        ActivityAnswers $answers
+        ActivitySolution $solution
     )
     {
         $this->uuid = $uuid;
         $this->name = $name;
         $this->level = $level;
         $this->time = $time;
-        $this->answers = $answers;
+        $this->solution = $solution;
     }
 
     public function uuid(): ActivityUuid
@@ -50,8 +50,8 @@ final class Activity
         return $this->time;
     }
 
-    public function answers(): ActivityAnswers
+    public function solution(): ActivitySolution
     {
-        return $this->answers;
+        return $this->solution;
     }
 }

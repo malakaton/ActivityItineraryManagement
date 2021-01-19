@@ -11,7 +11,6 @@ use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\ActivityItinerary\Domain\ActivityItineraryRepository;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ObjectRepository;
 
 final class ActivityItineraryRepositoryMysql implements ActivityItineraryRepository
@@ -45,7 +44,7 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
     public function searchActivitiesByItineraryUuid(ItineraryUuid $itineraryUuid): ?array
     {
         return $this->repository->createQueryBuilder("ai")
-                ->select('ai.position.value, a.name.value, a.level.value, a.time.value, a.answers.value')
+                ->select('ai.position.value, a.name.value, a.level.value, a.time.value, a.solution.value')
                 ->leftJoin(Activity::class, 'a', 'WITH', 'a.uuid=ai.activityUuid')
                 ->where('ai.itineraryUuid = (:id)')
                 ->orderBy('ai.position.value', 'ASC')
@@ -57,7 +56,6 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
     /**
      * @param ItineraryUuid $itineraryUuid
      * @return ActivityItineraryPosition
-     * @throws NonUniqueResultException
      */
     public function getNextPositionByItineraryUuid(ItineraryUuid $itineraryUuid): ActivityItineraryPosition
     {

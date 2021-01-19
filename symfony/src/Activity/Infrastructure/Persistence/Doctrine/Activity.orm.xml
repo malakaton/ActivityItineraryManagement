@@ -19,8 +19,8 @@
                   class="Academy\Activity\Domain\ActivityTime"
                   use-column-prefix="false" />
 
-        <embedded name="answers"
-                  class="Academy\Activity\Domain\ActivityAnswers"
+        <embedded name="solution"
+                  class="Academy\Activity\Domain\ActivitySolution"
                   use-column-prefix="false" />
 
     </entity>

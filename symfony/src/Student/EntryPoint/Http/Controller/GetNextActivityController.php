@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Academy\StudentItineraryProgress\EntryPoint\Http\Controller;
+namespace Academy\Student\EntryPoint\Http\Controller;
 
 use Academy\Shared\Infrastructure\Symfony\ApiResponseResource;
-use Academy\StudentItineraryProgress\Application\GetNextActivity\GetNextActivityCommand;
+use Academy\Student\Application\GetNextActivity\GetNextActivityCommand;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
