@@ -180,8 +180,8 @@ final class EvaluateActivityController
             $request->get('student_uuid'),
             $request->get('itinerary_uuid'),
             $request->get('activity_name'),
-            $request->get('answer'),
-            $request->get('inverted_time')
+            $requestToArray['answer'],
+            $requestToArray['inverted_time']
         ))->last(HandledStamp::class);
 
         return (new ApiResponseResource(
