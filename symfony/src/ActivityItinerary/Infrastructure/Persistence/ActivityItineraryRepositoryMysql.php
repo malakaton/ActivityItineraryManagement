@@ -11,6 +11,7 @@ use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\ActivityItinerary\Domain\ActivityItineraryRepository;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ObjectRepository;
 
 final class ActivityItineraryRepositoryMysql implements ActivityItineraryRepository
@@ -47,24 +48,36 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
                 ->select('ai.position.value, a.name.value, a.level.value, a.time.value, a.answers.value')
                 ->leftJoin(Activity::class, 'a', 'WITH', 'a.uuid=ai.activityUuid')
                 ->where('ai.itineraryUuid = (:id)')
+                ->orderBy('ai.position.value', 'ASC')
                 ->setParameter('id', $itineraryUuid)
                 ->getQuery()
                 ->getResult();
     }
 
+    /**
+     * @param ItineraryUuid $itineraryUuid
+     * @return ActivityItineraryPosition
+     * @throws NonUniqueResultException
+     */
     public function getNextPositionByItineraryUuid(ItineraryUuid $itineraryUuid): ActivityItineraryPosition
     {
         $position = $this->repository->createQueryBuilder("ai")
-            ->select('position.value')
+            ->select('ai.position.value as position')
             ->where('ai.itineraryUuid = (:id)')
-            ->orderBy('ai.position.value', 'DESC')
             ->setParameter('id', $itineraryUuid)
+            ->orderBy('ai.position.value', 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
-            ->getFirstResult() ?? self::FIRST_ORDER_ACTIVITY_ITINERARY;
+            ->getOneOrNullResult()['position'] ?? self::FIRST_ORDER_ACTIVITY_ITINERARY;
 
         return new ActivityItineraryPosition($position + self::ADD_ORDER);
     }
 
+    /**
+     * @param ItineraryUuid $itineraryUuid
+     * @param ActivityUuid $activityUuid
+     * @return bool
+     */
     public function isDuplicatedActivity(ItineraryUuid $itineraryUuid, ActivityUuid $activityUuid): bool
     {
         $result = $this->repository->findOneBy(['itineraryUuid' => $itineraryUuid, 'activityUuid' => $activityUuid]);

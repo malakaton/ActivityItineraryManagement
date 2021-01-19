@@ -6,6 +6,8 @@ doctrine:
       itinerary_uuid: Academy\Itinerary\Infrastructure\Persistence\Doctrine\ItineraryUuidType
       activity_uuid: Academy\Activity\Infrastructure\Persistence\Doctrine\ActivityUuidType
       activity_itinerary_uuid: Academy\ActivityItinerary\Infrastructure\Persistence\Doctrine\ActivityItineraryUuidType
+      student_uuid: Academy\Student\Infrastructure\Persistence\Doctrine\StudentUuidType
+      student_itinerary_progress_uuid: Academy\StudentItineraryProgress\Infrastructure\Persistence\Doctrine\StudentItineraryProgressUuidType
 
     # IMPORTANT: You MUST configure your server version,
     # either here or in the DATABASE_URL env var (see .env file)
@@ -35,3 +37,17 @@ doctrine:
         is_bundle: false
         prefix: 'Academy\ActivityItinerary\Domain'
         alias: Academy\ActivityItinerary\Domain
+
+      Student:
+        type: xml
+        dir: "%kernel.project_dir%/../src/Student/Infrastructure/Persistence/Doctrine"
+        is_bundle: false
+        prefix: 'Academy\Student\Domain'
+        alias: Academy\Student\Domain
+
+      StudentItineraryProgress:
+        type: xml
+        dir: "%kernel.project_dir%/../src/StudentItineraryProgress/Infrastructure/Persistence/Doctrine"
+        is_bundle: false
+        prefix: 'Academy\StudentItineraryProgress\Domain'
+        alias: Academy\StudentItineraryProgress\Domain

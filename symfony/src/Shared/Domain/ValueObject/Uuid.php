@@ -9,11 +9,11 @@ use Ramsey\Uuid\Uuid as RamseyUuid;
 
 class Uuid
 {
-    protected string $value;
+    protected ?string $value;
 
-    public function __construct(string $value)
+    public function __construct(?string $value)
     {
-        $this->ensureIsValidUuid($value);
+        is_null($value) ?: $this->ensureIsValidUuid($value);
 
         $this->value = $value;
     }
@@ -23,7 +23,7 @@ class Uuid
         return new static(RamseyUuid::uuid4()->toString());
     }
 
-    public function value(): string
+    public function value(): ?string
     {
         return $this->value;
     }
@@ -35,7 +35,7 @@ class Uuid
 
     public function __toString(): string
     {
-        return $this->value();
+        return is_null($this->value()) ? '' : $this->value();
     }
 
     private function ensureIsValidUuid($id): void

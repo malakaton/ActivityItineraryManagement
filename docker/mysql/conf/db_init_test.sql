@@ -44,7 +44,7 @@ CREATE TABLE `students_itineraries_progress` (
   `student_uuid` char(36) NOT NULL,
   `previous_activity_uuid` char(36) DEFAULT NULL,
   `next_activity_uuid` char(36) DEFAULT NULL,
-  `increased_level` boolean DEFAULT NULL,
+  `has_increased_level` boolean DEFAULT NULL,
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
