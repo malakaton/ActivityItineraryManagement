@@ -96,7 +96,7 @@ final class EvaluationCreator
             $solutionToArray
         );
 
-        return (int) round((count($mistakes) / count($solutionToArray)) * 100);
+        return (int) round(((count($solutionToArray) - count($mistakes)) / count($solutionToArray)) * 100);
     }
 
     private function getScoreInvertedTime(EvaluationInvertedTime $invertedTime, Activity $activity): int
