@@ -24,7 +24,7 @@ final class EvaluateHandler implements MessageHandlerInterface
     /**
      * @param EvaluateActivityCommand $command
      * @return string|null
-     * @throws DuplicatedActivity
+     * @throws \JsonException
      */
     public function __invoke(EvaluateActivityCommand $command): ?string
     {

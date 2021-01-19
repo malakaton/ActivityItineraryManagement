@@ -40,8 +40,17 @@ final class Evaluation
         $this->scoreInvertedTime = $scoreInvertedTime;
     }
 
+    /**
+     * @param ItineraryUuid $itineraryUuid
+     * @param ActivityUuid $activityUuid
+     * @param StudentUuid $studentUuid
+     * @param EvaluationAnswer $answer
+     * @param EvaluationInvertedTime $invertedTime
+     * @param EvaluationScore $score
+     * @param EvaluationScoreInvertedTime $scoreInvertedTime
+     * @return Evaluation
+     */
     public static function create(
-        EvaluationUuid $uuid,
         ItineraryUuid $itineraryUuid,
         ActivityUuid $activityUuid,
         StudentUuid $studentUuid,
@@ -52,7 +61,7 @@ final class Evaluation
     ): Evaluation
     {
         return new self(
-            $uuid,
+            EvaluationUuid::random(),
             $itineraryUuid,
             $activityUuid,
             $studentUuid,

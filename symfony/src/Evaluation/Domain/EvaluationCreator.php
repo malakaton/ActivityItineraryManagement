@@ -8,7 +8,6 @@ use Academy\Activity\Domain\Activity;
 use Academy\Activity\Domain\ActivityName;
 use Academy\Activity\Domain\ActivityRepository;
 use Academy\Activity\Domain\IActivityGuard;
-use Academy\ActivityItinerary\Domain\Exception\DuplicatedActivity;
 use Academy\Itinerary\Domain\IItineraryGuard;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Academy\Student\Domain\IStudentGuard;
@@ -47,6 +46,7 @@ final class EvaluationCreator
      * @param EvaluationAnswer $answer
      * @param EvaluationInvertedTime $invertedTime
      * @return string
+     * @throws \JsonException
      */
     public function __invoke(
         StudentUuid $studentUuid,
@@ -60,37 +60,52 @@ final class EvaluationCreator
         $this->itineraryGuard->guard($itineraryUuid);
         $this->activityGuard->guard($activityName);
 
-        $this->getScore($answer);
+        $activity = $this->activityRepository->searchByName($this->activityGuard->getActivity()->name());
 
-        $activityItinerary = Evaluation::create(
-            $studentUuid,
+        $evaluation = Evaluation::create(
             $itineraryUuid,
             $this->activityGuard->getActivity()->uuid(),
+            $studentUuid,
             $answer,
-            $time
+            $invertedTime,
+            new EvaluationScore($this->getScore($answer, $activity)),
+            new EvaluationScoreInvertedTime($this->getScoreInvertedTime($invertedTime, $activity))
         );
 
-        $this->activityItineraryRepository->save($activityItinerary);
+        $this->evaluationRepository->save($evaluation);
 
-        $message = "Activity name: {$activityName->value()} added to itinerary uuid: {$itineraryUuid->value()} successfully";
+        $message = "Evaluation of activity name: {$this->activityGuard->getActivity()->name()} for student uuid: {$studentUuid->value()} done successfully";
 
         $this->logger->info($message);
 
         return $message;
     }
 
-    private function getScore(EvaluationAnswer $answer)
+    /**
+     * @param EvaluationAnswer $answer
+     * @param Activity $activity
+     * @return int
+     * @throws \JsonException
+     */
+    private function getScore(EvaluationAnswer $answer, Activity $activity): int
     {
-        $activity = $this->activityRepository->searchByName($this->activityGuard->getActivity()->name());
+        $solutionToArray = json_decode($activity->solution()->value(), true, 512, JSON_THROW_ON_ERROR);
+
+        $mistakes = array_diff_assoc(
+            $this->explodeAnswer($answer),
+            $solutionToArray
+        );
+
+        return (int) round((count($mistakes) / count($solutionToArray)) * 100);
     }
 
-    private function getScoreInvertedTime()
+    private function getScoreInvertedTime(EvaluationInvertedTime $invertedTime, Activity $activity): int
     {
-
+        return (int) round(($invertedTime->value() / $activity->time()->value())  * 100);
     }
 
-    private function explodeSolution(): array
+    private function explodeAnswer(EvaluationAnswer $answer): array
     {
-        
+        return explode(Activity::SEPARATOR_FOR_SOLUTION, $answer->value());
     }
 }
