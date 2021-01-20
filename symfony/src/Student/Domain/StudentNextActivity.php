@@ -9,6 +9,7 @@ use Academy\Activity\Domain\ActivityName;
 use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\ActivityItinerary\Domain\ActivityItineraryRepository;
 use Academy\Evaluation\Domain\EvaluationRepository;
+use Academy\Evaluation\Domain\Exception\NoMoreActivities;
 use Academy\Itinerary\Domain\IItineraryGuard;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Psr\Log\LoggerInterface;
@@ -40,6 +41,12 @@ final class StudentNextActivity
         $this->logger = $logger;
     }
 
+    /**
+     * @param StudentUuid $studentUuid
+     * @param ItineraryUuid $itineraryUuid
+     * @return array|null
+     * @throws NoMoreActivities
+     */
     public function __invoke(
         StudentUuid $studentUuid,
         ItineraryUuid $itineraryUuid
@@ -52,6 +59,10 @@ final class StudentNextActivity
             $itineraryUuid,
             $this->evaluationRepository->getLastStudentEvaluation($studentUuid, $itineraryUuid)
         );
+
+        if ($nextActivityName->value() === '') {
+            return [];
+        }
 
         $this->logger->info("The next activity for the student uuid {$studentUuid->value()} is the activity name {$nextActivityName->value()}");
 
@@ -111,8 +122,7 @@ final class StudentNextActivity
 
         return new ActivityName($this->activityItineraryRepository->getActivityItineraryByCriteria(
             $lastEvaluation['itineraryUuid'],
-            new ActivityItineraryPosition($lastEvaluation['position.value']),
-            new ActivityLevel($lastEvaluation['level.value'])
+            new ActivityItineraryPosition($lastEvaluation['position.value'])
         )['name.value'] ?? '');
     }
 

@@ -133,7 +133,7 @@ final class AddActivityController
      * @OA\Parameter(
      *     name="uuid",
      *     in="path",
-     *     description="The uuid of itinerary used to see all activities involved",
+     *     description="The uuid of itinerary used to add activity",
      *     @OA\Schema(type="string")
      * )
      *

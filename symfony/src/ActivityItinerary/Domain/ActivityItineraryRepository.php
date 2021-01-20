@@ -18,7 +18,7 @@ interface ActivityItineraryRepository
     public function getActivityItineraryByCriteria(
         ItineraryUuid $itineraryUuid,
         ActivityItineraryPosition $activityPosition,
-        ActivityLevel $activityLevel
+        ActivityLevel $activityLevel = null
     ): ?array;
     public function getNextPositionByItineraryUuid(ItineraryUuid $itineraryUuid): ActivityItineraryPosition;
     public function isDuplicatedActivity(ItineraryUuid $itineraryUuid, ActivityUuid $activityUuid): bool;

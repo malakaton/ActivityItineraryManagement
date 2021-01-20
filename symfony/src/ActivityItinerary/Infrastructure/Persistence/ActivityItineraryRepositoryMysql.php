@@ -12,7 +12,6 @@ use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\ActivityItinerary\Domain\ActivityItineraryRepository;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ObjectRepository;
 
 final class ActivityItineraryRepositoryMysql implements ActivityItineraryRepository
@@ -76,33 +75,32 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
     /**
      * @param ItineraryUuid $itineraryUuid
      * @param ActivityItineraryPosition $activityPosition
-     * @param ActivityLevel $activityLevel
+     * @param ActivityLevel|null $activityLevel
      * @return array|null
-     * @throws NonUniqueResultException
      */
     public function getActivityItineraryByCriteria(
         ItineraryUuid $itineraryUuid,
         ActivityItineraryPosition $activityPosition,
-        ActivityLevel $activityLevel
+        ActivityLevel $activityLevel = null
     ): ?array
     {
-        return $this->repository->createQueryBuilder("ai")
+        $query = $this->repository->createQueryBuilder("ai")
             ->select('ai.position.value, a.name.value, a.level.value, a.time.value, a.solution.value')
             ->leftJoin(Activity::class, 'a', 'WITH', 'a.uuid=ai.activityUuid')
             ->where('ai.itineraryUuid = (:id)')
             ->andWhere('ai.position.value = (:position)')
-            ->andWhere('a.level.value = (:level)')
             ->setParameter('id', $itineraryUuid)
-            ->setParameter('position', $activityPosition->value())
-            ->setParameter('level', $activityLevel->value())
-            ->getQuery()
-            ->getOneOrNullResult();
+            ->setParameter('position', $activityPosition->value());
+
+        is_null($activityLevel) ?: $query->andWhere('a.level.value = (:level)')
+            ->setParameter('level', $activityLevel->value());
+
+        return $query->getQuery()->getOneOrNullResult();
     }
 
     /**
      * @param ItineraryUuid $itineraryUuid
      * @return ActivityItineraryPosition
-     * @throws NonUniqueResultException
      */
     public function getNextPositionByItineraryUuid(ItineraryUuid $itineraryUuid): ActivityItineraryPosition
     {

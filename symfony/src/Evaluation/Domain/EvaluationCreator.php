@@ -111,7 +111,7 @@ final class EvaluationCreator
         $answer = explode(Activity::SEPARATOR_FOR_SOLUTION, $answer->value());
 
         for ($unresolvedExercises = 0;
-             $unresolvedExercises <= count($solutionToArray) - count($answer);
+             $unresolvedExercises < count($solutionToArray) - count($answer);
                 $unresolvedExercises++) {
             $answer[] = null;
         }

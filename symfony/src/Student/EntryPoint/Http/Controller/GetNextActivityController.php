@@ -29,61 +29,17 @@ final class GetNextActivityController
      * @Route("/api/students/{student_uuid}/itinerary/{itinerary_uuid}/activity/next", methods={"GET"})
      * @OA\Response(
      *     response=200,
-     *     description="Returns the activities of an itinerary",
+     *     description="Returns the next activity name that student need to resolve",
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
      *                property="data",
      *                type="object",
      *                     @OA\Property(
-     *                          property="itinerary_uuid",
+     *                          property="activity_name",
      *                          type="string",
-     *                          example="99f951bf-7d49-4a1a-9152-7bdee1f5ce2e"
+     *                          example="A3"
      *                     ),
-     *                     @OA\Property(
-     *                               property="activities",
-     *                               type="array",
-     *                               example = {{
-     *                                  "activity_name": "A1",
-     *                                  "order": "1",
-     *                                  "level": "1",
-     *                                  "time": "120",
-     *                                  "solution": "1_0_2"
-     *                              }, {
-     *                                  "activity_name": "A2",
-     *                                  "order": "2",
-     *                                  "level": "1",
-     *                                  "time": "90",
-     *                                  "solution": "20_-4_9"
-     *                          }},
-     *                        @OA\Items(
-     *                              @OA\Property(
-     *                                 property="activity_name",
-     *                                 type="string",
-     *                                 example="A1"
-     *                              ),
-     *                              @OA\Property(
-     *                                 property="order",
-     *                                 type="number",
-     *                                 example="1"
-     *                              ),
-     *                              @OA\Property(
-     *                                 property="level",
-     *                                 type="number",
-     *                                 example="1"
-     *                              ),
-     *                              @OA\Property(
-     *                                 property="time",
-     *                                 type="number",
-     *                                 example="120"
-     *                              ),
-     *                              @OA\Property(
-     *                                 property="solution",
-     *                                 type="string",
-     *                                 example="1_0_2"
-     *                              ),
-     *                        ),
-     *                    ),
      *                ),
      *                @OA\Property(
      *                  property="meta",
@@ -108,7 +64,7 @@ final class GetNextActivityController
      * )
      * @OA\Response(
      *     response=404,
-     *     description="The itinerary has not been found on database",
+     *     description="The student or itinerary has not been found on database",
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
@@ -126,7 +82,7 @@ final class GetNextActivityController
      *                     @OA\Property(
      *                          property="message",
      *                          type="string",
-     *                          example="The itinerary has not been found"
+     *                          example="The student has not been found"
      *                     ),
      *                      @OA\Property(
      *                          property="errors",
@@ -135,19 +91,19 @@ final class GetNextActivityController
      *                              @OA\Property(
      *                                 property="uuid",
      *                                 type="string",
-     *                                 example="The itinerary uuid 99f951bf-7d49-4a1a-9152-7bdee1f5ce21 doesn't exist"
+     *                                 example="The student uuid 99f951bf-7d49-4a1a-9152-7bdee1f5ce21 doesn't exist"
      *                              ),
      *                          ),
      *                     ),
      *              ),
      *        ),
      * )
-     * @OA\Parameter(
-     *     name="uuid",
-     *     in="path",
-     *     description="The uuid of itinerary used to see all activities involved",
-     *     @OA\Schema(type="string")
+     *
+     * @OA\Response(
+     *     response=204,
+     *     description="The student has been finish all activities from itinerary"
      * )
+     *
      * @OA\Tag(name="students")
      * @param Request $request
      * @return Response
@@ -164,7 +120,7 @@ final class GetNextActivityController
         )->last(HandledStamp::class);
 
         return (new ApiResponseResource(
-            Response::HTTP_OK,
+            count($envelope->getResult()) >= 1 ? Response::HTTP_OK : Response::HTTP_NO_CONTENT,
             $envelope->getResult(),
             [],
             '',
