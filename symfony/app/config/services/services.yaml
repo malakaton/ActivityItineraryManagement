@@ -41,4 +41,3 @@ services:
   Academy\ActivityItinerary\Domain\ActivityItineraryRepository: '@Academy\ActivityItinerary\Infrastructure\Persistence\ActivityItineraryRepositoryMysql'
   Academy\Student\Domain\StudentRepository: '@Academy\Student\Infrastructure\Persistence\StudentRepositoryMysql'
   Academy\Evaluation\Domain\EvaluationRepository: '@Academy\Evaluation\Infrastructure\Persistence\EvaluationRepositoryMysql'
-  Academy\StudentItineraryProgress\Domain\StudentItineraryProgressRepo: '@Academy\StudentItineraryProgress\Infrastructure\Persistence\StudentItineraryProgressRepoMysql'
