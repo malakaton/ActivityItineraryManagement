@@ -71,7 +71,7 @@ final class EvaluationCreator
             $answer,
             $invertedTime,
             new EvaluationScore($this->getScore($answer, $activity)),
-            new EvaluationScoreInvertedTime($this->getScoreInvertedTime($invertedTime, $activity))
+            new EvaluationPercentageInvertedTime($this->getScoreInvertedTime($invertedTime, $activity))
         );
 
         $this->evaluationRepository->save($evaluation);

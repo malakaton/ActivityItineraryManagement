@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Academy\ActivityItinerary\Infrastructure\Persistence;
 
 use Academy\Activity\Domain\Activity;
+use Academy\Activity\Domain\ActivityLevel;
 use Academy\Activity\Domain\ActivityUuid;
 use Academy\ActivityItinerary\Domain\ActivityItinerary;
 use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
@@ -52,6 +53,50 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
                 ->setParameter('id', $itineraryUuid)
                 ->getQuery()
                 ->getResult();
+    }
+
+    public function getFirstActivityItineraryByLevel(
+        ItineraryUuid $itineraryUuid,
+        ActivityLevel $activityLevel
+    ): ?array
+    {
+        return $this->repository->createQueryBuilder("ai")
+            ->select('ai.position.value, a.name.value, a.level.value, a.time.value, a.solution.value')
+            ->leftJoin(Activity::class, 'a', 'WITH', 'a.uuid=ai.activityUuid')
+            ->where('ai.itineraryUuid = (:id)')
+            ->andWhere('a.level.value = (:level)')
+            ->orderBy('ai.position.value', 'ASC')
+            ->setParameter('id', $itineraryUuid)
+            ->setParameter('level', $activityLevel->value())
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param ItineraryUuid $itineraryUuid
+     * @param ActivityItineraryPosition $activityPosition
+     * @param ActivityLevel $activityLevel
+     * @return array|null
+     * @throws NonUniqueResultException
+     */
+    public function getActivityItineraryByCriteria(
+        ItineraryUuid $itineraryUuid,
+        ActivityItineraryPosition $activityPosition,
+        ActivityLevel $activityLevel
+    ): ?array
+    {
+        return $this->repository->createQueryBuilder("ai")
+            ->select('ai.position.value, a.name.value, a.level.value, a.time.value, a.solution.value')
+            ->leftJoin(Activity::class, 'a', 'WITH', 'a.uuid=ai.activityUuid')
+            ->where('ai.itineraryUuid = (:id)')
+            ->andWhere('ai.position.value = (:position)')
+            ->andWhere('a.level.value = (:level)')
+            ->setParameter('id', $itineraryUuid)
+            ->setParameter('position', $activityPosition->value())
+            ->setParameter('level', $activityLevel->value())
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**

@@ -36,7 +36,7 @@ CREATE TABLE `evaluations` (
   `answer` varchar(32) NOT NULL,
   `inverted_time` integer NOT NULL,
   `score` integer NOT NULL,
-  `score_inverted_time` integer NOT NULL,
+  `percentage_inverted_time` integer NOT NULL,
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Academy\Evaluation\Infrastructure\Persistence;
 
 use Academy\Activity\Domain\Activity;
+use Academy\Activity\Domain\ActivityLevel;
 use Academy\ActivityItinerary\Domain\ActivityItinerary;
 use Academy\Evaluation\Domain\Evaluation;
 use Academy\Evaluation\Domain\EvaluationRepository;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Academy\Student\Domain\StudentUuid;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ObjectRepository;
 
 final class EvaluationRepositoryMysql implements EvaluationRepository
@@ -34,12 +36,18 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
         $this->entityManager->flush();
     }
 
+    /**
+     * @param StudentUuid $studentUuid
+     * @param ItineraryUuid $itineraryUuid
+     * @return array|null
+     * @throws NonUniqueResultException
+     */
     public function getLastStudentEvaluation(
         StudentUuid $studentUuid,
         ItineraryUuid $itineraryUuid
     ): ?array {
         return $this->repository->createQueryBuilder("e")
-            ->select('e.activityUuid, a.name.value, a.level.value, ai.position.value, e.score.value, e.scoreInvertedTime.value')
+            ->select('e.activityUuid, e.itineraryUuid, e.studentUuid, a.name.value, a.level.value, ai.position.value, e.score.value, e.percentageInvertedTime.value')
             ->innerJoin(ActivityItinerary::class, 'ai', 'WITH', 'ai.activityUuid=e.activityUuid AND ai.itineraryUuid=e.itineraryUuid')
             ->innerJoin(Activity::class, 'a', 'WITH', 'a.uuid=e.activityUuid')
             ->where('e.studentUuid = (:studentUuid)')
@@ -47,6 +55,34 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
             ->orderBy('ai.position.value', 'DESC')
             ->setParameter('studentUuid', $studentUuid)
             ->setParameter('itineraryUuid', $itineraryUuid)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @param StudentUuid $studentUuid
+     * @param ItineraryUuid $itineraryUuid
+     * @param ActivityLevel $activityLevel
+     * @return array|null
+     * @throws NonUniqueResultException
+     */
+    public function getLastStudentActivityEvaluatedByLevel(
+        StudentUuid $studentUuid,
+        ItineraryUuid $itineraryUuid,
+        ActivityLevel $activityLevel
+    ) : ?array
+    {
+        return $this->repository->createQueryBuilder("e")
+            ->select('e.activityUuid, e.itineraryUuid, a.name.value, a.level.value, ai.position.value')
+            ->innerJoin(Activity::class, 'a', 'WITH', 'a.uuid=e.activityUuid')
+            ->where('e.studentUuid = (:studentUuid)')
+            ->andWhere('e.itineraryUuid = (:itineraryUuid)')
+            ->andWhere('e.level.value = (:level)')
+            ->orderBy('ai.position.value', 'DESC')
+            ->setParameter('studentUuid', $studentUuid)
+            ->setParameter('itineraryUuid', $itineraryUuid)
+            ->setParameter('level', $activityLevel)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();

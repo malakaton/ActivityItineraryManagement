@@ -6,7 +6,7 @@ namespace Academy\Evaluation\Domain;
 
 use Academy\Shared\Domain\ValueObject\IntValueObject;
 
-final class EvaluationScoreInvertedTime extends IntValueObject
+final class EvaluationPercentageInvertedTime extends IntValueObject
 {
 
 }

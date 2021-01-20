@@ -25,8 +25,8 @@
                   class="Academy\Evaluation\Domain\EvaluationScore"
                   use-column-prefix="false" />
 
-        <embedded name="scoreInvertedTime"
-                  class="Academy\Evaluation\Domain\EvaluationScoreInvertedTime"
+        <embedded name="percentageInvertedTime"
+                  class="Academy\Evaluation\Domain\EvaluationPercentageInvertedTime"
                   use-column-prefix="false" />
 
     </entity>

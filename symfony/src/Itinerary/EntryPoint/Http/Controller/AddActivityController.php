@@ -26,7 +26,7 @@ final class AddActivityController
      * Add an activity to specified itinerary.
      *
      *
-     * @Route("/api/itineraries/{uuid}/activity?name={name}", methods={"POST"})
+     * @Route("/api/itineraries/{uuid}/activity", methods={"POST"})
      * @OA\Response(
      *     response=201,
      *     description="Activity added to itinerary successfully",
@@ -140,6 +140,7 @@ final class AddActivityController
      * @OA\Parameter(
      *     name="name",
      *     in="query",
+     *     required=true,
      *     description="The activity name to add to itinerary",
      *     @OA\Schema(type="string")
      * )

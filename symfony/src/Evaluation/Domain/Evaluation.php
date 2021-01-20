@@ -17,7 +17,7 @@ final class Evaluation
     private EvaluationAnswer $answer;
     private EvaluationInvertedTime $invertedTime;
     private EvaluationScore $score;
-    private EvaluationScoreInvertedTime $scoreInvertedTime;
+    private EvaluationPercentageInvertedTime $percentageInvertedTime;
 
     public function __construct(
         EvaluationUuid $uuid,
@@ -27,7 +27,7 @@ final class Evaluation
         EvaluationAnswer $answer,
         EvaluationInvertedTime $invertedTime,
         EvaluationScore $score,
-        EvaluationScoreInvertedTime $scoreInvertedTime
+        EvaluationPercentageInvertedTime $percentageInvertedTime
     )
     {
         $this->uuid = $uuid;
@@ -37,7 +37,7 @@ final class Evaluation
         $this->answer = $answer;
         $this->invertedTime = $invertedTime;
         $this->score = $score;
-        $this->scoreInvertedTime = $scoreInvertedTime;
+        $this->percentageInvertedTime = $percentageInvertedTime;
     }
 
     /**
@@ -47,7 +47,7 @@ final class Evaluation
      * @param EvaluationAnswer $answer
      * @param EvaluationInvertedTime $invertedTime
      * @param EvaluationScore $score
-     * @param EvaluationScoreInvertedTime $scoreInvertedTime
+     * @param EvaluationPercentageInvertedTime $percentageInvertedTime
      * @return Evaluation
      */
     public static function create(
@@ -57,7 +57,7 @@ final class Evaluation
         EvaluationAnswer $answer,
         EvaluationInvertedTime $invertedTime,
         EvaluationScore $score,
-        EvaluationScoreInvertedTime $scoreInvertedTime
+        EvaluationPercentageInvertedTime $percentageInvertedTime
     ): Evaluation
     {
         return new self(
@@ -68,7 +68,7 @@ final class Evaluation
             $answer,
             $invertedTime,
             $score,
-            $scoreInvertedTime
+            $percentageInvertedTime
         );
     }
 
@@ -107,8 +107,8 @@ final class Evaluation
         return $this->score;
     }
 
-    public function scoreInvertedTime(): EvaluationScoreInvertedTime
+    public function percentageInvertedTime(): EvaluationPercentageInvertedTime
     {
-        return $this->scoreInvertedTime;
+        return $this->percentageInvertedTime;
     }
 }
