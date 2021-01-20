@@ -47,6 +47,7 @@ final class EvaluationCreator
      * @param EvaluationInvertedTime $invertedTime
      * @return string
      * @throws \JsonException
+     * @throws \Exception
      */
     public function __invoke(
         StudentUuid $studentUuid,
@@ -62,12 +63,11 @@ final class EvaluationCreator
 
         $activity = $this->activityRepository->searchByName($this->activityGuard->getActivity()->name());
 
-        $this->evaluationRepository->getLastStudentEvaluation($studentUuid, $itineraryUuid);
-
         $evaluation = Evaluation::create(
             $itineraryUuid,
             $this->activityGuard->getActivity()->uuid(),
             $studentUuid,
+            new EvaluationCreateDate(EvaluationCreateDate::getDateTimeNow()),
             $answer,
             $invertedTime,
             new EvaluationScore($this->getScore($answer, $activity)),
@@ -94,7 +94,7 @@ final class EvaluationCreator
         $solutionToArray = json_decode($activity->solution()->value(), true, 512, JSON_THROW_ON_ERROR);
 
         $mistakes = array_diff_assoc(
-            $this->explodeAnswer($answer),
+            $this->explodeAnswer($answer, $solutionToArray),
             $solutionToArray
         );
 
@@ -106,8 +106,16 @@ final class EvaluationCreator
         return (int) round(($invertedTime->value() / $activity->time()->value())  * 100);
     }
 
-    private function explodeAnswer(EvaluationAnswer $answer): array
+    private function explodeAnswer(EvaluationAnswer $answer, array $solutionToArray): array
     {
-        return explode(Activity::SEPARATOR_FOR_SOLUTION, $answer->value());
+        $answer = explode(Activity::SEPARATOR_FOR_SOLUTION, $answer->value());
+
+        for ($unresolvedExercises = 0;
+             $unresolvedExercises <= count($solutionToArray) - count($answer);
+                $unresolvedExercises++) {
+            $answer[] = null;
+        }
+
+        return $answer;
     }
 }

@@ -14,6 +14,7 @@ final class Evaluation
     private ItineraryUuid $itineraryUuid;
     private ActivityUuid $activityUuid;
     private StudentUuid $studentUuid;
+    private EvaluationCreateDate $createDate;
     private EvaluationAnswer $answer;
     private EvaluationInvertedTime $invertedTime;
     private EvaluationScore $score;
@@ -24,6 +25,7 @@ final class Evaluation
         ItineraryUuid $itineraryUuid,
         ActivityUuid $activityUuid,
         StudentUuid $studentUuid,
+        EvaluationCreateDate $createDate,
         EvaluationAnswer $answer,
         EvaluationInvertedTime $invertedTime,
         EvaluationScore $score,
@@ -34,6 +36,7 @@ final class Evaluation
         $this->itineraryUuid = $itineraryUuid;
         $this->activityUuid = $activityUuid;
         $this->studentUuid = $studentUuid;
+        $this->createDate = $createDate;
         $this->answer = $answer;
         $this->invertedTime = $invertedTime;
         $this->score = $score;
@@ -44,6 +47,7 @@ final class Evaluation
      * @param ItineraryUuid $itineraryUuid
      * @param ActivityUuid $activityUuid
      * @param StudentUuid $studentUuid
+     * @param EvaluationCreateDate $createDate
      * @param EvaluationAnswer $answer
      * @param EvaluationInvertedTime $invertedTime
      * @param EvaluationScore $score
@@ -54,6 +58,7 @@ final class Evaluation
         ItineraryUuid $itineraryUuid,
         ActivityUuid $activityUuid,
         StudentUuid $studentUuid,
+        EvaluationCreateDate $createDate,
         EvaluationAnswer $answer,
         EvaluationInvertedTime $invertedTime,
         EvaluationScore $score,
@@ -65,6 +70,7 @@ final class Evaluation
             $itineraryUuid,
             $activityUuid,
             $studentUuid,
+            $createDate,
             $answer,
             $invertedTime,
             $score,
@@ -90,6 +96,11 @@ final class Evaluation
     public function studentUuid(): StudentUuid
     {
         return $this->studentUuid;
+    }
+
+    public function createDate(): EvaluationCreateDate
+    {
+        return $this->createDate;
     }
 
     public function answer(): EvaluationAnswer

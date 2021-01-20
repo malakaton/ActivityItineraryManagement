@@ -33,6 +33,7 @@ CREATE TABLE `evaluations` (
   `itinerary_uuid` char(36) NOT NULL,
   `activity_uuid` char(36) NOT NULL,
   `student_uuid` char(36) NOT NULL,
+  `create_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `answer` varchar(32) NOT NULL,
   `inverted_time` integer NOT NULL,
   `score` integer NOT NULL,

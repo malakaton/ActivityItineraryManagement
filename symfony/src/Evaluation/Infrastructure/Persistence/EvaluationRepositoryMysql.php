@@ -7,6 +7,7 @@ namespace Academy\Evaluation\Infrastructure\Persistence;
 use Academy\Activity\Domain\Activity;
 use Academy\Activity\Domain\ActivityLevel;
 use Academy\ActivityItinerary\Domain\ActivityItinerary;
+use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\Evaluation\Domain\Evaluation;
 use Academy\Evaluation\Domain\EvaluationRepository;
 use Academy\Itinerary\Domain\ItineraryUuid;
@@ -47,14 +48,44 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
         ItineraryUuid $itineraryUuid
     ): ?array {
         return $this->repository->createQueryBuilder("e")
-            ->select('e.activityUuid, e.itineraryUuid, e.studentUuid, a.name.value, a.level.value, ai.position.value, e.score.value, e.percentageInvertedTime.value')
+            ->select('e.activityUuid, e.itineraryUuid, e.createDate.value, e.studentUuid, a.name.value, a.level.value, ai.position.value, e.score.value, e.percentageInvertedTime.value')
             ->innerJoin(ActivityItinerary::class, 'ai', 'WITH', 'ai.activityUuid=e.activityUuid AND ai.itineraryUuid=e.itineraryUuid')
             ->innerJoin(Activity::class, 'a', 'WITH', 'a.uuid=e.activityUuid')
             ->where('e.studentUuid = (:studentUuid)')
             ->andWhere('e.itineraryUuid = (:itineraryUuid)')
             ->orderBy('ai.position.value', 'DESC')
+            ->addOrderBy('e.createDate.value', 'DESC')
             ->setParameter('studentUuid', $studentUuid)
             ->setParameter('itineraryUuid', $itineraryUuid)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @param StudentUuid $studentUuid
+     * @param ItineraryUuid $itineraryUuid
+     * @param ActivityItineraryPosition $activityItineraryPosition
+     * @return array|null
+     * @throws NonUniqueResultException
+     */
+    public function getStudentActivityEvaluatedByItineraryPosition(
+        StudentUuid $studentUuid,
+        ItineraryUuid $itineraryUuid,
+        ActivityItineraryPosition $activityItineraryPosition
+    ) : ?array
+    {
+        return $this->repository->createQueryBuilder("e")
+            ->select('ai.activityUuid, ai.itineraryUuid, a.name.value, a.level.value, ai.position.value')
+            ->innerJoin(ActivityItinerary::class, 'ai', 'WITH', 'ai.itineraryUuid=e.itineraryUuid')
+            ->innerJoin(Activity::class, 'a', 'WITH', 'a.uuid=ai.activityUuid')
+            ->where('e.studentUuid = (:studentUuid)')
+            ->andWhere('e.itineraryUuid = (:itineraryUuid)')
+            ->andWhere('ai.position.value = (:position)')
+            ->orderBy('e.createDate.value', 'DESC')
+            ->setParameter('studentUuid', $studentUuid)
+            ->setParameter('itineraryUuid', $itineraryUuid)
+            ->setParameter('position', $activityItineraryPosition->value())
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
@@ -76,13 +107,14 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
         return $this->repository->createQueryBuilder("e")
             ->select('e.activityUuid, e.itineraryUuid, a.name.value, a.level.value, ai.position.value')
             ->innerJoin(Activity::class, 'a', 'WITH', 'a.uuid=e.activityUuid')
+            ->innerJoin(ActivityItinerary::class, 'ai', 'WITH', 'ai.itineraryUuid=e.itineraryUuid AND ai.activityUuid = a.uuid')
             ->where('e.studentUuid = (:studentUuid)')
             ->andWhere('e.itineraryUuid = (:itineraryUuid)')
-            ->andWhere('e.level.value = (:level)')
+            ->andWhere('a.level.value = (:level)')
             ->orderBy('ai.position.value', 'DESC')
             ->setParameter('studentUuid', $studentUuid)
             ->setParameter('itineraryUuid', $itineraryUuid)
-            ->setParameter('level', $activityLevel)
+            ->setParameter('level', $activityLevel->value())
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();

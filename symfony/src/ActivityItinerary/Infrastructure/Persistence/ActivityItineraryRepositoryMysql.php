@@ -70,7 +70,7 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
             ->setParameter('level', $activityLevel->value())
             ->setMaxResults(1)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 
     /**

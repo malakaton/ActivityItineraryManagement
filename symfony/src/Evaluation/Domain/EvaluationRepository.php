@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Academy\Evaluation\Domain;
 
 use Academy\Activity\Domain\ActivityLevel;
+use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Academy\Student\Domain\StudentUuid;
 
@@ -16,5 +17,10 @@ interface EvaluationRepository
         StudentUuid $studentUuid,
         ItineraryUuid $itineraryUuid,
         ActivityLevel $activityLevel
+    ) : ?array;
+    public function getStudentActivityEvaluatedByItineraryPosition(
+        StudentUuid $studentUuid,
+        ItineraryUuid $itineraryUuid,
+        ActivityItineraryPosition $activityItineraryPosition
     ) : ?array;
 }

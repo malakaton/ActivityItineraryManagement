@@ -6,10 +6,8 @@ namespace Academy\Student\Domain;
 
 use Academy\Activity\Domain\ActivityLevel;
 use Academy\Activity\Domain\ActivityName;
-use Academy\ActivityItinerary\Domain\ActivityItinerary;
 use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\ActivityItinerary\Domain\ActivityItineraryRepository;
-use Academy\Evaluation\Domain\Evaluation;
 use Academy\Evaluation\Domain\EvaluationRepository;
 use Academy\Itinerary\Domain\IItineraryGuard;
 use Academy\Itinerary\Domain\ItineraryUuid;
@@ -55,10 +53,10 @@ final class StudentNextActivity
             $this->evaluationRepository->getLastStudentEvaluation($studentUuid, $itineraryUuid)
         );
 
-        $this->logger->info("Activity list found for itinerary uuid: {$itineraryUuid->value()}");
+        $this->logger->info("The next activity for the student uuid {$studentUuid->value()} is the activity name {$nextActivityName->value()}");
 
         return [
-            'activity_name' => null
+            'activity_name' => $nextActivityName->value()
         ];
     }
 
@@ -80,10 +78,11 @@ final class StudentNextActivity
         if ($lastEvaluation['score.value'] > self::PERCENTAGE_SCORE_NEXT_ACTIVITY
             && $lastEvaluation['percentageInvertedTime.value'] < self::PERCENTAGE_SCORE_TIME_TO_LEVEL_UP) {
             // level up (level.value + 1) and find in activityItinerary the first activity for this new level
+            $lastEvaluation['level.value']++;
 
             $firstActivityItineraryNextLevel = $this->activityItineraryRepository->getFirstActivityItineraryByLevel(
                 $lastEvaluation['itineraryUuid'],
-                new ActivityLevel($lastEvaluation['level.value']++)
+                new ActivityLevel($lastEvaluation['level.value'])
             );
 
             $lastEvaluation['position.value'] = $firstActivityItineraryNextLevel['position.value'];
@@ -98,14 +97,16 @@ final class StudentNextActivity
             $this->isPreviousActivityLessLevel($lastEvaluation)) {
             // check if the activity of position - 1 from the same itinerary have minor level
             // of the last activity evaluated. If is true, decrease level
+            $lastEvaluation['level.value']--;
+
             $lastActivityItineraryLessLevel = $this->evaluationRepository->getLastStudentActivityEvaluatedByLevel(
                 $lastEvaluation['studentUuid'],
                 $lastEvaluation['itineraryUuid'],
-                new ActivityLevel($lastEvaluation['level.value']--)
+                new ActivityLevel($lastEvaluation['level.value'])
             );
 
-            $lastEvaluation['level.value']--;
-            $lastEvaluation['position.value'] = $lastActivityItineraryLessLevel['position.value']++;
+            $lastEvaluation['position.value'] = $lastActivityItineraryLessLevel['position.value'];
+            $lastEvaluation['position.value']++;
         }
 
         return new ActivityName($this->activityItineraryRepository->getActivityItineraryByCriteria(
@@ -117,13 +118,12 @@ final class StudentNextActivity
 
     private function isPreviousActivityLessLevel(array $lastEvaluation): bool
     {
-        $previousActivity = $this->activityItineraryRepository->getActivityItineraryByCriteria(
+        $lastEvaluation['position.value'] === 1 ?: $lastEvaluation['position.value']--;
+
+        $previousActivity = $this->evaluationRepository->getStudentActivityEvaluatedByItineraryPosition(
+            $lastEvaluation['studentUuid'],
             $lastEvaluation['itineraryUuid'],
-            new ActivityItineraryPosition(
-                ($lastEvaluation['position.value'] == 1) ? $lastEvaluation['position.value'] :
-                    ($lastEvaluation['position.value'] - 1)
-            ),
-            new ActivityLevel($lastEvaluation['level.value'])
+            new ActivityItineraryPosition($lastEvaluation['position.value'])
         );
 
         return $previousActivity['level.value'] < $lastEvaluation['level.value'];

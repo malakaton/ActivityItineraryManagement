@@ -13,6 +13,10 @@
 
         <field name="studentUuid" type="student_uuid" column="student_uuid" />
 
+        <embedded name="createDate"
+                  class="Academy\Evaluation\Domain\EvaluationCreateDate"
+                  use-column-prefix="false" />
+
         <embedded name="answer"
                   class="Academy\Evaluation\Domain\EvaluationAnswer"
                   use-column-prefix="false" />
