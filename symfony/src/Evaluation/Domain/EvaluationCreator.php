@@ -62,6 +62,8 @@ final class EvaluationCreator
 
         $activity = $this->activityRepository->searchByName($this->activityGuard->getActivity()->name());
 
+        $this->evaluationRepository->getLastStudentEvaluation($studentUuid, $itineraryUuid);
+
         $evaluation = Evaluation::create(
             $itineraryUuid,
             $this->activityGuard->getActivity()->uuid(),
