@@ -54,7 +54,7 @@ final class StudentNextActivity
         $this->logger->info("Activity list found for itinerary uuid: {$itineraryUuid->value()}");
 
         return [
-            'activity_name' => $activityName->value()
+            'activity_name' => null
         ];
     }
 
@@ -92,11 +92,11 @@ final class StudentNextActivity
 
     }
 
-    private function obtainNextActivityIfNull(ItineraryUuid $itineraryUuid, ActivityName $activityName): ActivityName
-    {
-        return empty($activityName->value()) ?
-            new ActivityName(
-                $this->activityItineraryRepository->searchActivitiesByItineraryUuid($itineraryUuid)[0]['name.value']
-            ) : $activityName;
-    }
+//    private function obtainNextActivityIfNull(ItineraryUuid $itineraryUuid, ActivityName $activityName): ActivityName
+//    {
+//        return empty($activityName->value()) ?
+//            new ActivityName(
+//                $this->activityItineraryRepository->searchActivitiesByItineraryUuid($itineraryUuid)[0]['name.value']
+//            ) : $activityName;
+//    }
 }
