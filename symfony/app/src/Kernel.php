@@ -1,6 +1,6 @@
 <?php
 
-namespace Academy\App;
+namespace Academy\src;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;

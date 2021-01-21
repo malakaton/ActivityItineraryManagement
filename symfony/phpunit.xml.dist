@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-         backupGlobals="false"
-         backupStaticAttributes="false"
-         beStrictAboutOutputDuringTests="true"
-         beStrictAboutChangesToGlobalState="true"
-         beStrictAboutTestsThatDoNotTestAnything="false"
-         beStrictAboutTodoAnnotatedTests="true"
-         bootstrap="./app/bootstrap.php"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnError="true"
-         stopOnFailure="true"
-         stopOnIncomplete="false"
-         stopOnSkipped="false"
-         stopOnRisky="true"
-         verbose="false">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" backupGlobals="false" colors="true" bootstrap="./app/bootstrap.php">
   <coverage processUncoveredFiles="true">
     <include>
       <directory suffix=".php">src</directory>
@@ -26,14 +8,13 @@
   </coverage>
   <php>
     <ini name="error_reporting" value="-1"/>
+    <server name="APP_ENV" value="test" force="true"/>
     <server name="SHELL_VERBOSITY" value="-1"/>
+    <server name="KERNEL_CLASS" value="Academy\src\Kernel" />
   </php>
   <testsuites>
     <testsuite name="Project Test Suite">
       <directory>tests</directory>
     </testsuite>
   </testsuites>
-  <extensions>
-    <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension"/>
-  </extensions>
 </phpunit>

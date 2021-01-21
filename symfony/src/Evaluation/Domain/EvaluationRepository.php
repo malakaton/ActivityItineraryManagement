@@ -12,7 +12,7 @@ use Academy\Student\Domain\StudentUuid;
 interface EvaluationRepository
 {
     public function save(Evaluation $evaluation): void;
-    public function getEvaluationByStudentItineraryUuid(StudentUuid $studentUuid, ItineraryUuid $itineraryUuid);
+    public function getEvaluationByStudentItineraryUuid(StudentUuid $studentUuid, ItineraryUuid $itineraryUuid): array;
     public function getLastStudentEvaluation(StudentUuid $studentUuid, ItineraryUuid $itineraryUuid): ?array;
     public function getLastStudentActivityEvaluatedByLevel(
         StudentUuid $studentUuid,

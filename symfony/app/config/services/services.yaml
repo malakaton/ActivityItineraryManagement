@@ -28,7 +28,7 @@ services:
     resource: '../../../src/Student/EntryPoint/Http/Controller'
     tags: [ 'controller.service_arguments' ]
 
-  Academy\App\Controller\:
+  Academy\src\Controller\:
     resource: '../../src/Controller/'
     tags: ['controller.service_arguments']
 

@@ -1,6 +1,6 @@
 <?php
 
-use Academy\App\Kernel;
+use Academy\src\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;

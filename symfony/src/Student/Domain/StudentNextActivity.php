@@ -142,7 +142,9 @@ final class StudentNextActivity
     private function obtainActivityIfNullEvaluation(ItineraryUuid $itineraryUuid): ActivityName
     {
         return new ActivityName(
-                $this->activityItineraryRepository->searchActivitiesByItineraryUuid($itineraryUuid)[0]['name.value']
+                $this->activityItineraryRepository->searchActivitiesByItineraryUuid(
+                    $itineraryUuid
+                )[0]['name.value'] ?? ''
         );
     }
 }
