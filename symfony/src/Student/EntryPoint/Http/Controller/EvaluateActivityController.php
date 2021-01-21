@@ -32,7 +32,7 @@ final class EvaluateActivityController
      * @Route("/api/students/{student_uuid}/itinerary/{itinerary_uuid}/activity/evaluate", methods={"POST"})
      * @OA\Response(
      *     response=201,
-     *     description="Activity added to itinerary successfully",
+     *     description="Activity evaluated successfully",
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
@@ -50,7 +50,7 @@ final class EvaluateActivityController
      *                     @OA\Property(
      *                          property="message",
      *                          type="string",
-     *                          example="Activity name: A1 added to itinerary uuid: 99f951bf-7d49-4a1a-9152-7bdee1f5ce2e successfully"
+     *                          example="Evaluation of activity name: A3 for student uuid: 70f066f6-1cb7-4c45-97e2-287f0258ba02 done successfully"
      *                     ),
      *                      @OA\Property(
      *                          property="errors",
@@ -62,7 +62,7 @@ final class EvaluateActivityController
      * )
      * @OA\Response(
      *     response=404,
-     *     description="The itinerary or activity has not been found on database",
+     *     description="The itinerary, student or activity has not been found on database",
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
@@ -97,8 +97,8 @@ final class EvaluateActivityController
      *        ),
      * )
      * @OA\Response(
-     *     response=400,
-     *     description="The activity cannot be added to itinerary beacuse the activie already exist on this itinerary. Cannot insert a duplicate activity",
+     *     response=500,
+     *     description="Validation of request body failed (attributes answer or inverted_time)",
      *        @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
@@ -116,16 +116,16 @@ final class EvaluateActivityController
      *                     @OA\Property(
      *                          property="message",
      *                          type="string",
-     *                          example="The activity cannot been added, because exist on the itinerary"
+     *                          example="Validation error evaluate constraint"
      *                     ),
      *                      @OA\Property(
      *                          property="errors",
      *                          type="array",
      *                          @OA\Items(
      *                              @OA\Property(
-     *                                 property="uuid",
+     *                                 property="inverted_time",
      *                                 type="string",
-     *                                 example="The activity name A1 is duplicated on itinerary uuid 99f951bf-7d49-4a1a-9152-7bdee1f5ce2e"
+     *                                 example="This value is too short. It should have 1 character or more."
      *                              ),
      *                          ),
      *                     ),
@@ -159,7 +159,7 @@ final class EvaluateActivityController
      *    @OA\JsonContent(
      *       required={"answer","inverted_time"},
      *       @OA\Property(property="answer", type="string", format="answer", example="1_0_2"),
-     *       @OA\Property(property="time", type="integer", format="time", example=90),
+     *       @OA\Property(property="inverted_time", type="integer", format="time", example=90),
      *    ),
      * )
      *
