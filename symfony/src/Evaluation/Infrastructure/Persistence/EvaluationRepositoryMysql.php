@@ -40,6 +40,25 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
     /**
      * @param StudentUuid $studentUuid
      * @param ItineraryUuid $itineraryUuid
+     * @return array
+     */
+    public function getEvaluationByStudentItineraryUuid(StudentUuid $studentUuid, ItineraryUuid $itineraryUuid): array
+    {
+        return $this->repository->createQueryBuilder("e")
+            ->select('e.activityUuid, e.itineraryUuid, e.createDate.value, e.studentUuid, a.name.value, e.createDate.value, e.answer.value, e.invertedTime.value, e.score.value, e.percentageInvertedTime.value')
+            ->leftJoin(Activity::class, 'a', 'WITH', 'a.uuid=e.activityUuid')
+            ->where('e.studentUuid = (:studentUuid)')
+            ->andWhere('e.itineraryUuid = (:itineraryUuid)')
+            ->setParameter('studentUuid', $studentUuid)
+            ->setParameter('itineraryUuid', $itineraryUuid)
+            ->getQuery()
+            ->getResult();
+
+    }
+
+    /**
+     * @param StudentUuid $studentUuid
+     * @param ItineraryUuid $itineraryUuid
      * @return array|null
      * @throws NonUniqueResultException
      */

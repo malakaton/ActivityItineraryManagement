@@ -12,6 +12,7 @@ use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\ActivityItinerary\Domain\ActivityItineraryRepository;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ObjectRepository;
 
 final class ActivityItineraryRepositoryMysql implements ActivityItineraryRepository
@@ -77,6 +78,7 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
      * @param ActivityItineraryPosition $activityPosition
      * @param ActivityLevel|null $activityLevel
      * @return array|null
+     * @throws NonUniqueResultException
      */
     public function getActivityItineraryByCriteria(
         ItineraryUuid $itineraryUuid,
@@ -101,6 +103,7 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
     /**
      * @param ItineraryUuid $itineraryUuid
      * @return ActivityItineraryPosition
+     * @throws NonUniqueResultException
      */
     public function getNextPositionByItineraryUuid(ItineraryUuid $itineraryUuid): ActivityItineraryPosition
     {

@@ -26,7 +26,7 @@ final class EvaluateActivityController
     }
 
     /**
-     * EvaluateActivity the answer of activity from itinerary done by student.
+     * Evaluate the answer of activity from itinerary done by student.
      *
      *
      * @Route("/api/students/{student_uuid}/itinerary/{itinerary_uuid}/activity/evaluate", methods={"POST"})

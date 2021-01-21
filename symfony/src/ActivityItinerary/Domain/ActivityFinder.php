@@ -37,7 +37,7 @@ final class ActivityFinder
     {
         $this->itineraryGuard->guard($itineraryUuid);
 
-        $this->logger->info("Activity list found for itinerary uuid: {$itineraryUuid->value()}");
+        $this->logger->info("Search activities linked on the itinerary uuid: {$itineraryUuid->value()}");
 
         return [
             'itinerary_uuid' => $itineraryUuid->value(),
