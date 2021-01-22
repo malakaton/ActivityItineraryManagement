@@ -57,7 +57,7 @@ abstract class EvaluationRepositoryMockUnitTestCase extends UnitTestCase
                 $this->assertEquals($argument->itineraryUuid(), $evaluation->itineraryUuid());
                 $this->assertEquals($argument->score(), $evaluation->score());
                 $this->assertEquals($argument->answer(), $evaluation->answer());
-                $this->assertEquals($argument->invertedTime(), $evaluation->invertedTime());
+                $this->assertEquals($argument->percentageInvertedTime(), $evaluation->percentageInvertedTime());
 
                 return true;
             }))
@@ -65,22 +65,33 @@ abstract class EvaluationRepositoryMockUnitTestCase extends UnitTestCase
             ->andReturnNull();
     }
 
-    protected function shouldGetLastEvaluation(
-        StudentUuid $studentUuid,
-        ItineraryUuid $itineraryUuid,
-        Evaluation $evaluation
-    ): void {
+    protected function skipSave(): void
+    {
         $this->MockRepository()
-            ->shouldReceive('getEvaluationByStudentItineraryUuid')
-            ->with(\Mockery::on(function($argument) use ($studentUuid, $itineraryUuid) {
-                $this->assertInstanceOf(StudentUuid::class, $argument);
-                $this->assertSame($this->randomEvaluationUuid->value(), $argument->value());
-                $this->assertEquals($argument->value(), $studentUuid->value());
-
-                return true;
-            }))
+            ->shouldReceive('save')
             ->once()
-            ->andReturn($evaluation);
+            ->andReturnNull();
+    }
+
+    protected function shouldGetLastEvaluation(array $lastEvaluation): void {
+        $this->MockRepository()
+            ->shouldReceive('getLastStudentEvaluation')
+            ->withAnyArgs()
+            ->andReturn($lastEvaluation);
+    }
+
+    protected function shouldGetLastStudentActivityEvaluatedByLevel(array $lastEvaluation): void {
+        $this->MockRepository()
+            ->shouldReceive('getLastStudentActivityEvaluatedByLevel')
+            ->withAnyArgs()
+            ->andReturn($lastEvaluation);
+    }
+
+    protected function shouldGetStudentActivityEvaluatedByItineraryPosition(array $lastEvaluation): void {
+        $this->MockRepository()
+            ->shouldReceive('getStudentActivityEvaluatedByItineraryPosition')
+            ->withAnyArgs()
+            ->andReturn($lastEvaluation);
     }
 
     /** @return EvaluationRepository|MockInterface */

@@ -9,7 +9,6 @@ use Academy\Activity\Domain\ActivityName;
 use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\ActivityItinerary\Domain\ActivityItineraryRepository;
 use Academy\Evaluation\Domain\EvaluationRepository;
-use Academy\Evaluation\Domain\Exception\NoMoreActivities;
 use Academy\Itinerary\Domain\IItineraryGuard;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Psr\Log\LoggerInterface;
@@ -45,7 +44,6 @@ final class StudentNextActivity
      * @param StudentUuid $studentUuid
      * @param ItineraryUuid $itineraryUuid
      * @return array|null
-     * @throws NoMoreActivities
      */
     public function __invoke(
         StudentUuid $studentUuid,
@@ -82,10 +80,6 @@ final class StudentNextActivity
             $lastEvaluation['position.value']++;
         }
 
-        if ($lastEvaluation['score.value'] < self::PERCENTAGE_SCORE_NEXT_ACTIVITY) {
-            // repeat activity return same activity uuid (same level and position of ActivityItinerary entity)
-        }
-
         if ($lastEvaluation['score.value'] > self::PERCENTAGE_SCORE_NEXT_ACTIVITY
             && $lastEvaluation['percentageInvertedTime.value'] < self::PERCENTAGE_SCORE_TIME_TO_LEVEL_UP) {
             // level up (level.value + 1) and find in activityItinerary the first activity for this new level
@@ -97,11 +91,6 @@ final class StudentNextActivity
             );
 
             $lastEvaluation['position.value'] = $firstActivityItineraryNextLevel['position.value'];
-        }
-
-        if ($lastEvaluation['score.value'] > self::PERCENTAGE_SCORE_NEXT_ACTIVITY
-            && $lastEvaluation['percentageInvertedTime.value'] > self::PERCENTAGE_SCORE_TIME_TO_LEVEL_UP) {
-            // same level
         }
 
         if ($lastEvaluation['score.value'] < self::PERCENTAGE_SCORE_DECREASE_LEVEL &&

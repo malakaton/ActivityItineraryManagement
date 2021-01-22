@@ -26,10 +26,8 @@ final class EvaluateActivityCommandHandlerTest extends EvaluationRepositoryMockU
 {
     private const RIGHT_ANSWER_ACTIVITY_A1 = '1_0_2';
     private const MAX_SCORE = 100;
-    private const MAX_TIME_ANSWER_A1 = 120;
     private const TIME_TO_ANSWER_ACTIVITY_A1 = 84;
     private const PERCENTAGE_INVERTED_TIME_A1 = 70;
-    private const TIME_FAST_ANSWER = 10;
 
     private EvaluateHandler $handler;
     private ActivityRepositoryMock $activityRepository;
@@ -90,7 +88,7 @@ final class EvaluateActivityCommandHandlerTest extends EvaluationRepositoryMockU
         $this->itineraryRepositoryMock->shouldSearch($this->itineraryRepositoryMock->getItineraryUuid());
         $this->activityRepository->shouldSearch($activity->name(), $activity);
 
-        //$this->shouldSave($evaluation);
+        $this->shouldSave($evaluation);
 
         $this->dispatch($command, $this->handler);
     }

@@ -13,7 +13,6 @@ use Academy\Evaluation\Domain\EvaluationRepository;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Academy\Student\Domain\StudentUuid;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ObjectRepository;
 
 final class EvaluationRepositoryMysql implements EvaluationRepository
@@ -60,7 +59,6 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
      * @param StudentUuid $studentUuid
      * @param ItineraryUuid $itineraryUuid
      * @return array|null
-     * @throws NonUniqueResultException
      */
     public function getLastStudentEvaluation(
         StudentUuid $studentUuid,
@@ -85,7 +83,6 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
      * @param ItineraryUuid $itineraryUuid
      * @param ActivityItineraryPosition $activityItineraryPosition
      * @return array|null
-     * @throws NonUniqueResultException
      */
     public function getStudentActivityEvaluatedByItineraryPosition(
         StudentUuid $studentUuid,
@@ -114,7 +111,6 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
      * @param ItineraryUuid $itineraryUuid
      * @param ActivityLevel $activityLevel
      * @return array|null
-     * @throws NonUniqueResultException
      */
     public function getLastStudentActivityEvaluatedByLevel(
         StudentUuid $studentUuid,

@@ -67,9 +67,9 @@ abstract class ActivityRepositoryMockUnitTestCase extends UnitTestCase
     {
         $this->MockRepository()
             ->shouldReceive('searchByName')
-            ->with(\Mockery::on(function($argument) use ($name) {
+            ->with(\Mockery::on(function($argument) use ($name, $activity) {
                 $this->assertInstanceOf(ActivityName::class, $argument);
-                $this->assertSame($this->existingActivityName->value(), $argument->value());
+                $this->assertSame($activity->name()->value(), $argument->value());
                 $this->assertEquals($argument->value(), $name->value());
 
                 return true;

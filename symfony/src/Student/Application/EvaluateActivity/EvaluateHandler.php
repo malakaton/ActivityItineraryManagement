@@ -9,6 +9,7 @@ use Academy\Evaluation\Domain\EvaluationAnswer;
 use Academy\Evaluation\Domain\EvaluationCreator;
 use Academy\Evaluation\Domain\EvaluationInvertedTime;
 use Academy\Itinerary\Domain\ItineraryUuid;
+use Academy\Shared\Infrastructure\Symfony\Exception\SymfonyException;
 use Academy\Student\Domain\StudentUuid;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
@@ -24,7 +25,7 @@ final class EvaluateHandler implements MessageHandlerInterface
     /**
      * @param EvaluateActivityCommand $command
      * @return string|null
-     * @throws \JsonException
+     * @throws SymfonyException
      */
     public function __invoke(EvaluateActivityCommand $command): ?string
     {

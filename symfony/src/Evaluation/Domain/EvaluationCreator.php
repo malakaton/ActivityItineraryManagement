@@ -10,6 +10,7 @@ use Academy\Activity\Domain\ActivityRepository;
 use Academy\Activity\Domain\IActivityGuard;
 use Academy\Itinerary\Domain\IItineraryGuard;
 use Academy\Itinerary\Domain\ItineraryUuid;
+use Academy\Shared\Infrastructure\Symfony\Exception\SymfonyException;
 use Academy\Student\Domain\IStudentGuard;
 use Academy\Student\Domain\StudentUuid;
 use Psr\Log\LoggerInterface;
@@ -22,6 +23,7 @@ final class EvaluationCreator
     private ActivityRepository $activityRepository;
     private EvaluationRepository $evaluationRepository;
     private LoggerInterface $logger;
+    private Evaluation $evaluation;
 
     public function __construct(
         IStudentGuard $studentGuard,
@@ -46,8 +48,7 @@ final class EvaluationCreator
      * @param EvaluationAnswer $answer
      * @param EvaluationInvertedTime $invertedTime
      * @return string
-     * @throws \JsonException
-     * @throws \Exception
+     * @throws SymfonyException
      */
     public function __invoke(
         StudentUuid $studentUuid,
@@ -61,20 +62,21 @@ final class EvaluationCreator
         $this->itineraryGuard->guard($itineraryUuid);
         $this->activityGuard->guard($activityName);
 
-        $activity = $this->activityRepository->searchByName($this->activityGuard->getActivity()->name());
-
-        $evaluation = Evaluation::create(
+        $this->evaluation = Evaluation::create(
             $itineraryUuid,
             $this->activityGuard->getActivity()->uuid(),
             $studentUuid,
             new EvaluationCreateDate(EvaluationCreateDate::getDateTimeNow()),
             $answer,
             $invertedTime,
-            new EvaluationScore($this->getScore($answer, $activity)),
-            new EvaluationPercentageInvertedTime($this->getScoreInvertedTime($invertedTime, $activity))
+            new EvaluationScore($this->getScore($answer, $this->activityGuard->getActivity())),
+            new EvaluationPercentageInvertedTime($this->getScoreInvertedTime(
+                $invertedTime,
+                $this->activityGuard->getActivity())
+            )
         );
 
-        $this->evaluationRepository->save($evaluation);
+        $this->evaluationRepository->save($this->evaluation);
 
         $message = "Evaluation of activity name: {$this->activityGuard->getActivity()->name()} for student uuid: {$studentUuid->value()} done successfully";
 
@@ -84,14 +86,31 @@ final class EvaluationCreator
     }
 
     /**
+     * @return Evaluation
+     */
+    public function getEvaluation(): Evaluation
+    {
+        return $this->evaluation;
+    }
+
+    /**
      * @param EvaluationAnswer $answer
      * @param Activity $activity
      * @return int
-     * @throws \JsonException
+     * @throws SymfonyException
      */
     private function getScore(EvaluationAnswer $answer, Activity $activity): int
     {
-        $solutionToArray = json_decode($activity->solution()->value(), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $solutionToArray = json_decode(
+                $activity->solution()->value(),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+        } catch (\JsonException $e) {
+            throw new SymfonyException($e->getMessage(), $e->getTrace());
+        }
 
         $mistakes = array_diff_assoc(
             $this->explodeAnswer($answer, $solutionToArray),

@@ -6,6 +6,8 @@ namespace Academy\Tests\Mocks\Student;
 
 use Academy\Student\Domain\StudentRepository;
 use Academy\Student\Domain\StudentUuid;
+use Academy\Tests\Student\Domain\StudentMother;
+use Academy\Tests\Student\Domain\StudentNameMother;
 use Academy\Tests\Student\Domain\StudentUuidMother;
 use Academy\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
 use Mockery\MockInterface;
@@ -42,31 +44,8 @@ abstract class StudentRepositoryMockUnitTestCase extends UnitTestCase
                 return true;
             }))
             ->once()
-            ->andReturn(true);
+            ->andReturn(StudentMother::fromRequest($uuid, StudentNameMother::random()));
     }
-
-//    protected function shouldSave(Book $book): void
-//    {
-//        $this->MockRepository()
-//            ->shouldReceive('save')
-//            ->with(\Mockery::on(function($argument) use ($book) {
-//                $this->assertInstanceOf(Book::class, $argument);
-//                $this->assertInstanceOf(BookUuid::class, $argument->uuid());
-//                $this->assertInstanceOf(AuthorUuid::class, $argument->authorUuid());
-//                $this->assertInstanceOf(BookTitle::class, $argument->title());
-//                $this->assertInstanceOf(BookDescription::class, $argument->description());
-//                $this->assertInstanceOf(BookContent::class, $argument->content());
-//
-//                $this->assertEquals($argument->authorUuid(), $book->authorUuid());
-//                $this->assertEquals($argument->title(), $book->title());
-//                $this->assertEquals($argument->description(), $book->description());
-//                $this->assertEquals($argument->content(), $book->content());
-//
-//                return true;
-//            }))
-//            ->once()
-//            ->andReturnNull();
-//    }
 
     protected function shouldGetLastEvaluation(
         StudentUuid $studentUuid,
