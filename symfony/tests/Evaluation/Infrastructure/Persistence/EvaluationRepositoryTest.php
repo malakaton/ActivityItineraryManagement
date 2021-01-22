@@ -13,9 +13,9 @@ use Academy\Tests\Evaluation\Domain\EvaluationMother;
 use Academy\Tests\Evaluation\Domain\EvaluationPercentageInvertedTimeMother;
 use Academy\Tests\Evaluation\Domain\EvaluationScoreMother;
 use Academy\Tests\Evaluation\Domain\EvaluationUuidMother;
-use Academy\Tests\Shared\Domain\ActivityUuidMother;
-use Academy\Tests\Shared\Domain\ItineraryUuidMother;
-use Academy\Tests\Shared\Domain\StudentUuidMother;
+use Academy\Tests\Activity\Domain\ActivityUuidMother;
+use Academy\Tests\Itinerary\Domain\ItineraryUuidMother;
+use Academy\Tests\Student\Domain\StudentUuidMother;
 use Academy\Tests\Shared\Infrastructure\Doctrine\DoctrineInfrastructureTestCase;
 
 final class EvaluationRepositoryTest extends DoctrineInfrastructureTestCase

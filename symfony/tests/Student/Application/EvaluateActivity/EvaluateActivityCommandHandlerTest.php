@@ -2,44 +2,95 @@
 
 declare(strict_types=1);
 
-namespace BooksManagement\Tests\Book\Application\Create;
+namespace Academy\Tests\Student\Application\EvaluateActivity;
 
-use BooksManagement\Book\Application\Create\BookCreator;
-use BooksManagement\Book\Application\Create\CreateBookHandler;
-use BooksManagement\Tests\Author\Domain\AuthorMother;
-use BooksManagement\Tests\Mocks\Author\AuthorRepositoryMock;
-use BooksManagement\Tests\Book\Domain\BookMother;
-use BooksManagement\Tests\Mocks\Books\BooksRepositoryMockUnitTestCase;
+use Academy\Activity\Domain\ActivityGuard;
+use Academy\Evaluation\Domain\EvaluationCreator;
+use Academy\Itinerary\Domain\ItineraryGuard;
+use Academy\Student\Application\EvaluateActivity\EvaluateHandler;
+use Academy\Student\Domain\StudentGuard;
+use Academy\Tests\Activity\Domain\ActivityMother;
+use Academy\Tests\Evaluation\Domain\EvaluationAnswerMother;
+use Academy\Tests\Evaluation\Domain\EvaluationInvertedTimeMother;
+use Academy\Tests\Evaluation\Domain\EvaluationMother;
+use Academy\Tests\Evaluation\Domain\EvaluationPercentageInvertedTimeMother;
+use Academy\Tests\Evaluation\Domain\EvaluationScoreMother;
+use Academy\Tests\Mocks\Activity\ActivityRepositoryMock;
+use Academy\Tests\Mocks\Evaluation\EvaluationRepositoryMockUnitTestCase;
+use Academy\Tests\Mocks\Itinerary\ItineraryRepositoryMock;
+use Academy\Tests\Mocks\Student\StudentRepositoryMock;
+use Academy\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
+use Monolog\Logger;
 
-final class CreateBookCommandHandlerTest extends BooksRepositoryMockUnitTestCase
+final class EvaluateActivityCommandHandlerTest extends EvaluationRepositoryMockUnitTestCase
 {
-    private CreateBookHandler $handler;
-    private AuthorRepositoryMock $authorRepository;
+    private const RIGHT_ANSWER_ACTIVITY_A1 = '1_0_2';
+    private const MAX_SCORE = 100;
+    private const MAX_TIME_ANSWER_A1 = 120;
+    private const TIME_TO_ANSWER_ACTIVITY_A1 = 84;
+    private const PERCENTAGE_INVERTED_TIME_A1 = 70;
+    private const TIME_FAST_ANSWER = 10;
+
+    private EvaluateHandler $handler;
+    private ActivityRepositoryMock $activityRepository;
+    private StudentRepositoryMock $studentRepositoryMock;
+    private ItineraryRepositoryMock $itineraryRepositoryMock;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->authorRepository = new AuthorRepositoryMock();
+        $this->activityRepository = new ActivityRepositoryMock();
+        $this->studentRepositoryMock = new StudentRepositoryMock();
+        $this->itineraryRepositoryMock = new ItineraryRepositoryMock();
 
-        $this->handler = new CreateBookHandler(
-            new BookCreator($this->MockRepository(), $this->authorRepository->getMockRepository())
+        $this->handler = new EvaluateHandler(
+            new EvaluationCreator(
+                new StudentGuard(
+                    $this->studentRepositoryMock->getMockRepository(),
+                    new Logger(UnitTestCase::LOGGER_TEST_NAME)
+                ),
+                new ItineraryGuard(
+                    $this->itineraryRepositoryMock->getMockRepository(),
+                    new Logger(UnitTestCase::LOGGER_TEST_NAME)
+                ),
+                new ActivityGuard(
+                    $this->activityRepository->getMockRepository(),
+                    new Logger(UnitTestCase::LOGGER_TEST_NAME)
+                ),
+                $this->activityRepository->getMockRepository(),
+                $this->MockRepository(),
+                new Logger(UnitTestCase::LOGGER_TEST_NAME)
+            )
         );
     }
 
     /**
      * @test
      */
-    public function it_should_create_a_book(): void
+    public function it_should_answer_activity_a1_well(): void
     {
-        $command = CreateBookCommandMother::random($this->authorRepository->getAuthorUuid());
+        $command = EvaluateActivityCommandMother::create(
+            $this->studentRepositoryMock->getStudentUuid(),
+            $this->itineraryRepositoryMock->getItineraryUuid(),
+            $this->activityRepository->getActivityName(),
+            EvaluationAnswerMother::create(self::RIGHT_ANSWER_ACTIVITY_A1),
+            EvaluationInvertedTimeMother::create(self::TIME_TO_ANSWER_ACTIVITY_A1)
+        );
 
-        $book = BookMother::fromRequest($command);
+        $activity = ActivityMother::fromRequest($this->activityRepository->getActivityName());
 
-        $author = AuthorMother::random($book->authorUuid()->value());
+        $evaluation = EvaluationMother::fromRequest(
+            $command,
+            EvaluationScoreMother::create(self::MAX_SCORE),
+            EvaluationPercentageInvertedTimeMother::create(self::PERCENTAGE_INVERTED_TIME_A1)
+        );
 
-        $this->authorRepository->shouldSearchAuthor($author->uuid(), $author);
-        $this->shouldSave($book);
+        $this->studentRepositoryMock->shouldSearch($this->studentRepositoryMock->getStudentUuid());
+        $this->itineraryRepositoryMock->shouldSearch($this->itineraryRepositoryMock->getItineraryUuid());
+        $this->activityRepository->shouldSearch($activity->name(), $activity);
+
+        //$this->shouldSave($evaluation);
 
         $this->dispatch($command, $this->handler);
     }

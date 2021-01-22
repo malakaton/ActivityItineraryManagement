@@ -11,6 +11,8 @@ use Mockery\MockInterface;
 
 abstract class UnitTestCase extends MockeryTestCase
 {
+    public const LOGGER_TEST_NAME = 'test';
+
     protected function mock(string $className): MockInterface
     {
         return Mockery::mock($className);

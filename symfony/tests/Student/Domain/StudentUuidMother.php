@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Academy\Tests\Shared\Domain;
+namespace Academy\Tests\Student\Domain;
 
 use Academy\Student\Domain\StudentUuid;
+use Academy\Tests\Shared\Domain\UuidMother;
 
 final class StudentUuidMother
 {

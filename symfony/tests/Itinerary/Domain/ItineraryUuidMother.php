@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Academy\Tests\Shared\Domain;
+namespace Academy\Tests\Itinerary\Domain;
 
 use Academy\Itinerary\Domain\ItineraryUuid;
+use Academy\Tests\Shared\Domain\UuidMother;
 
 final class ItineraryUuidMother
 {

@@ -13,7 +13,11 @@ use Academy\Evaluation\Domain\EvaluationPercentageInvertedTime;
 use Academy\Evaluation\Domain\EvaluationScore;
 use Academy\Evaluation\Domain\EvaluationUuid;
 use Academy\Itinerary\Domain\ItineraryUuid;
+use Academy\Student\Application\EvaluateActivity\EvaluateActivityCommand;
 use Academy\Student\Domain\StudentUuid;
+use Academy\Tests\Activity\Domain\ActivityUuidMother;
+use Academy\Tests\Itinerary\Domain\ItineraryUuidMother;
+use Academy\Tests\Student\Domain\StudentUuidMother;
 
 final class EvaluationMother
 {
@@ -42,25 +46,37 @@ final class EvaluationMother
         );
     }
 
-//    public static function fromRequest(EvaluationComm $request): Book
-//    {
-//        return self::create(
-//            BookUuidMother::random(),
-//            AuthorUuidMother::create($request->authorUuid()),
-//            BookTitleMother::create($request->title()),
-//            BookDescriptionMother::create($request->description()),
-//            BookContentMother::create($request->content())
-//        );
-//    }
-//
-//    public static function random(string $uuid): Book
-//    {
-//        return self::create(
-//            BookUuidMother::create($uuid),
-//            AuthorUuidMother::random(),
-//            BookTitleMother::random(),
-//            BookDescriptionMother::random(),
-//            BookContentMother::random()
-//        );
-//    }
+    public static function fromRequest(
+        EvaluateActivityCommand $request,
+        EvaluationScore $score,
+        EvaluationPercentageInvertedTime $percentageInvertedTime
+    ): Evaluation
+    {
+        return self::create(
+            EvaluationUuidMother::random(),
+            ItineraryUuidMother::create($request->itineraryUuid()),
+            ActivityUuidMother::create(ActivityUuidMother::stub_uuid),
+            StudentUuidMother::create($request->studentUuid()),
+            EvaluationCreateDateMother::random(),
+            EvaluationAnswerMother::create($request->answer()),
+            EvaluationInvertedTimeMother::create($request->invertedTime()),
+            $score,
+            $percentageInvertedTime
+        );
+    }
+
+    public static function random(): Evaluation
+    {
+        return self::create(
+            EvaluationUuidMother::random(),
+            ItineraryUuidMother::create(ItineraryUuidMother::stub_uuid),
+            ActivityUuidMother::create(ActivityUuidMother::stub_uuid),
+            StudentUuidMother::create(StudentUuidMother::stub_uuid),
+            EvaluationCreateDateMother::random(),
+            EvaluationAnswerMother::random(),
+            EvaluationInvertedTimeMother::random(),
+            EvaluationScoreMother::random(),
+            EvaluationPercentageInvertedTimeMother::random()
+        );
+    }
 }

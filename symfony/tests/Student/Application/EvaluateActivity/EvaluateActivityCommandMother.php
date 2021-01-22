@@ -2,36 +2,47 @@
 
 declare(strict_types=1);
 
-namespace BooksManagement\Tests\Book\Application\Create;
+namespace Academy\Tests\Student\Application\EvaluateActivity;
 
-use BooksManagement\Book\Application\Create\CreateBookCommand;
-use BooksManagement\Book\Domain\BookContent;
-use BooksManagement\Book\Domain\BookDescription;
-use BooksManagement\Book\Domain\BookTitle;
-use BooksManagement\Shared\Domain\Author\AuthorUuid;
-use BooksManagement\Tests\Book\Domain\BookContentMother;
-use BooksManagement\Tests\Book\Domain\BookDescriptionMother;
-use BooksManagement\Tests\Book\Domain\BookTitleMother;
+use Academy\Activity\Domain\ActivityName;
+use Academy\Evaluation\Domain\EvaluationAnswer;
+use Academy\Evaluation\Domain\EvaluationInvertedTime;
+use Academy\Itinerary\Domain\ItineraryUuid;
+use Academy\Student\Application\EvaluateActivity\EvaluateActivityCommand;
+use Academy\Student\Domain\StudentUuid;
+use Academy\Tests\Activity\Domain\ActivityNameMother;
+use Academy\Tests\Evaluation\Domain\EvaluationAnswerMother;
+use Academy\Tests\Evaluation\Domain\EvaluationInvertedTimeMother;
+use Academy\Tests\Itinerary\Domain\ItineraryUuidMother;
+use Academy\Tests\Student\Domain\StudentUuidMother;
 
-final class CreateBookCommandMother
+final class EvaluateActivityCommandMother
 {
     public static function create(
-        AuthorUuid $authorUuid,
-        BookTitle $title,
-        BookDescription $description,
-        BookContent $content
-    ): CreateBookCommand
+        StudentUuid $studentUuid,
+        ItineraryUuid $itineraryUuid,
+        ActivityName $activityName,
+        EvaluationAnswer $answer,
+        EvaluationInvertedTime $invertedTime
+    ): EvaluateActivityCommand
     {
-        return new CreateBookCommand($authorUuid->value(), $title->value(), $description->value(), $content->value());
+        return new EvaluateActivityCommand(
+            $studentUuid->value(),
+            $itineraryUuid->value(),
+            $activityName->value(),
+            $answer->value(),
+            $invertedTime->value()
+        );
     }
 
-    public static function random(AuthorUuid $authorUuid): CreateBookCommand
+    public static function randomAnswerAndTime(): EvaluateActivityCommand
     {
         return self::create(
-            $authorUuid,
-            BookTitleMother::random(),
-            BookDescriptionMother::random(),
-            BookContentMother::random()
+            new StudentUuid(StudentUuidMother::stub_uuid),
+            new ItineraryUuid(ItineraryUuidMother::stub_uuid),
+            new ActivityName(ActivityNameMother::stub_name),
+            EvaluationAnswerMother::random(),
+            EvaluationInvertedTimeMother::random()
         );
     }
 }

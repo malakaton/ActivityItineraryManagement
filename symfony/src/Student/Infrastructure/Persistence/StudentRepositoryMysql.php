@@ -25,6 +25,6 @@ final class StudentRepositoryMysql implements StudentRepository
      */
     public function search(StudentUuid $studentUuid): ?Student
     {
-        return $this->repository->find($studentUuid);
+        $t = $this->repository->find($studentUuid);
     }
 }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Academy\Tests\Student\EntryPoint\Http\Controller;
 
 use Academy\Tests\Shared\Domain\IntMother;
-use Academy\Tests\Shared\Domain\ItineraryUuidMother;
+use Academy\Tests\Itinerary\Domain\ItineraryUuidMother;
 use Academy\Tests\Shared\Domain\StringMother;
-use Academy\Tests\Shared\Domain\StudentUuidMother;
+use Academy\Tests\Student\Domain\StudentUuidMother;
 use Academy\Tests\Shared\Domain\UuidMother;
 use Academy\Tests\Shared\EntryPoint\EntryPointTestCase;
 use Symfony\Component\HttpFoundation\Response;
