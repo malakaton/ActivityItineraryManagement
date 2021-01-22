@@ -1,6 +1,7 @@
 
 ###> symfony/framework-bundle ###
 /app/var
+/app/public/reports
 /.env.local
 /.env.local.php
 /.env.*.local
