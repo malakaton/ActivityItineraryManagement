@@ -65,6 +65,7 @@ INSERT INTO activities VALUES ('70f066f6-1cb7-4c45-97e2-287f0258ba13', 'A12', 7,
 INSERT INTO activities VALUES ('70f066f6-1cb7-4c45-97e2-287f0258ba14', 'A13', 8, 120, '{"0":1, "1":0, "2":2}');
 INSERT INTO activities VALUES ('70f066f6-1cb7-4c45-97e2-287f0258ba15', 'A14', 9, 120, '{"0":1, "1":0, "2":2}');
 INSERT INTO activities VALUES ('70f066f6-1cb7-4c45-97e2-287f0258ba16', 'A15', 10, 120, '{"0":1, "1":0, "2":2}');
+INSERT INTO activities VALUES ('70f066f6-1cb7-4c45-97e2-287f0258ba17', 'A99', 10, 120, '{"0":1, "1":0, "2":2}');
 
 INSERT INTO activities_itineraries VALUES ('99f951bf-7d49-4a1a-9152-7bdee1f5ce1e', '99f951bf-7d49-4a1a-9152-7bdee1f5ce2e', '70f066f6-1cb7-4c45-97e2-287f0258ba02', 1);
 INSERT INTO activities_itineraries VALUES ('99f951bf-7d49-4a1a-9152-7bdee1f5ce2e', '99f951bf-7d49-4a1a-9152-7bdee1f5ce2e', '70f066f6-1cb7-4c45-97e2-287f0258ba03', 2);
