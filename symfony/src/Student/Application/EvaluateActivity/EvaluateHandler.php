@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Academy\Student\Application\EvaluateActivity;
 
 use Academy\Activity\Domain\ActivityName;
+use Academy\Evaluation\Domain\Evaluation;
 use Academy\Evaluation\Domain\EvaluationAnswer;
 use Academy\Evaluation\Domain\EvaluationCreator;
 use Academy\Evaluation\Domain\EvaluationInvertedTime;
@@ -24,10 +25,10 @@ final class EvaluateHandler implements MessageHandlerInterface
 
     /**
      * @param EvaluateActivityCommand $command
-     * @return string|null
+     * @return Evaluation
      * @throws SymfonyException
      */
-    public function __invoke(EvaluateActivityCommand $command): ?string
+    public function __invoke(EvaluateActivityCommand $command): Evaluation
     {
         $studentUuid = new StudentUuid($command->studentUuid());
         $itineraryUuid = new ItineraryUuid($command->itineraryUuid());

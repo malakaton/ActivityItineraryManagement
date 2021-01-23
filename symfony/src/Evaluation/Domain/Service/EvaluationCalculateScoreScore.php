@@ -7,7 +7,6 @@ namespace Academy\Evaluation\Domain\Service;
 use Academy\Activity\Domain\Activity;
 use Academy\Evaluation\Domain\EvaluationAnswer;
 use Academy\Evaluation\Domain\EvaluationCalculateScoreService;
-use Academy\Shared\Infrastructure\Symfony\Exception\SymfonyException;
 
 final class EvaluationCalculateScoreScore implements EvaluationCalculateScoreService
 {
@@ -15,20 +14,16 @@ final class EvaluationCalculateScoreScore implements EvaluationCalculateScoreSer
      * @param EvaluationAnswer $answer
      * @param Activity $activity
      * @return int
-     * @throws SymfonyException
+     * @throws \JsonException
      */
     public function calculate(EvaluationAnswer $answer, Activity $activity): int
     {
-        try {
-            $solutionToArray = json_decode(
-                $activity->solution()->value(),
-                true,
-                512,
-                JSON_THROW_ON_ERROR
-            );
-        } catch (\JsonException $e) {
-            throw new SymfonyException($e->getMessage(), $e->getTrace());
-        }
+        $solutionToArray = json_decode(
+            $activity->solution()->value(),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
 
         $mistakes = array_diff_assoc(
             $this->explodeAnswer($answer, $solutionToArray),

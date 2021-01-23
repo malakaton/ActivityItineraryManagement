@@ -10,6 +10,11 @@ use Academy\Evaluation\Domain\EvaluationInvertedTime;
 
 final class EvaluationCalculateScorePercentageInvertedTime implements EvaluationCalculatePercentageInvertedTimeService
 {
+    /**
+     * @param EvaluationInvertedTime $invertedTime
+     * @param Activity $activity
+     * @return int
+     */
     public function calculate(EvaluationInvertedTime $invertedTime, Activity $activity): int
     {
         return (int) round(($invertedTime->value() / $activity->time()->value())  * 100);

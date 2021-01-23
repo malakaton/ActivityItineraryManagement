@@ -6,6 +6,7 @@ namespace Academy\Tests\Evaluation\Domain;
 
 use Academy\Activity\Domain\ActivityGuard;
 use Academy\Activity\Domain\ActivityName;
+use Academy\Evaluation\Domain\Evaluation;
 use Academy\Evaluation\Domain\EvaluationCreator;
 use Academy\Evaluation\Domain\Service\EvaluationCalculateScorePercentageInvertedTime;
 use Academy\Evaluation\Domain\Service\EvaluationCalculateScoreScore;
@@ -61,38 +62,39 @@ final class EvaluationCreatorTest extends EvaluationRepositoryMockUnitTestCase
      */
     public function it_calculate_score_and_percentage_inverted_time_well(): void
     {
-        $this->invokeEvaluationCreator('A1', '1_0_2', 50);
+        $evaluation = $this->invokeEvaluationCreator('A1', '1_0_2', 50);
 
-        self::assertEquals(100, $this->evaluationCreator->getEvaluation()->score()->value());
-        self::assertEquals(42, $this->evaluationCreator->getEvaluation()->percentageInvertedTime()->value());
+        self::assertEquals(100, $evaluation->score()->value());
+        self::assertEquals(42, $evaluation->percentageInvertedTime()->value());
 
-        $this->invokeEvaluationCreator('A1', '1_0_1', 10);
+        $evaluation = $this->invokeEvaluationCreator('A1', '1_0_1', 10);
 
-        self::assertEquals(67, $this->evaluationCreator->getEvaluation()->score()->value());
-        self::assertEquals(8, $this->evaluationCreator->getEvaluation()->percentageInvertedTime()->value());
+        self::assertEquals(67, $evaluation->score()->value());
+        self::assertEquals(8, $evaluation->percentageInvertedTime()->value());
 
-        $this->invokeEvaluationCreator('A7', "1_-1_'No'_34_6", 60);
+        $evaluation= $this->invokeEvaluationCreator('A7', "1_-1_'No'_34_6", 60);
 
-        self::assertEquals(60, $this->evaluationCreator->getEvaluation()->score()->value());
-        self::assertEquals(50, $this->evaluationCreator->getEvaluation()->percentageInvertedTime()->value());
+        self::assertEquals(60, $evaluation->score()->value());
+        self::assertEquals(50, $evaluation->percentageInvertedTime()->value());
 
-        $this->invokeEvaluationCreator('A8', "1_8", 30);
+        $evaluation = $this->invokeEvaluationCreator('A8', "1_8", 30);
 
-        self::assertEquals(50, $this->evaluationCreator->getEvaluation()->score()->value());
-        self::assertEquals(25, $this->evaluationCreator->getEvaluation()->percentageInvertedTime()->value());
+        self::assertEquals(50, $evaluation->score()->value());
+        self::assertEquals(25, $evaluation->percentageInvertedTime()->value());
     }
 
     /**
      * @param string $activityName
      * @param string $answer
      * @param int $invertedTime
-     * @throws \Exception
+     * @return Evaluation
+     * @throws SymfonyException
      */
-    private function invokeEvaluationCreator(string $activityName, string $answer, int $invertedTime): void
+    private function invokeEvaluationCreator(string $activityName, string $answer, int $invertedTime): Evaluation
     {
         $this->mockRepositories(ActivityNameMother::create($activityName));
 
-        $this->evaluationCreator->__invoke(
+        return $this->evaluationCreator->__invoke(
             $this->studentRepositoryMock->getStudentUuid(),
             $this->itineraryRepositoryMock->getItineraryUuid(),
             ActivityNameMother::create($activityName),

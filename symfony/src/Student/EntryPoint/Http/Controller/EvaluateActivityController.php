@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Student\EntryPoint\Http\Controller;
 
+use Academy\Evaluation\Domain\Evaluation;
 use Academy\Shared\Infrastructure\Symfony\Exception\SymfonyException;
 use Academy\Student\Application\EvaluateActivity\EvaluateActivityCommand;
 use Academy\Shared\Infrastructure\Symfony\ApiResponseResource;
@@ -50,7 +51,7 @@ final class EvaluateActivityController
      *                     @OA\Property(
      *                          property="message",
      *                          type="string",
-     *                          example="Evaluation of activity name: A3 for student uuid: 70f066f6-1cb7-4c45-97e2-287f0258ba02 done successfully"
+     *                          example="Evaluation stored successfully with uuid: 70f066f6-1cb7-4c45-97e2-287f0258ba09"
      *                     ),
      *                      @OA\Property(
      *                          property="errors",
@@ -184,11 +185,16 @@ final class EvaluateActivityController
             $requestToArray['inverted_time']
         ))->last(HandledStamp::class);
 
+        /**
+         * @var Evaluation $evaluation
+         */
+        $evaluation = $envelope->getResult();
+
         return (new ApiResponseResource(
             Response::HTTP_CREATED,
             [],
             [],
-            $envelope->getResult(),
+            "Evaluation stored successfully with uuid: {$evaluation->uuid()->value()}",
             true)
         )->getResponse();
     }

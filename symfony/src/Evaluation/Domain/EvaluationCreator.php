@@ -8,6 +8,7 @@ use Academy\Activity\Domain\ActivityName;
 use Academy\Activity\Domain\IActivityGuard;
 use Academy\Itinerary\Domain\IItineraryGuard;
 use Academy\Itinerary\Domain\ItineraryUuid;
+use Academy\Shared\Infrastructure\Symfony\Exception\SymfonyException;
 use Academy\Student\Domain\IStudentGuard;
 use Academy\Student\Domain\StudentUuid;
 use Psr\Log\LoggerInterface;
@@ -19,7 +20,6 @@ final class EvaluationCreator
     private IActivityGuard $activityGuard;
     private EvaluationRepository $evaluationRepository;
     private LoggerInterface $logger;
-    private Evaluation $evaluation;
     private EvaluationCalculateScoreService $evaluationCalculateScore;
     private EvaluationCalculatePercentageInvertedTimeService $evaluationCalculatePercentageInvertedTime;
 
@@ -47,8 +47,8 @@ final class EvaluationCreator
      * @param ActivityName $activityName
      * @param EvaluationAnswer $answer
      * @param EvaluationInvertedTime $invertedTime
-     * @return string
-     * @throws \Exception
+     * @return Evaluation
+     * @throws SymfonyException
      */
     public function __invoke(
         StudentUuid $studentUuid,
@@ -56,44 +56,40 @@ final class EvaluationCreator
         ActivityName $activityName,
         EvaluationAnswer $answer,
         EvaluationInvertedTime $invertedTime
-    ): string
+    ): Evaluation
     {
         $this->studentGuard->guard($studentUuid);
         $this->itineraryGuard->guard($itineraryUuid);
         $this->activityGuard->guard($activityName);
 
-        $this->evaluation = Evaluation::create(
-            $itineraryUuid,
-            $this->activityGuard->getActivity()->uuid(),
-            $studentUuid,
-            new EvaluationCreateDate(EvaluationCreateDate::getDateTimeNow()),
-            $answer,
-            $invertedTime,
-            new EvaluationScore(
-                $this->evaluationCalculateScore->calculate($answer, $this->activityGuard->getActivity())
-            ),
-            new EvaluationPercentageInvertedTime(
-                $this->evaluationCalculatePercentageInvertedTime->calculate(
-                    $invertedTime,
-                    $this->activityGuard->getActivity()
+        try {
+            $evaluation = Evaluation::create(
+                $itineraryUuid,
+                $this->activityGuard->getActivity()->uuid(),
+                $studentUuid,
+                new EvaluationCreateDate(EvaluationCreateDate::getDateTimeNow()),
+                $answer,
+                $invertedTime,
+                new EvaluationScore(
+                    $this->evaluationCalculateScore->calculate($answer, $this->activityGuard->getActivity())
+                ),
+                new EvaluationPercentageInvertedTime(
+                    $this->evaluationCalculatePercentageInvertedTime->calculate(
+                        $invertedTime,
+                        $this->activityGuard->getActivity()
+                    )
                 )
-            )
-        );
+            );
+        } catch (\Exception $e) {
+            throw new SymfonyException($e->getMessage(), $e->getTrace());
+        }
 
-        $this->evaluationRepository->save($this->evaluation);
+        $this->evaluationRepository->save($evaluation);
 
         $message = "Evaluation of activity name: {$this->activityGuard->getActivity()->name()} for student uuid: {$studentUuid->value()} done successfully";
 
         $this->logger->info($message);
 
-        return $message;
-    }
-
-    /**
-     * @return Evaluation
-     */
-    public function getEvaluation(): Evaluation
-    {
-        return $this->evaluation;
+        return $evaluation;
     }
 }
