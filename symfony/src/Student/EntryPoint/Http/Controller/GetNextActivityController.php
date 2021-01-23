@@ -23,7 +23,7 @@ final class GetNextActivityController
     }
 
     /**
-     * List the activities of the specified itinerary.
+     * Calculate the next activity that student need to do on the activity itinerary
      *
      *
      * @Route("/api/students/{student_uuid}/itinerary/{itinerary_uuid}/activity/next", methods={"GET"})
