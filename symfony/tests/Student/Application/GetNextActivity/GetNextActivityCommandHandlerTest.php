@@ -9,7 +9,6 @@ use Academy\Student\Application\GetNextActivity\GetNextActivityHandler;
 use Academy\Student\Domain\StudentGuard;
 use Academy\Student\Domain\StudentNextActivity;
 use Academy\Tests\Activity\Domain\ActivityLevelMother;
-use Academy\Tests\Activity\Domain\ActivityNameMother;
 use Academy\Tests\Activity\Domain\ActivitySolutionMother;
 use Academy\Tests\Activity\Domain\ActivityTimeMother;
 use Academy\Tests\Activity\Domain\ActivityIdMother;
@@ -78,7 +77,6 @@ final class GetNextActivityCommandHandlerTest extends EvaluationRepositoryMockUn
                 'itineraryUuid' => ItineraryUuidMother::create(ItineraryUuidMother::stub_uuid),
                 'createDate.value' => EvaluationCreateDateMother::random()->value(),
                 'studentUuid' =>  StudentUuidMother::create(StudentUuidMother::stub_uuid),
-                'name.value' => ActivityNameMother::stub_name,
                 'level.value' => ActivityLevelMother::getByActivityId(ActivityIdMother::create('A1'))->value(),
                 'position.value' =>  IntMother::random(),
                 'score.value' => EvaluationScoreMother::create(60)->value(),
@@ -90,7 +88,6 @@ final class GetNextActivityCommandHandlerTest extends EvaluationRepositoryMockUn
             [
                 'activityId' => ActivityIdMother::create('A1'),
                 'itineraryUuid' => ItineraryUuidMother::create(ItineraryUuidMother::stub_uuid),
-                'name.value' => ActivityNameMother::stub_name,
                 'level.value' => ActivityLevelMother::getByActivityId(ActivityIdMother::create('A1'))->value(),
                 'position.value' =>  IntMother::random(),
             ]
@@ -100,7 +97,6 @@ final class GetNextActivityCommandHandlerTest extends EvaluationRepositoryMockUn
             [
                 'activityId' => ActivityIdMother::create('A1'),
                 'itineraryUuid' => ItineraryUuidMother::create(ItineraryUuidMother::stub_uuid),
-                'name.value' => ActivityNameMother::stub_name,
                 'level.value' => ActivityLevelMother::getByActivityId(ActivityIdMother::create('A1'))->value(),
                 'position.value' =>  IntMother::random(),
             ]
@@ -109,7 +105,7 @@ final class GetNextActivityCommandHandlerTest extends EvaluationRepositoryMockUn
         $this->activityItineraryRepositoryMock->shouldSearchActivityItineraryByCriteria(
             [
                 'position.value' => IntMother::random(),
-                'name.value' => ActivityNameMother::create('A1')->value(),
+                'activityId' => ActivityIdMother::create('A1'),
                 'level.value' => ActivityLevelMother::getByActivityId(ActivityIdMother::create('A1'))->value(),
                 'time.value' => ActivityTimeMother::getByActivityId(ActivityIdMother::create('A1'))->value(),
                 'solution.value' => ActivitySolutionMother::getByActivityId(ActivityIdMother::create('A1'))->value()

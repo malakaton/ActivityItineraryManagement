@@ -27,8 +27,8 @@ final class ActivityRepositoryMock extends ActivityRepositoryMockUnitTestCase
         return $this->existingActivityName;
     }
 
-    public function shouldSearch(ActivityName $name, Activity $activity): void
+    public function shouldSearch(ActivityId $id, Activity $activity): void
     {
-        $this->shouldSearchActivity($name, $activity);
+        $this->shouldSearchActivity($id, $activity);
     }
 }

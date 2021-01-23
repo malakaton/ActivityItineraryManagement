@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 
 final class ActivityGuard implements IActivityGuard
 {
+    private ?Activity $activity;
     private ActivityRepository $activityRepository;
     private LoggerInterface $logger;
 
@@ -37,9 +38,14 @@ final class ActivityGuard implements IActivityGuard
      */
     private function guardActivity(ActivityId $activityId): void
     {
-        if (!$this->activityRepository->search($activityId)) {
+        if (!$this->activity = $this->activityRepository->search($activityId)) {
             $this->logger->alert("Activity with name: {$activityId->value()} not found");
             throw new ActivityNotFound($activityId->value());
         }
+    }
+
+    public function get(): ?Activity
+    {
+        return $this->activity;
     }
 }

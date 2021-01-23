@@ -64,8 +64,8 @@ List of all endpoins
 
 ```bash
 http://symfony.localhost:80/api/itineraries/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e/activity -- List the activities of the specified itinerary.
-http://symfony.localhost:80/api/itineraries/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e/activity?name=A1 -- Add an activity to specified itinerary.
-http://symfony.localhost:80/api/students/70f066f6-1cb7-4c45-97e2-287f0258ba02/itinerary/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e/activity/evaluate?activity_name=A3 -- Evaluate the answer of activity from itinerary done by student.
+http://symfony.localhost:80/api/itineraries/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e/activity?id=A1 -- Add an activity to specified itinerary.
+http://symfony.localhost:80/api/students/70f066f6-1cb7-4c45-97e2-287f0258ba02/itinerary/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e/activity/evaluate?activity_id=A3 -- Evaluate the answer of activity from itinerary done by student.
 http://symfony.localhost:80/api/students/70f066f6-1cb7-4c45-97e2-287f0258ba02/itinerary/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e/activity/next -- Calculate the next activity that student need to do on the activity itinerary
 http://symfony.localhost:80/api/students/70f066f6-1cb7-4c45-97e2-287f0258ba02/itinerary/99f951bf-7d49-4a1a-9152-7bdee1f5ce2e/evaluation -- Get all activities with his score and time done by student from determinate activity itinerary.
 ```

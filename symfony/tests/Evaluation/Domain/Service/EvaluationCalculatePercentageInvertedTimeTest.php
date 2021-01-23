@@ -6,8 +6,8 @@ namespace Academy\Tests\Evaluation\Domain\Service;
 
 use Academy\Evaluation\Domain\EvaluationCalculatePercentageInvertedTimeService;
 use Academy\Evaluation\Domain\Service\EvaluationCalculateScorePercentageInvertedTime;
-use Academy\Tests\Activity\Domain\ActivityMother;
-use Academy\Tests\Activity\Domain\ActivityNameMother;
+use Academy\Tests\Activity\Domain\ActivityIdMother;
+use Academy\Tests\Activity\Domain\ActivityTimeMother;
 use Academy\Tests\Evaluation\Domain\EvaluationInvertedTimeMother;
 use PHPUnit\Framework\TestCase;
 
@@ -22,7 +22,6 @@ final class EvaluationCalculatePercentageInvertedTimeTest extends TestCase
         $this->evaluationCalculatePercentageInvertedTime = new EvaluationCalculateScorePercentageInvertedTime();
     }
 
-
     /**
      * @test
      * @throws \JsonException
@@ -35,8 +34,8 @@ final class EvaluationCalculatePercentageInvertedTimeTest extends TestCase
                 EvaluationInvertedTimeMother::create(
                     120
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A1')
+                ActivityTimeMother::getByActivityId(
+                    ActivityIdMother::create('A1')
                 )
             )
         );
@@ -47,8 +46,8 @@ final class EvaluationCalculatePercentageInvertedTimeTest extends TestCase
                 EvaluationInvertedTimeMother::create(
                     30
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A1')
+                ActivityTimeMother::getByActivityId(
+                    ActivityIdMother::create('A1')
                 )
             )
         );
@@ -59,8 +58,8 @@ final class EvaluationCalculatePercentageInvertedTimeTest extends TestCase
                 EvaluationInvertedTimeMother::create(
                     30
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A2')
+                ActivityTimeMother::getByActivityId(
+                    ActivityIdMother::create('A2')
                 )
             )
         );
@@ -71,8 +70,8 @@ final class EvaluationCalculatePercentageInvertedTimeTest extends TestCase
                 EvaluationInvertedTimeMother::create(
                     40
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A7')
+                ActivityTimeMother::getByActivityId(
+                    ActivityIdMother::create('A7')
                 )
             )
         );
@@ -83,8 +82,8 @@ final class EvaluationCalculatePercentageInvertedTimeTest extends TestCase
                 EvaluationInvertedTimeMother::create(
                     20
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A7')
+                ActivityTimeMother::getByActivityId(
+                    ActivityIdMother::create('A7')
                 )
             )
         );
@@ -95,8 +94,8 @@ final class EvaluationCalculatePercentageInvertedTimeTest extends TestCase
                 EvaluationInvertedTimeMother::create(
                     0
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A8')
+                ActivityTimeMother::getByActivityId(
+                    ActivityIdMother::create('A8')
                 )
             )
         );

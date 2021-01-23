@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Academy\Tests\Student\EntryPoint\Http\Controller;
 
 use Academy\Evaluation\Domain\Evaluation;
-use Academy\Tests\Activity\Domain\ActivityNameMother;
+use Academy\Tests\Activity\Domain\ActivityIdMother;
 use Academy\Tests\Itinerary\Domain\ItineraryUuidMother;
 use Academy\Tests\Student\Domain\StudentUuidMother;
 use Academy\Tests\Shared\EntryPoint\EntryPointTestCase;
@@ -49,7 +49,7 @@ final class GetNextActivityTest extends EntryPointTestCase
         $this->assertJsonStructure(json_decode($this->client->getResponse()->getContent(), true));
         $content = json_decode($this->client->getResponse()->getContent(), true);
 
-        self::assertEquals(ActivityNameMother::stub_name, $content['data']['activity_name']);
+        self::assertEquals(ActivityIdMother::stub_uuid, $content['data']['activity_id']);
         self::assertTrue($content['meta']['success']);
     }
 }

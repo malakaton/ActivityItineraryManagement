@@ -23,7 +23,7 @@ final class EvaluateActivityTest extends EntryPointTestCase
 
         $this->client->request(
             'POST',
-            "/api/students/{$uuid}/itinerary/{$uuid}/activity/evaluate?activity_name=A2",
+            "/api/students/{$uuid}/itinerary/{$uuid}/activity/evaluate?activity_id=A2",
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
@@ -45,7 +45,7 @@ final class EvaluateActivityTest extends EntryPointTestCase
     {
         $this->client->request(
             'POST',
-            "/api/students/".StudentUuidMother::stub_uuid."/itinerary/".ItineraryUuidMother::stub_uuid."/activity/evaluate?activity_name=A1",
+            "/api/students/".StudentUuidMother::stub_uuid."/itinerary/".ItineraryUuidMother::stub_uuid."/activity/evaluate?activity_id=A1",
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],

@@ -6,8 +6,8 @@ namespace Academy\Tests\Evaluation\Domain\Service;
 
 use Academy\Evaluation\Domain\EvaluationCalculateScoreService;
 use Academy\Evaluation\Domain\Service\EvaluationCalculateScoreScore;
-use Academy\Tests\Activity\Domain\ActivityMother;
-use Academy\Tests\Activity\Domain\ActivityNameMother;
+use Academy\Tests\Activity\Domain\ActivityIdMother;
+use Academy\Tests\Activity\Domain\ActivitySolutionMother;
 use Academy\Tests\Evaluation\Domain\EvaluationAnswerMother;
 use PHPUnit\Framework\TestCase;
 
@@ -35,8 +35,8 @@ final class EvaluationCalculateScoreTest extends TestCase
                 EvaluationAnswerMother::create(
                     "1_0_2"
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A1')
+                ActivitySolutionMother::getByActivityId(
+                    ActivityIdMother::create('A1')
                 )
             )
         );
@@ -47,8 +47,8 @@ final class EvaluationCalculateScoreTest extends TestCase
                 EvaluationAnswerMother::create(
                     "1_2_1"
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A1')
+                ActivitySolutionMother::getByActivityId(
+                    ActivityIdMother::create('A1')
                 )
             )
         );
@@ -59,8 +59,8 @@ final class EvaluationCalculateScoreTest extends TestCase
                 EvaluationAnswerMother::create(
                     "2_40_56"
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A2')
+                ActivitySolutionMother::getByActivityId(
+                    ActivityIdMother::create('A2')
                 )
             )
         );
@@ -71,8 +71,8 @@ final class EvaluationCalculateScoreTest extends TestCase
                 EvaluationAnswerMother::create(
                     '1_-1_Si_34_-6'
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A7')
+                ActivitySolutionMother::getByActivityId(
+                    ActivityIdMother::create('A7')
                 )
             )
         );
@@ -83,8 +83,8 @@ final class EvaluationCalculateScoreTest extends TestCase
                 EvaluationAnswerMother::create(
                     '1_-1_No_34_-6'
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A7')
+                ActivitySolutionMother::getByActivityId(
+                    ActivityIdMother::create('A7')
                 )
             )
         );
@@ -95,8 +95,8 @@ final class EvaluationCalculateScoreTest extends TestCase
                 EvaluationAnswerMother::create(
                     ''
                 ),
-                ActivityMother::fromRequest(
-                    ActivityNameMother::create('A8')
+                ActivitySolutionMother::getByActivityId(
+                    ActivityIdMother::create('A8')
                 )
             )
         );

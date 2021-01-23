@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Academy\Tests\Evaluation\Domain;
 
 use Academy\Activity\Domain\ActivityGuard;
-use Academy\Activity\Domain\ActivityName;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Evaluation\Domain\Evaluation;
 use Academy\Evaluation\Domain\EvaluationCreator;
 use Academy\Evaluation\Domain\Service\EvaluationCalculateScorePercentageInvertedTime;
@@ -13,8 +13,8 @@ use Academy\Evaluation\Domain\Service\EvaluationCalculateScoreScore;
 use Academy\Itinerary\Domain\ItineraryGuard;
 use Academy\Shared\Infrastructure\Symfony\Exception\SymfonyException;
 use Academy\Student\Domain\StudentGuard;
+use Academy\Tests\Activity\Domain\ActivityIdMother;
 use Academy\Tests\Activity\Domain\ActivityMother;
-use Academy\Tests\Activity\Domain\ActivityNameMother;
 use Academy\Tests\Mocks\Activity\ActivityRepositoryMock;
 use Academy\Tests\Mocks\Evaluation\EvaluationRepositoryMockUnitTestCase;
 use Academy\Tests\Mocks\Itinerary\ItineraryRepositoryMock;
@@ -72,7 +72,7 @@ final class EvaluationCreatorTest extends EvaluationRepositoryMockUnitTestCase
         self::assertEquals(67, $evaluation->score()->value());
         self::assertEquals(8, $evaluation->percentageInvertedTime()->value());
 
-        $evaluation= $this->invokeEvaluationCreator('A7', "1_-1_'No'_34_6", 60);
+        $evaluation= $this->invokeEvaluationCreator('A7', "1_-1_No_34_6", 60);
 
         self::assertEquals(60, $evaluation->score()->value());
         self::assertEquals(50, $evaluation->percentageInvertedTime()->value());
@@ -84,35 +84,35 @@ final class EvaluationCreatorTest extends EvaluationRepositoryMockUnitTestCase
     }
 
     /**
-     * @param string $activityName
+     * @param string $activityId
      * @param string $answer
      * @param int $invertedTime
      * @return Evaluation
      * @throws SymfonyException
      */
-    private function invokeEvaluationCreator(string $activityName, string $answer, int $invertedTime): Evaluation
+    private function invokeEvaluationCreator(string $activityId, string $answer, int $invertedTime): Evaluation
     {
-        $this->mockRepositories(ActivityNameMother::create($activityName));
+        $this->mockRepositories(ActivityIdMother::create($activityId));
 
         return $this->evaluationCreator->__invoke(
             $this->studentRepositoryMock->getStudentUuid(),
             $this->itineraryRepositoryMock->getItineraryUuid(),
-            ActivityNameMother::create($activityName),
+            ActivityIdMother::create($activityId),
             EvaluationAnswerMother::create($answer),
             EvaluationInvertedTimeMother::create($invertedTime)
         );
     }
 
     /**
-     * @param ActivityName $activityName
+     * @param ActivityId $activityId
      */
-    private function mockRepositories(ActivityName $activityName): void
+    private function mockRepositories(ActivityId $activityId): void
     {
-        $activity = ActivityMother::fromRequest($activityName);
+        $activity = ActivityMother::fromRequest($activityId);
 
         $this->studentRepositoryMock->shouldSearch($this->studentRepositoryMock->getStudentUuid());
         $this->itineraryRepositoryMock->shouldSearch($this->itineraryRepositoryMock->getItineraryUuid());
-        $this->activityRepository->shouldSearch($activity->name(), $activity);
+        $this->activityRepository->shouldSearch($activityId, $activity);
 
         $this->skipSave();
     }

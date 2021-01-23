@@ -6,7 +6,6 @@ namespace Academy\Student\Domain;
 
 use Academy\Activity\Domain\ActivityId;
 use Academy\Activity\Domain\ActivityLevel;
-use Academy\Activity\Domain\ActivityName;
 use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\ActivityItinerary\Domain\ActivityItineraryRepository;
 use Academy\Evaluation\Domain\EvaluationRepository;
@@ -59,7 +58,7 @@ final class StudentNextActivity
             $this->evaluationRepository->getLastStudentEvaluation($studentUuid, $itineraryUuid)
         );
 
-        if ($nextActivityId->value() === '') {
+        if (is_null($nextActivityId)) {
             return [];
         }
 
@@ -70,7 +69,7 @@ final class StudentNextActivity
         ];
     }
 
-    private function calculateNextActivity(ItineraryUuid $itineraryUuid, ?array $lastEvaluation): ActivityId
+    private function calculateNextActivity(ItineraryUuid $itineraryUuid, ?array $lastEvaluation): ?ActivityId
     {
         if (is_null($lastEvaluation)) {
             return $this->obtainActivityIfNullEvaluation($itineraryUuid);
@@ -110,10 +109,10 @@ final class StudentNextActivity
             $lastEvaluation['position.value']++;
         }
 
-        return new ActivityId($this->activityItineraryRepository->getActivityItineraryByCriteria(
+        return $this->activityItineraryRepository->getActivityItineraryByCriteria(
             $lastEvaluation['itineraryUuid'],
             new ActivityItineraryPosition($lastEvaluation['position.value'])
-        )['activityId']->value() ?? '');
+        )['activityId'] ?? null;
     }
 
     private function isPreviousActivityLessLevel(array $lastEvaluation): bool
@@ -129,12 +128,8 @@ final class StudentNextActivity
         return $previousActivity['level.value'] < $lastEvaluation['level.value'];
     }
 
-    private function obtainActivityIfNullEvaluation(ItineraryUuid $itineraryUuid): ActivityId
+    private function obtainActivityIfNullEvaluation(ItineraryUuid $itineraryUuid): ?ActivityId
     {
-        return new ActivityId(
-                $this->activityItineraryRepository->searchActivitiesByItineraryUuid(
-                    $itineraryUuid
-                )[0]['activityId']->value() ?? ''
-        );
+        return $this->activityItineraryRepository->searchActivitiesByItineraryUuid($itineraryUuid)[0]['activityId'] ?? null;
     }
 }

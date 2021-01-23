@@ -74,12 +74,12 @@ final class EvaluateActivityCommandHandlerTest extends EvaluationRepositoryMockU
         $command = EvaluateActivityCommandMother::create(
             $this->studentRepositoryMock->getStudentUuid(),
             $this->itineraryRepositoryMock->getItineraryUuid(),
-            $this->activityRepository->getActivityName(),
+            $this->activityRepository->getActivityId(),
             EvaluationAnswerMother::create(self::RIGHT_ANSWER_ACTIVITY_A1),
             EvaluationInvertedTimeMother::create(self::TIME_TO_ANSWER_ACTIVITY_A1)
         );
 
-        $activity = ActivityMother::fromRequest($this->activityRepository->getActivityName());
+        $activity = ActivityMother::fromRequest($this->activityRepository->getActivityId());
 
         $evaluation = EvaluationMother::fromRequest(
             $command,
@@ -89,7 +89,7 @@ final class EvaluateActivityCommandHandlerTest extends EvaluationRepositoryMockU
 
         $this->studentRepositoryMock->shouldSearch($this->studentRepositoryMock->getStudentUuid());
         $this->itineraryRepositoryMock->shouldSearch($this->itineraryRepositoryMock->getItineraryUuid());
-        $this->activityRepository->shouldSearch($activity->name(), $activity);
+        $this->activityRepository->shouldSearch($activity->id(), $activity);
 
         $this->shouldSave($evaluation);
 

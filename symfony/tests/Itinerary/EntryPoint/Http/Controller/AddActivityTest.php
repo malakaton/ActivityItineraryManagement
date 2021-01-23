@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Academy\Tests\Itinerary\EntryPoint\Http\Controller;
 
 use Academy\ActivityItinerary\Domain\ActivityItinerary;
-use Academy\Tests\Activity\Domain\ActivityNameMother;
 use Academy\Tests\Activity\Domain\ActivityIdMother;
 use Academy\Tests\Itinerary\Domain\ItineraryUuidMother;
 use Academy\Tests\Shared\EntryPoint\EntryPointTestCase;
@@ -13,8 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class AddActivityTest extends EntryPointTestCase
 {
-    private const ACTIVITY_NAME_STUB = 'A99';
-
     public function setUp(): void
     {
         parent::setUp();
@@ -41,7 +38,7 @@ final class AddActivityTest extends EntryPointTestCase
     {
         $this->client->request(
             'POST',
-            "/api/itineraries/".ItineraryUuidMother::stub_uuid."/activity?name=A100",
+            "/api/itineraries/".ItineraryUuidMother::stub_uuid."/activity?id=A100",
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
@@ -60,7 +57,7 @@ final class AddActivityTest extends EntryPointTestCase
     {
         $this->client->request(
             'POST',
-            "/api/itineraries/".ItineraryUuidMother::stub_uuid."/activity?name=" . ActivityNameMother::FAKE_ACTIVITY_NAME_STUB,
+            "/api/itineraries/".ItineraryUuidMother::stub_uuid."/activity?id=" . ActivityIdMother::FAKE_ACTIVITY_UUID_STUB,
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
