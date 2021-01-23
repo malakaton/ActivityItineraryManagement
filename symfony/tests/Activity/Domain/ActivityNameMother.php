@@ -10,6 +10,7 @@ use Academy\Tests\Shared\Domain\StringMother;
 final class ActivityNameMother
 {
     public const stub_name = 'A1';
+    public const FAKE_ACTIVITY_NAME_STUB = 'A99';
 
     public static function create(string $value): ActivityName
     {

@@ -11,6 +11,7 @@ use Academy\Tests\Shared\Domain\UuidMother;
 final class ActivityUuidMother
 {
     public const stub_uuid = '70f066f6-1cb7-4c45-97e2-287f0258ba02';
+    public const FAKE_ACTIVITY_UUID_STUB = '70f066f6-1cb7-4c45-97e2-287f0258ba17';
 
     public static function create(string $value): ActivityUuid
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Tests\Student\Domain;
 
+use Academy\ActivityItinerary\Domain\ActivityItinerary;
 use Academy\ActivityItinerary\Infrastructure\Persistence\ActivityItineraryRepositoryMysql;
 use Academy\Evaluation\Domain\Evaluation;
 use Academy\Evaluation\Domain\EvaluationRepository;
@@ -155,7 +156,7 @@ final class StudentNextActivityTest extends DoctrineInfrastructureTestCase
             'score' => 100,
             'percentage_inverted_time' => 59,
             'next_activity_name' => ''
-        ],
+        ]
     ];
 
     protected function setUp(): void
@@ -180,6 +181,14 @@ final class StudentNextActivityTest extends DoctrineInfrastructureTestCase
         );
 
         $this->truncateEntity(Evaluation::class);
+
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->delete(ActivityItinerary::class, 'ai')
+            ->where('ai.activityUuid = (:uuid)')
+            ->setParameter('uuid', ActivityUuidMother::FAKE_ACTIVITY_UUID_STUB)
+            ->getQuery()
+            ->execute();
     }
 
     /**
