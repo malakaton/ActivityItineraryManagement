@@ -45,24 +45,6 @@ abstract class ItineraryRepositoryMockUnitTestCase extends UnitTestCase
             ->andReturn(ItineraryMother::fromRequest($uuid));
     }
 
-    protected function shouldGetLastEvaluation(
-        StudentUuid $studentUuid,
-        ItineraryUuid $itineraryUuid,
-        Evaluation $evaluation
-    ): void {
-        $this->MockRepository()
-            ->shouldReceive('getEvaluationByStudentItineraryUuid')
-            ->with(\Mockery::on(function($argument) use ($studentUuid, $itineraryUuid) {
-                $this->assertInstanceOf(StudentUuid::class, $argument);
-                $this->assertSame($this->randomEvaluationUuid->value(), $argument->value());
-                $this->assertEquals($argument->value(), $studentUuid->value());
-
-                return true;
-            }))
-            ->once()
-            ->andReturn($evaluation);
-    }
-
     /** @return ItineraryRepository|MockInterface */
     protected function MockRepository(): MockInterface
     {
