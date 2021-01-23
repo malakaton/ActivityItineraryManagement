@@ -46,7 +46,7 @@ activityitinerarymanagement_nginx_1           nginx -g daemon off;              
 
 When you executed the command docker/up, a database seeder was executed and create all the schema and tables to work with the app
 
-This is the follow MyySQL tables involved:
+This is the MySQL tables involved:
 ```bash
     Name                                   Info                 
 ----------------------------------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ Put correct content-type header: application/json
 }
 ```
 
-Also, you can see a link to show a report of the code coverage done by php unit.
+Also, you can see a report of the code coverage done by php unit.
 
 To run test and reports for see code coverage.
 
