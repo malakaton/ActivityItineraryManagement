@@ -94,11 +94,67 @@ final class StudentNextActivityTest extends DoctrineInfrastructureTestCase
         ],
         [
             'activity_name' => 'A7',
-            'answer' => '7_-9_\'No\'_24_-9',
+            'answer' => "7_-9_No_24_-9",
             'inverted_time' => 120,
             'score' => 0,
             'percentage_inverted_time' => 100,
             'next_activity_name' => 'A6'
+        ],
+        [
+            'activity_name' => 'A6',
+            'answer' => "1_0_2",
+            'inverted_time' => 20,
+            'score' => 100,
+            'percentage_inverted_time' => 17,
+            'next_activity_name' => 'A7'
+        ],
+        [
+            'activity_name' => 'A7',
+            'answer' => "1_0_2",
+            'inverted_time' => 20,
+            'score' => 100,
+            'percentage_inverted_time' => 17,
+            'next_activity_name' => 'A9'
+        ],
+        [
+            'activity_name' => 'A9',
+            'answer' => "1_0_2",
+            'inverted_time' => 20,
+            'score' => 100,
+            'percentage_inverted_time' => 17,
+            'next_activity_name' => 'A10'
+        ],
+        [
+            'activity_name' => 'A10',
+            'answer' => "1_0_2",
+            'inverted_time' => 70,
+            'score' => 100,
+            'percentage_inverted_time' => 59,
+            'next_activity_name' => 'A11'
+        ],
+        [
+            'activity_name' => 'A12',
+            'answer' => "1_0_2",
+            'inverted_time' => 70,
+            'score' => 100,
+            'percentage_inverted_time' => 59,
+            'next_activity_name' => 'A13'
+        ],
+        [
+            'activity_name' => 'A13',
+            'answer' => "3_4_1",
+            'inverted_time' => 120,
+            'score' => 0,
+            'percentage_inverted_time' => 100,
+            'next_activity_name' => 'A13'
+        ],
+        [
+            'activity_name' => 'A13',
+            'answer' => "1_0_2",
+            'inverted_time' => 70,
+            'score' => 100,
+            'percentage_inverted_time' => 59,
+            'next_activity_name' => ''
         ],
     ];
 

@@ -3800,3 +3800,7 @@
 [2021-01-23T13:37:05.533473+01:00] app.CRITICAL: Exception occurred: No route found for "GET /favicon.ico" (from "http://symfony.localhost/api/doc") [] []
 [2021-01-23T13:46:24.354318+01:00] request.INFO: Matched route "app.swagger_ui". {"route":"app.swagger_ui","route_parameters":{"_route":"app.swagger_ui","_controller":"nelmio_api_doc.controller.swagger_ui"},"request_uri":"http://symfony.localhost/api/doc","method":"GET"} []
 [2021-01-23T13:46:24.743622+01:00] app.CRITICAL: Exception occurred: No route found for "GET /favicon.ico" (from "http://symfony.localhost/api/doc") [] []
+[2021-01-23T13:50:35.791669+01:00] request.INFO: Matched route "app.swagger_ui". {"route":"app.swagger_ui","route_parameters":{"_route":"app.swagger_ui","_controller":"nelmio_api_doc.controller.swagger_ui"},"request_uri":"http://symfony.localhost/api/doc","method":"GET"} []
+[2021-01-23T13:50:36.312173+01:00] app.CRITICAL: Exception occurred: No route found for "GET /favicon.ico" (from "http://symfony.localhost/api/doc") [] []
+[2021-01-23T13:50:36.741539+01:00] request.INFO: Matched route "app.swagger_ui". {"route":"app.swagger_ui","route_parameters":{"_route":"app.swagger_ui","_controller":"nelmio_api_doc.controller.swagger_ui"},"request_uri":"http://symfony.localhost/api/doc","method":"GET"} []
+[2021-01-23T13:50:37.004292+01:00] app.CRITICAL: Exception occurred: No route found for "GET /favicon.ico" (from "http://symfony.localhost/api/doc") [] []
