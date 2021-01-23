@@ -6,6 +6,8 @@ namespace Academy\Tests\Student\Application\EvaluateActivity;
 
 use Academy\Activity\Domain\ActivityGuard;
 use Academy\Evaluation\Domain\EvaluationCreator;
+use Academy\Evaluation\Domain\Service\EvaluationCalculateScorePercentageInvertedTime;
+use Academy\Evaluation\Domain\Service\EvaluationCalculateScoreScore;
 use Academy\Itinerary\Domain\ItineraryGuard;
 use Academy\Student\Application\EvaluateActivity\EvaluateHandler;
 use Academy\Student\Domain\StudentGuard;
@@ -56,8 +58,9 @@ final class EvaluateActivityCommandHandlerTest extends EvaluationRepositoryMockU
                     $this->activityRepository->getMockRepository(),
                     new Logger(UnitTestCase::LOGGER_TEST_NAME)
                 ),
-                $this->activityRepository->getMockRepository(),
                 $this->MockRepository(),
+                new EvaluationCalculateScoreScore(),
+                new EvaluationCalculateScorePercentageInvertedTime(),
                 new Logger(UnitTestCase::LOGGER_TEST_NAME)
             )
         );

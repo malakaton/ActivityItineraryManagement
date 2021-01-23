@@ -7,6 +7,8 @@ namespace Academy\Tests\Evaluation\Domain;
 use Academy\Activity\Domain\ActivityGuard;
 use Academy\Activity\Domain\ActivityName;
 use Academy\Evaluation\Domain\EvaluationCreator;
+use Academy\Evaluation\Domain\Service\EvaluationCalculateScorePercentageInvertedTime;
+use Academy\Evaluation\Domain\Service\EvaluationCalculateScoreScore;
 use Academy\Itinerary\Domain\ItineraryGuard;
 use Academy\Shared\Infrastructure\Symfony\Exception\SymfonyException;
 use Academy\Student\Domain\StudentGuard;
@@ -46,8 +48,9 @@ final class EvaluationCreatorTest extends EvaluationRepositoryMockUnitTestCase
                     $this->activityRepository->getMockRepository(),
                     new Logger(UnitTestCase::LOGGER_TEST_NAME)
                 ),
-                $this->activityRepository->getMockRepository(),
                 $this->MockRepository(),
+                new EvaluationCalculateScoreScore(),
+                new EvaluationCalculateScorePercentageInvertedTime(),
                 new Logger(UnitTestCase::LOGGER_TEST_NAME)
         );
     }
@@ -83,7 +86,7 @@ final class EvaluationCreatorTest extends EvaluationRepositoryMockUnitTestCase
      * @param string $activityName
      * @param string $answer
      * @param int $invertedTime
-     * @throws SymfonyException
+     * @throws \Exception
      */
     private function invokeEvaluationCreator(string $activityName, string $answer, int $invertedTime): void
     {
