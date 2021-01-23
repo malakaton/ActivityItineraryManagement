@@ -32,4 +32,14 @@ abstract class DoctrineInfrastructureTestCase extends KernelTestCase
         $this->entityManager->close();
         $this->entityManager = null;
     }
+
+
+    protected function truncateEntity($className): void
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->delete($className, 'e')
+            ->getQuery()
+            ->execute();
+    }
 }
