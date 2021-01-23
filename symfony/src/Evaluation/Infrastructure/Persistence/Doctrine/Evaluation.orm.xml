@@ -9,7 +9,7 @@
 
         <field name="itineraryUuid" type="itinerary_uuid" column="itinerary_uuid" />
 
-        <field name="activityUuid" type="activity_uuid" column="activity_uuid" />
+        <field name="activityId" type="activity_id" column="activity_id" />
 
         <field name="studentUuid" type="student_uuid" column="student_uuid" />
 

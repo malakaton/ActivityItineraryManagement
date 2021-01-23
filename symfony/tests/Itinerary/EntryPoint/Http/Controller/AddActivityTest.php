@@ -6,7 +6,7 @@ namespace Academy\Tests\Itinerary\EntryPoint\Http\Controller;
 
 use Academy\ActivityItinerary\Domain\ActivityItinerary;
 use Academy\Tests\Activity\Domain\ActivityNameMother;
-use Academy\Tests\Activity\Domain\ActivityUuidMother;
+use Academy\Tests\Activity\Domain\ActivityIdMother;
 use Academy\Tests\Itinerary\Domain\ItineraryUuidMother;
 use Academy\Tests\Shared\EntryPoint\EntryPointTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,8 +28,8 @@ final class AddActivityTest extends EntryPointTestCase
         $qb = $entityManager->createQueryBuilder();
 
         $qb->delete(ActivityItinerary::class, 'ai')
-            ->where('ai.activityUuid = (:uuid)')
-            ->setParameter('uuid', ActivityUuidMother::FAKE_ACTIVITY_UUID_STUB)
+            ->where('ai.activityId = (:id)')
+            ->setParameter('id', ActivityIdMother::FAKE_ACTIVITY_UUID_STUB)
             ->getQuery()
             ->execute();
     }

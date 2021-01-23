@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Academy\Activity\Infrastructure\Persistence;
 
 use Academy\Activity\Domain\Activity;
-use Academy\Activity\Domain\ActivityName;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Activity\Domain\ActivityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
@@ -20,11 +20,11 @@ final class ActivityRepositoryMysql implements ActivityRepository
     }
 
     /**
-     * @param ActivityName $activityName
+     * @param ActivityId $activityId
      * @return Activity|null
      */
-    public function searchByName(ActivityName $activityName): ?Activity
+    public function search(ActivityId $activityId): ?Activity
     {
-        return $this->repository->findOneBy(['name.value' => $activityName->value()]);
+        return $this->repository->find($activityId);
     }
 }

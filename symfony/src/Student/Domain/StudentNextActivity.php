@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Student\Domain;
 
+use Academy\Activity\Domain\ActivityId;
 use Academy\Activity\Domain\ActivityLevel;
 use Academy\Activity\Domain\ActivityName;
 use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
@@ -53,23 +54,23 @@ final class StudentNextActivity
         $this->studentGuard->guard($studentUuid);
         $this->itineraryGuard->guard($itineraryUuid);
 
-        $nextActivityName = $this->calculateNextActivity(
+        $nextActivityId = $this->calculateNextActivity(
             $itineraryUuid,
             $this->evaluationRepository->getLastStudentEvaluation($studentUuid, $itineraryUuid)
         );
 
-        if ($nextActivityName->value() === '') {
+        if ($nextActivityId->value() === '') {
             return [];
         }
 
-        $this->logger->info("The next activity for the student uuid {$studentUuid->value()} is the activity name {$nextActivityName->value()}");
+        $this->logger->info("The next activity for the student uuid {$studentUuid->value()} is the activity id {$nextActivityId->value()}");
 
         return [
-            'activity_name' => $nextActivityName->value()
+            'activity_id' => $nextActivityId->value()
         ];
     }
 
-    private function calculateNextActivity(ItineraryUuid $itineraryUuid, ?array $lastEvaluation): ActivityName
+    private function calculateNextActivity(ItineraryUuid $itineraryUuid, ?array $lastEvaluation): ActivityId
     {
         if (is_null($lastEvaluation)) {
             return $this->obtainActivityIfNullEvaluation($itineraryUuid);
@@ -109,10 +110,10 @@ final class StudentNextActivity
             $lastEvaluation['position.value']++;
         }
 
-        return new ActivityName($this->activityItineraryRepository->getActivityItineraryByCriteria(
+        return new ActivityId($this->activityItineraryRepository->getActivityItineraryByCriteria(
             $lastEvaluation['itineraryUuid'],
             new ActivityItineraryPosition($lastEvaluation['position.value'])
-        )['name.value'] ?? '');
+        )['activityId']->value() ?? '');
     }
 
     private function isPreviousActivityLessLevel(array $lastEvaluation): bool
@@ -128,12 +129,12 @@ final class StudentNextActivity
         return $previousActivity['level.value'] < $lastEvaluation['level.value'];
     }
 
-    private function obtainActivityIfNullEvaluation(ItineraryUuid $itineraryUuid): ActivityName
+    private function obtainActivityIfNullEvaluation(ItineraryUuid $itineraryUuid): ActivityId
     {
-        return new ActivityName(
+        return new ActivityId(
                 $this->activityItineraryRepository->searchActivitiesByItineraryUuid(
                     $itineraryUuid
-                )[0]['name.value'] ?? ''
+                )[0]['activityId']->value() ?? ''
         );
     }
 }

@@ -10,21 +10,21 @@ final class EvaluateActivityCommand implements Command
 {
     private string $studentUuid;
     private string $itineraryUuid;
-    private string $activityName;
+    private string $activityId;
     private string $answer;
     private int $invertedTime;
 
     public function __construct(
         string $studentUuid,
         string $itineraryUuid,
-        string $activityName,
+        string $activityId,
         string $answer,
         int $invertedTime
     )
     {
         $this->studentUuid = $studentUuid;
         $this->itineraryUuid = $itineraryUuid;
-        $this->activityName = $activityName;
+        $this->activityId = $activityId;
         $this->answer = $answer;
         $this->invertedTime = $invertedTime;
     }
@@ -39,9 +39,9 @@ final class EvaluateActivityCommand implements Command
         return $this->itineraryUuid;
     }
 
-    public function activityName(): string
+    public function activityId(): string
     {
-        return $this->activityName;
+        return $this->activityId;
     }
 
     public function answer(): string

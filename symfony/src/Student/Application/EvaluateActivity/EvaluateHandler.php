@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Student\Application\EvaluateActivity;
 
-use Academy\Activity\Domain\ActivityName;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Evaluation\Domain\Evaluation;
 use Academy\Evaluation\Domain\EvaluationAnswer;
 use Academy\Evaluation\Domain\EvaluationCreator;
@@ -32,10 +32,10 @@ final class EvaluateHandler implements MessageHandlerInterface
     {
         $studentUuid = new StudentUuid($command->studentUuid());
         $itineraryUuid = new ItineraryUuid($command->itineraryUuid());
-        $activityName = new ActivityName($command->activityName());
+        $activityId = new ActivityId($command->activityId());
         $answer = new EvaluationAnswer($command->answer());
         $invertedTime = new EvaluationInvertedTime($command->invertedTime());
 
-        return $this->evaluationCreator->__invoke($studentUuid, $itineraryUuid, $activityName, $answer, $invertedTime);
+        return $this->evaluationCreator->__invoke($studentUuid, $itineraryUuid, $activityId, $answer, $invertedTime);
     }
 }

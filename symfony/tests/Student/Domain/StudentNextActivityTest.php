@@ -13,7 +13,7 @@ use Academy\Itinerary\Domain\ItineraryGuard;
 use Academy\Student\Domain\StudentGuard;
 use Academy\Student\Domain\StudentNextActivity;
 use Academy\Tests\Activity\Domain\ActivityNameMother;
-use Academy\Tests\Activity\Domain\ActivityUuidMother;
+use Academy\Tests\Activity\Domain\ActivityIdMother;
 use Academy\Tests\Evaluation\Domain\EvaluationAnswerMother;
 use Academy\Tests\Evaluation\Domain\EvaluationCreateDateMother;
 use Academy\Tests\Evaluation\Domain\EvaluationInvertedTimeMother;
@@ -185,8 +185,8 @@ final class StudentNextActivityTest extends DoctrineInfrastructureTestCase
         $qb = $this->entityManager->createQueryBuilder();
 
         $qb->delete(ActivityItinerary::class, 'ai')
-            ->where('ai.activityUuid = (:uuid)')
-            ->setParameter('uuid', ActivityUuidMother::FAKE_ACTIVITY_UUID_STUB)
+            ->where('ai.activityId = (:id)')
+            ->setParameter('id', ActivityIdMother::FAKE_ACTIVITY_UUID_STUB)
             ->getQuery()
             ->execute();
     }
@@ -206,7 +206,7 @@ final class StudentNextActivityTest extends DoctrineInfrastructureTestCase
                 EvaluationMother::create(
                     EvaluationUuidMother::random(),
                     ItineraryUuidMother::create(ItineraryUuidMother::stub_uuid),
-                    ActivityUuidMother::getByActivityName(
+                    ActivityIdMother::getByActivityName(
                         ActivityNameMother::create($sequenceNextActivity['activity_name'])
                     ),
                     StudentUuidMother::create(StudentUuidMother::stub_uuid),

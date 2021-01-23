@@ -8,30 +8,30 @@ final class Activity
 {
     public const SEPARATOR_FOR_SOLUTION = '_';
 
-    private ActivityUuid $uuid;
+    private ActivityId $id;
     private ActivityName $name;
     private ActivityLevel $level;
     private ActivityTime $time;
     private ActivitySolution $solution;
 
     public function __construct(
-        ActivityUuid $uuid,
+        ActivityId $id,
         ActivityName $name,
         ActivityLevel $level,
         ActivityTime $time,
         ActivitySolution $solution
     )
     {
-        $this->uuid = $uuid;
+        $this->id = $id;
         $this->name = $name;
         $this->level = $level;
         $this->time = $time;
         $this->solution = $solution;
     }
 
-    public function uuid(): ActivityUuid
+    public function id(): ActivityId
     {
-        return $this->uuid;
+        return $this->id;
     }
 
 

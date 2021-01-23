@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Tests\Evaluation\Domain;
 
-use Academy\Activity\Domain\ActivityUuid;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Evaluation\Domain\Evaluation;
 use Academy\Evaluation\Domain\EvaluationAnswer;
 use Academy\Evaluation\Domain\EvaluationCreateDate;
@@ -15,7 +15,7 @@ use Academy\Evaluation\Domain\EvaluationUuid;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Academy\Student\Application\EvaluateActivity\EvaluateActivityCommand;
 use Academy\Student\Domain\StudentUuid;
-use Academy\Tests\Activity\Domain\ActivityUuidMother;
+use Academy\Tests\Activity\Domain\ActivityIdMother;
 use Academy\Tests\Itinerary\Domain\ItineraryUuidMother;
 use Academy\Tests\Student\Domain\StudentUuidMother;
 
@@ -24,7 +24,7 @@ final class EvaluationMother
     public static function create(
         EvaluationUuid $evaluationUuid,
         ItineraryUuid $itineraryUuid,
-        ActivityUuid $activityUuid,
+        ActivityId $activityId,
         StudentUuid $studentUuid,
         EvaluationCreateDate $createDate,
         EvaluationAnswer $answer,
@@ -36,7 +36,7 @@ final class EvaluationMother
         return new Evaluation(
             $evaluationUuid,
             $itineraryUuid,
-            $activityUuid,
+            $activityId,
             $studentUuid,
             $createDate,
             $answer,
@@ -55,7 +55,7 @@ final class EvaluationMother
         return self::create(
             EvaluationUuidMother::random(),
             ItineraryUuidMother::create($request->itineraryUuid()),
-            ActivityUuidMother::create(ActivityUuidMother::stub_uuid),
+            ActivityIdMother::create(ActivityIdMother::stub_uuid),
             StudentUuidMother::create($request->studentUuid()),
             EvaluationCreateDateMother::random(),
             EvaluationAnswerMother::create($request->answer()),
@@ -70,7 +70,7 @@ final class EvaluationMother
         return self::create(
             EvaluationUuidMother::random(),
             ItineraryUuidMother::create(ItineraryUuidMother::stub_uuid),
-            ActivityUuidMother::create(ActivityUuidMother::stub_uuid),
+            ActivityIdMother::create(ActivityIdMother::stub_uuid),
             StudentUuidMother::create(StudentUuidMother::stub_uuid),
             EvaluationCreateDateMother::random(),
             EvaluationAnswerMother::random(),

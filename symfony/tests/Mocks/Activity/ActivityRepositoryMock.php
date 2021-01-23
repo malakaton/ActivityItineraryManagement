@@ -6,7 +6,7 @@ namespace Academy\Tests\Mocks\Activity;
 
 use Academy\Activity\Domain\Activity;
 use Academy\Activity\Domain\ActivityName;
-use Academy\Activity\Domain\ActivityUuid;
+use Academy\Activity\Domain\ActivityId;
 
 final class ActivityRepositoryMock extends ActivityRepositoryMockUnitTestCase
 {
@@ -17,9 +17,9 @@ final class ActivityRepositoryMock extends ActivityRepositoryMockUnitTestCase
         return $this->MockRepository();
     }
 
-    public function getActivityUuid(): ActivityUuid
+    public function getActivityId(): ActivityId
     {
-        return $this->existingActivityUuid;
+        return $this->existingActivityId;
     }
 
     public function getActivityName(): ActivityName

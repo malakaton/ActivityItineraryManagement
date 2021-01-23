@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Tests\Activity\Domain;
 
-use Academy\Activity\Domain\ActivityName;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Activity\Domain\ActivitySolution;
 use Academy\Tests\Shared\Domain\StringMother;
 
@@ -20,7 +20,7 @@ final class ActivitySolutionMother
         return self::create(StringMother::random());
     }
 
-    public static function getByActivityName(ActivityName $name): ActivitySolution
+    public static function getByActivityId(ActivityId $id): ActivitySolution
     {
         $solutions = [
             'A1' => '{"0":1, "1":0, "2":2}',
@@ -40,6 +40,6 @@ final class ActivitySolutionMother
             'A15' =>'{"0":1, "1":0, "2":2}'
         ];
 
-        return self::create($solutions[$name->value()]);
+        return self::create($solutions[$id->value()]);
     }
 }

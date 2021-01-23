@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Academy\Evaluation\Domain\Service;
 
 use Academy\Activity\Domain\Activity;
+use Academy\Activity\Domain\ActivitySolution;
 use Academy\Evaluation\Domain\EvaluationAnswer;
 use Academy\Evaluation\Domain\EvaluationCalculateScoreService;
 
@@ -12,14 +13,14 @@ final class EvaluationCalculateScoreScore implements EvaluationCalculateScoreSer
 {
     /**
      * @param EvaluationAnswer $answer
-     * @param Activity $activity
+     * @param ActivitySolution $activitySolution
      * @return int
      * @throws \JsonException
      */
-    public function calculate(EvaluationAnswer $answer, Activity $activity): int
+    public function calculate(EvaluationAnswer $answer, ActivitySolution $activitySolution): int
     {
         $solutionToArray = json_decode(
-            $activity->solution()->value(),
+            $activitySolution->value(),
             true,
             512,
             JSON_THROW_ON_ERROR

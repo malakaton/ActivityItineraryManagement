@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Academy\Tests\Activity\Domain;
 
+use Academy\Activity\Domain\ActivityId;
 use Academy\Activity\Domain\ActivityLevel;
-use Academy\Activity\Domain\ActivityName;
 use Academy\Tests\Shared\Domain\IntMother;
 
 final class ActivityLevelMother
@@ -20,7 +20,7 @@ final class ActivityLevelMother
         return self::create(IntMother::random());
     }
 
-    public static function getByActivityName(ActivityName $name): ActivityLevel
+    public static function getByActivityId(ActivityId $id): ActivityLevel
     {
         $level = [
             'A1' => 1,
@@ -40,6 +40,6 @@ final class ActivityLevelMother
             'A15' => 10
         ];
 
-        return self::create($level[$name->value()]);
+        return self::create($level[$id->value()]);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Tests\Mocks\Evaluation;
 
-use Academy\Activity\Domain\ActivityUuid;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Evaluation\Domain\Evaluation;
 use Academy\Evaluation\Domain\EvaluationAnswer;
 use Academy\Evaluation\Domain\EvaluationCreateDate;
@@ -46,7 +46,7 @@ abstract class EvaluationRepositoryMockUnitTestCase extends UnitTestCase
                 $this->assertInstanceOf(Evaluation::class, $argument);
                 $this->assertInstanceOf(EvaluationUuid::class, $argument->uuid());
                 $this->assertInstanceOf(ItineraryUuid::class, $argument->itineraryUuid());
-                $this->assertInstanceOf(ActivityUuid::class, $argument->activityUuid());
+                $this->assertInstanceOf(ActivityId::class, $argument->activityId());
                 $this->assertInstanceOf(StudentUuid::class, $argument->studentUuid());
                 $this->assertInstanceOf(EvaluationCreateDate::class, $argument->createDate());
                 $this->assertInstanceOf(EvaluationAnswer::class, $argument->answer());

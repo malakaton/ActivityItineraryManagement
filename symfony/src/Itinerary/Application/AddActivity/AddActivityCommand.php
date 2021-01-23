@@ -9,12 +9,12 @@ use Academy\Shared\Domain\Command;
 final class AddActivityCommand implements Command
 {
     private string $itineraryUuid;
-    private string $activityName;
+    private string $activityId;
 
-    public function __construct(string $itineraryUuid, string $activityName)
+    public function __construct(string $itineraryUuid, string $activityId)
     {
         $this->itineraryUuid = $itineraryUuid;
-        $this->activityName = $activityName;
+        $this->activityId = $activityId;
     }
 
     public function itineraryUuid(): string
@@ -22,8 +22,8 @@ final class AddActivityCommand implements Command
         return $this->itineraryUuid;
     }
 
-    public function activityName(): string
+    public function activityId(): string
     {
-        return $this->activityName;
+        return $this->activityId;
     }
 }

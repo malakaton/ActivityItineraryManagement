@@ -4,7 +4,7 @@ doctrine:
 
     types:
       itinerary_uuid: Academy\Itinerary\Infrastructure\Persistence\Doctrine\ItineraryUuidType
-      activity_uuid: Academy\Activity\Infrastructure\Persistence\Doctrine\ActivityUuidType
+      activity_id: Academy\Activity\Infrastructure\Persistence\Doctrine\ActivityIdType
       activity_itinerary_uuid: Academy\ActivityItinerary\Infrastructure\Persistence\Doctrine\ActivityItineraryUuidType
       student_uuid: Academy\Student\Infrastructure\Persistence\Doctrine\StudentUuidType
       evaluation_uuid: Academy\Evaluation\Infrastructure\Persistence\Doctrine\EvaluationUuidType

@@ -44,8 +44,7 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
     public function getEvaluationByStudentItineraryUuid(StudentUuid $studentUuid, ItineraryUuid $itineraryUuid): array
     {
         return $this->repository->createQueryBuilder("e")
-            ->select('e.activityUuid, e.itineraryUuid, e.createDate.value, e.studentUuid, a.name.value, e.createDate.value, e.answer.value, e.invertedTime.value, e.score.value, e.percentageInvertedTime.value')
-            ->leftJoin(Activity::class, 'a', 'WITH', 'a.uuid=e.activityUuid')
+            ->select('e.activityId, e.itineraryUuid, e.createDate.value, e.studentUuid, e.createDate.value, e.answer.value, e.invertedTime.value, e.score.value, e.percentageInvertedTime.value')
             ->where('e.studentUuid = (:studentUuid)')
             ->andWhere('e.itineraryUuid = (:itineraryUuid)')
             ->setParameter('studentUuid', $studentUuid)
@@ -65,9 +64,9 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
         ItineraryUuid $itineraryUuid
     ): ?array {
         return $this->repository->createQueryBuilder("e")
-            ->select('e.activityUuid, e.itineraryUuid, e.createDate.value, e.studentUuid, a.name.value, a.level.value, ai.position.value, e.score.value, e.percentageInvertedTime.value')
-            ->innerJoin(ActivityItinerary::class, 'ai', 'WITH', 'ai.activityUuid=e.activityUuid AND ai.itineraryUuid=e.itineraryUuid')
-            ->innerJoin(Activity::class, 'a', 'WITH', 'a.uuid=e.activityUuid')
+            ->select('e.activityId, e.itineraryUuid, e.createDate.value, e.studentUuid, a.level.value, ai.position.value, e.score.value, e.percentageInvertedTime.value')
+            ->innerJoin(ActivityItinerary::class, 'ai', 'WITH', 'ai.activityId=e.activityId AND ai.itineraryUuid=e.itineraryUuid')
+            ->innerJoin(Activity::class, 'a', 'WITH', 'a.id=e.activityId')
             ->where('e.studentUuid = (:studentUuid)')
             ->andWhere('e.itineraryUuid = (:itineraryUuid)')
             ->orderBy('e.createDate.value', 'DESC')
@@ -91,9 +90,9 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
     ) : ?array
     {
         return $this->repository->createQueryBuilder("e")
-            ->select('ai.activityUuid, ai.itineraryUuid, a.name.value, a.level.value, ai.position.value')
+            ->select('ai.activityId, ai.itineraryUuid, a.level.value, ai.position.value')
             ->innerJoin(ActivityItinerary::class, 'ai', 'WITH', 'ai.itineraryUuid=e.itineraryUuid')
-            ->innerJoin(Activity::class, 'a', 'WITH', 'a.uuid=ai.activityUuid')
+            ->innerJoin(Activity::class, 'a', 'WITH', 'a.id=ai.activityId')
             ->where('e.studentUuid = (:studentUuid)')
             ->andWhere('e.itineraryUuid = (:itineraryUuid)')
             ->andWhere('ai.position.value = (:position)')
@@ -119,9 +118,9 @@ final class EvaluationRepositoryMysql implements EvaluationRepository
     ) : ?array
     {
         return $this->repository->createQueryBuilder("e")
-            ->select('e.activityUuid, e.itineraryUuid, a.name.value, a.level.value, ai.position.value')
-            ->innerJoin(Activity::class, 'a', 'WITH', 'a.uuid=e.activityUuid')
-            ->innerJoin(ActivityItinerary::class, 'ai', 'WITH', 'ai.itineraryUuid=e.itineraryUuid AND ai.activityUuid = a.uuid')
+            ->select('e.activityId, e.itineraryUuid, a.level.value, ai.position.value')
+            ->innerJoin(Activity::class, 'a', 'WITH', 'a.id=e.activityId')
+            ->innerJoin(ActivityItinerary::class, 'ai', 'WITH', 'ai.itineraryUuid=e.itineraryUuid AND ai.activityId = a.id')
             ->where('e.studentUuid = (:studentUuid)')
             ->andWhere('e.itineraryUuid = (:itineraryUuid)')
             ->andWhere('a.level.value = (:level)')

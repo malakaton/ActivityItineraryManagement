@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Academy\Tests\Activity\Domain;
 
 use Academy\Activity\Domain\Activity;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Activity\Domain\ActivityLevel;
 use Academy\Activity\Domain\ActivityName;
 use Academy\Activity\Domain\ActivitySolution;
 use Academy\Activity\Domain\ActivityTime;
-use Academy\Activity\Domain\ActivityUuid;
 
 final class ActivityMother
 {
     public static function create(
-        ActivityUuid $uuid,
+        ActivityId $uuid,
         ActivityName $name,
         ActivityLevel $level,
         ActivityTime $time,
@@ -31,22 +31,22 @@ final class ActivityMother
     }
 
     public static function fromRequest(
-        ActivityName $activityName
+        ActivityId $activityId
     ): Activity
     {
         return self::create(
-            ActivityUuidMother::getByActivityName($activityName),
-            ActivityNameMother::create($activityName->value()),
-            ActivityLevelMother::getByActivityName($activityName),
-            ActivityTimeMother::getByActivityName($activityName),
-            ActivitySolutionMother::getByActivityName($activityName)
+            $activityId,
+            ActivityNameMother::random(),
+            ActivityLevelMother::getByActivityId($activityId),
+            ActivityTimeMother::getByActivityId($activityId),
+            ActivitySolutionMother::getByActivityId($activityId)
         );
     }
 
     public static function random(): Activity
     {
         return self::create(
-            ActivityUuidMother::random(),
+            ActivityIdMother::random(),
             ActivityNameMother::random(),
             ActivityLevelMother::random(),
             ActivityTimeMother::random(),

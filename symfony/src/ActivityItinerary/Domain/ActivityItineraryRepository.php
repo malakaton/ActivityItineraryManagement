@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Academy\ActivityItinerary\Domain;
 
 use Academy\Activity\Domain\ActivityLevel;
-use Academy\Activity\Domain\ActivityUuid;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Itinerary\Domain\ItineraryUuid;
 
 interface ActivityItineraryRepository
@@ -21,6 +21,6 @@ interface ActivityItineraryRepository
         ActivityLevel $activityLevel = null
     ): ?array;
     public function getNextPositionByItineraryUuid(ItineraryUuid $itineraryUuid): ActivityItineraryPosition;
-    public function isDuplicatedActivity(ItineraryUuid $itineraryUuid, ActivityUuid $activityUuid): bool;
+    public function isDuplicatedActivity(ItineraryUuid $itineraryUuid, ActivityId $activityId): bool;
     public function save(ActivityItinerary $activityItinerary): void;
 }

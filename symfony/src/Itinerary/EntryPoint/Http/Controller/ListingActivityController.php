@@ -44,13 +44,13 @@ final class ListingActivityController
      *                               property="activities",
      *                               type="array",
      *                               example = {{
-     *                                  "activity_name": "A1",
+     *                                  "activity_id": "A1",
      *                                  "order": "1",
      *                                  "level": "1",
      *                                  "time": "120",
      *                                  "solution": "1_0_2"
      *                              }, {
-     *                                  "activity_name": "A2",
+     *                                  "activity_id": "A2",
      *                                  "order": "2",
      *                                  "level": "1",
      *                                  "time": "90",
@@ -58,7 +58,7 @@ final class ListingActivityController
      *                          }},
      *                        @OA\Items(
      *                              @OA\Property(
-     *                                 property="activity_name",
+     *                                 property="activity_id",
      *                                 type="string",
      *                                 example="A1"
      *                              ),

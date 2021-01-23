@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Evaluation\Domain;
 
-use Academy\Activity\Domain\ActivityUuid;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Itinerary\Domain\ItineraryUuid;
 use Academy\Student\Domain\StudentUuid;
 
@@ -12,7 +12,7 @@ final class Evaluation
 {
     private EvaluationUuid $uuid;
     private ItineraryUuid $itineraryUuid;
-    private ActivityUuid $activityUuid;
+    private ActivityId $activityId;
     private StudentUuid $studentUuid;
     private EvaluationCreateDate $createDate;
     private EvaluationAnswer $answer;
@@ -23,7 +23,7 @@ final class Evaluation
     public function __construct(
         EvaluationUuid $uuid,
         ItineraryUuid $itineraryUuid,
-        ActivityUuid $activityUuid,
+        ActivityId $activityId,
         StudentUuid $studentUuid,
         EvaluationCreateDate $createDate,
         EvaluationAnswer $answer,
@@ -34,7 +34,7 @@ final class Evaluation
     {
         $this->uuid = $uuid;
         $this->itineraryUuid = $itineraryUuid;
-        $this->activityUuid = $activityUuid;
+        $this->activityId = $activityId;
         $this->studentUuid = $studentUuid;
         $this->createDate = $createDate;
         $this->answer = $answer;
@@ -45,7 +45,7 @@ final class Evaluation
 
     /**
      * @param ItineraryUuid $itineraryUuid
-     * @param ActivityUuid $activityUuid
+     * @param ActivityId $activityId
      * @param StudentUuid $studentUuid
      * @param EvaluationCreateDate $createDate
      * @param EvaluationAnswer $answer
@@ -56,7 +56,7 @@ final class Evaluation
      */
     public static function create(
         ItineraryUuid $itineraryUuid,
-        ActivityUuid $activityUuid,
+        ActivityId $activityId,
         StudentUuid $studentUuid,
         EvaluationCreateDate $createDate,
         EvaluationAnswer $answer,
@@ -68,7 +68,7 @@ final class Evaluation
         return new self(
             EvaluationUuid::random(),
             $itineraryUuid,
-            $activityUuid,
+            $activityId,
             $studentUuid,
             $createDate,
             $answer,
@@ -88,9 +88,9 @@ final class Evaluation
         return $this->itineraryUuid;
     }
 
-    public function activityUuid(): ActivityUuid
+    public function activityId(): ActivityId
     {
-        return $this->activityUuid;
+        return $this->activityId;
     }
 
     public function studentUuid(): StudentUuid

@@ -37,7 +37,7 @@ final class StudentGuard implements IStudentGuard
      */
     private function guardStudentUuid(StudentUuid $studentUuid): void
     {
-        if (!$pepe =$this->studentRepository->search($studentUuid)) {
+        if (!$this->studentRepository->search($studentUuid)) {
             $this->logger->alert("Student with uuid: {$studentUuid->value()} not found");
             throw new StudentNotFound($studentUuid->value());
         }

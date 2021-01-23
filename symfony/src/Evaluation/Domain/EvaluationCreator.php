@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Academy\Evaluation\Domain;
 
-use Academy\Activity\Domain\ActivityName;
+use Academy\Activity\Domain\ActivityId;
+use Academy\Activity\Domain\ActivityRepository;
 use Academy\Activity\Domain\IActivityGuard;
 use Academy\Itinerary\Domain\IItineraryGuard;
 use Academy\Itinerary\Domain\ItineraryUuid;
@@ -19,6 +20,7 @@ final class EvaluationCreator
     private IItineraryGuard $itineraryGuard;
     private IActivityGuard $activityGuard;
     private EvaluationRepository $evaluationRepository;
+    private ActivityRepository $activityRepository;
     private LoggerInterface $logger;
     private EvaluationCalculateScoreService $evaluationCalculateScore;
     private EvaluationCalculatePercentageInvertedTimeService $evaluationCalculatePercentageInvertedTime;
@@ -28,6 +30,7 @@ final class EvaluationCreator
         IItineraryGuard $itineraryGuard,
         IActivityGuard $activityGuard,
         EvaluationRepository $evaluationRepository,
+        ActivityRepository $activityRepository,
         EvaluationCalculateScoreService $evaluationCalculateScore,
         EvaluationCalculatePercentageInvertedTimeService $evaluationCalculatePercentageInvertedTime,
         LoggerInterface $logger
@@ -36,6 +39,7 @@ final class EvaluationCreator
         $this->itineraryGuard = $itineraryGuard;
         $this->activityGuard = $activityGuard;
         $this->evaluationRepository = $evaluationRepository;
+        $this->activityRepository = $activityRepository;
         $this->evaluationCalculateScore = $evaluationCalculateScore;
         $this->evaluationCalculatePercentageInvertedTime = $evaluationCalculatePercentageInvertedTime;
         $this->logger = $logger;
@@ -44,7 +48,7 @@ final class EvaluationCreator
     /**
      * @param StudentUuid $studentUuid
      * @param ItineraryUuid $itineraryUuid
-     * @param ActivityName $activityName
+     * @param ActivityId $activityId
      * @param EvaluationAnswer $answer
      * @param EvaluationInvertedTime $invertedTime
      * @return Evaluation
@@ -53,30 +57,32 @@ final class EvaluationCreator
     public function __invoke(
         StudentUuid $studentUuid,
         ItineraryUuid $itineraryUuid,
-        ActivityName $activityName,
+        ActivityId $activityId,
         EvaluationAnswer $answer,
         EvaluationInvertedTime $invertedTime
     ): Evaluation
     {
         $this->studentGuard->guard($studentUuid);
         $this->itineraryGuard->guard($itineraryUuid);
-        $this->activityGuard->guard($activityName);
+        $this->activityGuard->guard($activityId);
+
+        $activity = $this->activityRepository->search($activityId);
 
         try {
             $evaluation = Evaluation::create(
                 $itineraryUuid,
-                $this->activityGuard->getActivity()->uuid(),
+                $activityId,
                 $studentUuid,
                 new EvaluationCreateDate(EvaluationCreateDate::getDateTimeNow()),
                 $answer,
                 $invertedTime,
                 new EvaluationScore(
-                    $this->evaluationCalculateScore->calculate($answer, $this->activityGuard->getActivity())
+                    $this->evaluationCalculateScore->calculate($answer, $activity->solution())
                 ),
                 new EvaluationPercentageInvertedTime(
                     $this->evaluationCalculatePercentageInvertedTime->calculate(
                         $invertedTime,
-                        $this->activityGuard->getActivity()
+                        $activity->time()
                     )
                 )
             );
@@ -86,7 +92,7 @@ final class EvaluationCreator
 
         $this->evaluationRepository->save($evaluation);
 
-        $message = "Evaluation of activity name: {$this->activityGuard->getActivity()->name()} for student uuid: {$studentUuid->value()} done successfully";
+        $message = "Evaluation of activity id: {$activityId->value()} for student uuid: {$studentUuid->value()} done successfully";
 
         $this->logger->info($message);
 

@@ -36,7 +36,7 @@ final class GetNextActivityController
      *                property="data",
      *                type="object",
      *                     @OA\Property(
-     *                          property="activity_name",
+     *                          property="activity_id",
      *                          type="string",
      *                          example="A3"
      *                     ),

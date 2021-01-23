@@ -4,36 +4,36 @@ declare(strict_types=1);
 
 namespace Academy\ActivityItinerary\Domain;
 
-use Academy\Activity\Domain\ActivityUuid;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Itinerary\Domain\ItineraryUuid;
 
 final class ActivityItinerary
 {
     private ActivityItineraryUuid $uuid;
     private ItineraryUuid $itineraryUuid;
-    private ActivityUuid $activityUuid;
+    private ActivityId $activityId;
     private ActivityItineraryPosition $position;
 
     public function __construct(
         ActivityItineraryUuid $uuid,
         ItineraryUuid $itineraryUuid,
-        ActivityUuid $activityUuid,
+        ActivityId $activityId,
         ActivityItineraryPosition $position
     )
     {
         $this->uuid = $uuid;
         $this->itineraryUuid = $itineraryUuid;
-        $this->activityUuid = $activityUuid;
+        $this->activityId = $activityId;
         $this->position = $position;
     }
 
     public static function create(
         ItineraryUuid $itineraryUuid,
-        ActivityUuid $activityUuid,
+        ActivityId $activityId,
         ActivityItineraryPosition $position
     ): ActivityItinerary
     {
-        return new self(ActivityItineraryUuid::random(), $itineraryUuid, $activityUuid, $position);
+        return new self(ActivityItineraryUuid::random(), $itineraryUuid, $activityId, $position);
     }
 
     public function uuid(): ActivityItineraryUuid
@@ -46,9 +46,9 @@ final class ActivityItinerary
         return $this->itineraryUuid;
     }
 
-    public function activityUuid(): ActivityUuid
+    public function activityId(): ActivityId
     {
-        return $this->activityUuid;
+        return $this->activityId;
     }
 
     public function position(): ActivityItineraryPosition

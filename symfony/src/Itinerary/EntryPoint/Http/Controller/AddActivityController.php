@@ -47,7 +47,7 @@ final class AddActivityController
      *                     @OA\Property(
      *                          property="message",
      *                          type="string",
-     *                          example="Activity name: A1 added to itinerary uuid: 99f951bf-7d49-4a1a-9152-7bdee1f5ce2e successfully"
+     *                          example="Activity id: A1 added to itinerary uuid: 99f951bf-7d49-4a1a-9152-7bdee1f5ce2e successfully"
      *                     ),
      *                      @OA\Property(
      *                          property="errors",
@@ -122,7 +122,7 @@ final class AddActivityController
      *                              @OA\Property(
      *                                 property="uuid",
      *                                 type="string",
-     *                                 example="The activity name A1 is duplicated on itinerary uuid 99f951bf-7d49-4a1a-9152-7bdee1f5ce2e"
+     *                                 example="The activity id A1 is duplicated on itinerary uuid 99f951bf-7d49-4a1a-9152-7bdee1f5ce2e"
      *                              ),
      *                          ),
      *                     ),
@@ -138,10 +138,10 @@ final class AddActivityController
      * )
      *
      * @OA\Parameter(
-     *     name="name",
+     *     name="id",
      *     in="query",
      *     required=true,
-     *     description="The activity name to add to itinerary",
+     *     description="The activity id to add to itinerary",
      *     @OA\Schema(type="string")
      * )
      * @OA\Tag(name="itineraries")
@@ -155,7 +155,7 @@ final class AddActivityController
         /** @var HandledStamp $envelope */
         $envelope = $this->commandBus->dispatch(new AddActivityCommand(
             $request->get('uuid'),
-            $request->get('name')
+            $request->get('id')
         ))->last(HandledStamp::class);
 
         return (new ApiResponseResource(

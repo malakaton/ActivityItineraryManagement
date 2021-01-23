@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Academy\Tests\Mocks\Activity;
 
 use Academy\Activity\Domain\Activity;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Activity\Domain\ActivityName;
 use Academy\Activity\Domain\ActivityRepository;
-use Academy\Activity\Domain\ActivityUuid;
 use Academy\Tests\Activity\Domain\ActivityNameMother;
-use Academy\Tests\Activity\Domain\ActivityUuidMother;
+use Academy\Tests\Activity\Domain\ActivityIdMother;
 use Academy\Tests\Shared\Infrastructure\PhpUnit\UnitTestCase;
 use Mockery\MockInterface;
 
@@ -20,18 +20,18 @@ abstract class ActivityRepositoryMockUnitTestCase extends UnitTestCase
      */
     private $repository;
 
-    protected ActivityUuid $existingActivityUuid;
+    protected ActivityId $existingActivityId;
     protected ActivityName $existingActivityName;
 
     protected function setUp(): void
     {
-        $this->existingActivityUuid = $this->getExistingActivityUuid();
+        $this->existingActivityId = $this->getExistingActivityId();
         $this->existingActivityName = $this->getExistingActivityName();
     }
 
-    protected function getExistingActivityUuid(): ActivityUuid
+    protected function getExistingActivityId(): ActivityId
     {
-        return new ActivityUuid(ActivityUuidMother::stub_uuid);
+        return new ActivityId(ActivityIdMother::stub_uuid);
     }
 
     protected function getExistingActivityName(): ActivityName

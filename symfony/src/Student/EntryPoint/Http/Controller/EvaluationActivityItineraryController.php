@@ -49,14 +49,14 @@ final class EvaluationActivityItineraryController
      *                               property="done_activities",
      *                               type="array",
      *                               example = {{
-     *                                   "activity_name": "A1",
+     *                                   "activity_id": "A1",
      *                                   "create_date": "2021-01-21 00:40:19",
      *                                   "answer": "1_0_1",
      *                                   "inverted_time": 10,
      *                                   "score": 75,
      *                                   "percentage_inverted_time": 50
      *                              }, {
-     *                                   "activity_name": "A3",
+     *                                   "activity_id": "A3",
      *                                   "create_date": "2021-01-21 01:40:19",
      *                                   "answer": "1_0_2",
      *                                   "inverted_time": 990,
@@ -65,7 +65,7 @@ final class EvaluationActivityItineraryController
      *                          }},
      *                        @OA\Items(
      *                              @OA\Property(
-     *                                 property="activity_name",
+     *                                 property="activity_id",
      *                                 type="string",
      *                                 example="A1"
      *                              ),

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Evaluation\Domain\Service;
 
-use Academy\Activity\Domain\Activity;
+use Academy\Activity\Domain\ActivityTime;
 use Academy\Evaluation\Domain\EvaluationCalculatePercentageInvertedTimeService;
 use Academy\Evaluation\Domain\EvaluationInvertedTime;
 
@@ -12,11 +12,11 @@ final class EvaluationCalculateScorePercentageInvertedTime implements Evaluation
 {
     /**
      * @param EvaluationInvertedTime $invertedTime
-     * @param Activity $activity
+     * @param ActivityTime $time
      * @return int
      */
-    public function calculate(EvaluationInvertedTime $invertedTime, Activity $activity): int
+    public function calculate(EvaluationInvertedTime $invertedTime, ActivityTime $time): int
     {
-        return (int) round(($invertedTime->value() / $activity->time()->value())  * 100);
+        return (int) round(($invertedTime->value() / $time->value())  * 100);
     }
 }

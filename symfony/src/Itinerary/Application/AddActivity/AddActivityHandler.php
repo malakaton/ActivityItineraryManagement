@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Itinerary\Application\AddActivity;
 
-use Academy\Activity\Domain\ActivityName;
+use Academy\Activity\Domain\ActivityId;
 use Academy\ActivityItinerary\Domain\ActivityAdder;
 use Academy\ActivityItinerary\Domain\Exception\DuplicatedActivity;
 use Academy\Itinerary\Domain\ItineraryUuid;
@@ -27,8 +27,8 @@ final class AddActivityHandler implements MessageHandlerInterface
     public function __invoke(AddActivityCommand $command): ?string
     {
         $itineraryUuid = new ItineraryUuid($command->itineraryUuid());
-        $activityName = new ActivityName($command->activityName());
+        $activityId = new ActivityId($command->activityId());
 
-        return $this->activityAdder->__invoke($itineraryUuid, $activityName);
+        return $this->activityAdder->__invoke($itineraryUuid, $activityId);
     }
 }

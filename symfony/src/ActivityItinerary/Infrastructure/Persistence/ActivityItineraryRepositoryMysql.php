@@ -6,7 +6,7 @@ namespace Academy\ActivityItinerary\Infrastructure\Persistence;
 
 use Academy\Activity\Domain\Activity;
 use Academy\Activity\Domain\ActivityLevel;
-use Academy\Activity\Domain\ActivityUuid;
+use Academy\Activity\Domain\ActivityId;
 use Academy\ActivityItinerary\Domain\ActivityItinerary;
 use Academy\ActivityItinerary\Domain\ActivityItineraryPosition;
 use Academy\ActivityItinerary\Domain\ActivityItineraryRepository;
@@ -46,8 +46,8 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
     public function searchActivitiesByItineraryUuid(ItineraryUuid $itineraryUuid): ?array
     {
         return $this->repository->createQueryBuilder("ai")
-                ->select('ai.position.value, a.name.value, a.level.value, a.time.value, a.solution.value')
-                ->leftJoin(Activity::class, 'a', 'WITH', 'a.uuid=ai.activityUuid')
+                ->select('ai.position.value, a.id as activityId, a.level.value, a.time.value, a.solution.value')
+                ->leftJoin(Activity::class, 'a', 'WITH', 'a.id=ai.activityId')
                 ->where('ai.itineraryUuid = (:id)')
                 ->orderBy('ai.position.value', 'ASC')
                 ->setParameter('id', $itineraryUuid)
@@ -61,8 +61,8 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
     ): ?array
     {
         return $this->repository->createQueryBuilder("ai")
-            ->select('ai.position.value, a.name.value, a.level.value, a.time.value, a.solution.value')
-            ->leftJoin(Activity::class, 'a', 'WITH', 'a.uuid=ai.activityUuid')
+            ->select('ai.position.value, a.id as activityId, a.level.value, a.time.value, a.solution.value')
+            ->leftJoin(Activity::class, 'a', 'WITH', 'a.id=ai.activityId')
             ->where('ai.itineraryUuid = (:id)')
             ->andWhere('a.level.value = (:level)')
             ->orderBy('ai.position.value', 'ASC')
@@ -87,8 +87,8 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
     ): ?array
     {
         $query = $this->repository->createQueryBuilder("ai")
-            ->select('ai.position.value, a.name.value, a.level.value, a.time.value, a.solution.value')
-            ->leftJoin(Activity::class, 'a', 'WITH', 'a.uuid=ai.activityUuid')
+            ->select('ai.position.value, a.id as activityId, a.level.value, a.time.value, a.solution.value')
+            ->leftJoin(Activity::class, 'a', 'WITH', 'a.id=ai.activityId')
             ->where('ai.itineraryUuid = (:id)')
             ->andWhere('ai.position.value = (:position)')
             ->setParameter('id', $itineraryUuid)
@@ -121,12 +121,12 @@ final class ActivityItineraryRepositoryMysql implements ActivityItineraryReposit
 
     /**
      * @param ItineraryUuid $itineraryUuid
-     * @param ActivityUuid $activityUuid
+     * @param ActivityId $activityId
      * @return bool
      */
-    public function isDuplicatedActivity(ItineraryUuid $itineraryUuid, ActivityUuid $activityUuid): bool
+    public function isDuplicatedActivity(ItineraryUuid $itineraryUuid, ActivityId $activityId): bool
     {
-        $result = $this->repository->findOneBy(['itineraryUuid' => $itineraryUuid, 'activityUuid' => $activityUuid]);
+        $result = $this->repository->findOneBy(['itineraryUuid' => $itineraryUuid, 'activityId' => $activityId]);
 
         return is_null($result) ? false : true;
     }

@@ -65,7 +65,7 @@ final class EvaluationFinder
 
         foreach ($activityList as $activity) {
             $response[] = [
-                'activity_name' => $activity['name.value'],
+                'activity_name' => $activity['activityId']->value(),
                 'create_date' => $activity['createDate.value']->format('Y-m-d H:i:s'),
                 'answer' => $activity['answer.value'],
                 'inverted_time' => $activity['invertedTime.value'],

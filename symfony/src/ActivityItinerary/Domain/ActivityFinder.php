@@ -58,7 +58,7 @@ final class ActivityFinder
 
         foreach ($activityList as $activity) {
             $response[] = [
-                'activity_name' => $activity['name.value'],
+                'activity_id' => $activity['activityId']->value(),
                 'order' => $activity['position.value'],
                 'level' => $activity['level.value'],
                 'time' => $activity['time.value'],

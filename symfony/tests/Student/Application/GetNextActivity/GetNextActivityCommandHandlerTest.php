@@ -12,7 +12,7 @@ use Academy\Tests\Activity\Domain\ActivityLevelMother;
 use Academy\Tests\Activity\Domain\ActivityNameMother;
 use Academy\Tests\Activity\Domain\ActivitySolutionMother;
 use Academy\Tests\Activity\Domain\ActivityTimeMother;
-use Academy\Tests\Activity\Domain\ActivityUuidMother;
+use Academy\Tests\Activity\Domain\ActivityIdMother;
 use Academy\Tests\Evaluation\Domain\EvaluationCreateDateMother;
 use Academy\Tests\Evaluation\Domain\EvaluationPercentageInvertedTimeMother;
 use Academy\Tests\Evaluation\Domain\EvaluationScoreMother;
@@ -74,12 +74,12 @@ final class GetNextActivityCommandHandlerTest extends EvaluationRepositoryMockUn
 
         $this->shouldGetLastEvaluation(
             [
-                'activityUuid' => ActivityUuidMother::getByActivityName(ActivityNameMother::create('A1')),
+                'activityId' => ActivityIdMother::create('A1'),
                 'itineraryUuid' => ItineraryUuidMother::create(ItineraryUuidMother::stub_uuid),
                 'createDate.value' => EvaluationCreateDateMother::random()->value(),
                 'studentUuid' =>  StudentUuidMother::create(StudentUuidMother::stub_uuid),
                 'name.value' => ActivityNameMother::stub_name,
-                'level.value' => ActivityLevelMother::getByActivityName(ActivityNameMother::create('A1'))->value(),
+                'level.value' => ActivityLevelMother::getByActivityId(ActivityIdMother::create('A1'))->value(),
                 'position.value' =>  IntMother::random(),
                 'score.value' => EvaluationScoreMother::create(60)->value(),
                 'percentageInvertedTime.value' => EvaluationPercentageInvertedTimeMother::create(80)->value()
@@ -88,20 +88,20 @@ final class GetNextActivityCommandHandlerTest extends EvaluationRepositoryMockUn
 
         $this->shouldGetLastStudentActivityEvaluatedByLevel(
             [
-                'activityUuid' => ActivityUuidMother::getByActivityName(ActivityNameMother::create('A1')),
+                'activityId' => ActivityIdMother::create('A1'),
                 'itineraryUuid' => ItineraryUuidMother::create(ItineraryUuidMother::stub_uuid),
                 'name.value' => ActivityNameMother::stub_name,
-                'level.value' => ActivityLevelMother::getByActivityName(ActivityNameMother::create('A1'))->value(),
+                'level.value' => ActivityLevelMother::getByActivityId(ActivityIdMother::create('A1'))->value(),
                 'position.value' =>  IntMother::random(),
             ]
         );
 
         $this->shouldGetStudentActivityEvaluatedByItineraryPosition(
             [
-                'activityUuid' => ActivityUuidMother::getByActivityName(ActivityNameMother::create('A1')),
+                'activityId' => ActivityIdMother::create('A1'),
                 'itineraryUuid' => ItineraryUuidMother::create(ItineraryUuidMother::stub_uuid),
                 'name.value' => ActivityNameMother::stub_name,
-                'level.value' => ActivityLevelMother::getByActivityName(ActivityNameMother::create('A1'))->value(),
+                'level.value' => ActivityLevelMother::getByActivityId(ActivityIdMother::create('A1'))->value(),
                 'position.value' =>  IntMother::random(),
             ]
         );
@@ -110,9 +110,9 @@ final class GetNextActivityCommandHandlerTest extends EvaluationRepositoryMockUn
             [
                 'position.value' => IntMother::random(),
                 'name.value' => ActivityNameMother::create('A1')->value(),
-                'level.value' => ActivityLevelMother::getByActivityName(ActivityNameMother::create('A1'))->value(),
-                'time.value' => ActivityTimeMother::getByActivityName(ActivityNameMother::create('A1'))->value(),
-                'solution.value' => ActivitySolutionMother::getByActivityName(ActivityNameMother::create('A1'))->value()
+                'level.value' => ActivityLevelMother::getByActivityId(ActivityIdMother::create('A1'))->value(),
+                'time.value' => ActivityTimeMother::getByActivityId(ActivityIdMother::create('A1'))->value(),
+                'solution.value' => ActivitySolutionMother::getByActivityId(ActivityIdMother::create('A1'))->value()
             ]
         );
 

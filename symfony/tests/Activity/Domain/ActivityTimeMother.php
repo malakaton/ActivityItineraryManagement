@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Academy\Tests\Activity\Domain;
 
-use Academy\Activity\Domain\ActivityName;
+use Academy\Activity\Domain\ActivityId;
 use Academy\Activity\Domain\ActivityTime;
 use Academy\Tests\Shared\Domain\IntMother;
 
@@ -20,7 +20,7 @@ final class ActivityTimeMother
         return self::create(IntMother::random());
     }
 
-    public static function getByActivityName(ActivityName $name): ActivityTime
+    public static function getByActivityId(ActivityId $id): ActivityTime
     {
         $time = [
             'A1' => 120,
@@ -40,6 +40,6 @@ final class ActivityTimeMother
             'A15' => 120
         ];
 
-        return self::create($time[$name->value()]);
+        return self::create($time[$id->value()]);
     }
 }

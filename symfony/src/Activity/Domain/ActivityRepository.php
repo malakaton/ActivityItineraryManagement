@@ -6,5 +6,5 @@ namespace Academy\Activity\Domain;
 
 interface ActivityRepository
 {
-    public function searchByName(ActivityName $activityName): ?Activity;
+    public function search(ActivityId $activityId): ?Activity;
 }

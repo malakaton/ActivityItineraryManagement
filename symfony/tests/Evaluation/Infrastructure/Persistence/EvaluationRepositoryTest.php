@@ -14,7 +14,7 @@ use Academy\Tests\Evaluation\Domain\EvaluationMother;
 use Academy\Tests\Evaluation\Domain\EvaluationPercentageInvertedTimeMother;
 use Academy\Tests\Evaluation\Domain\EvaluationScoreMother;
 use Academy\Tests\Evaluation\Domain\EvaluationUuidMother;
-use Academy\Tests\Activity\Domain\ActivityUuidMother;
+use Academy\Tests\Activity\Domain\ActivityIdMother;
 use Academy\Tests\Itinerary\Domain\ItineraryUuidMother;
 use Academy\Tests\Student\Domain\StudentUuidMother;
 use Academy\Tests\Shared\Infrastructure\Doctrine\DoctrineInfrastructureTestCase;
@@ -38,7 +38,7 @@ final class EvaluationRepositoryTest extends DoctrineInfrastructureTestCase
         $evaluation = EvaluationMother::create(
             EvaluationUuidMother::random(),
             ItineraryUuidMother::create(ItineraryUuidMother::stub_uuid),
-            ActivityUuidMother::create(ActivityUuidMother::stub_uuid),
+            ActivityIdMother::create(ActivityIdMother::stub_uuid),
             StudentUuidMother::create(StudentUuidMother::stub_uuid),
             EvaluationCreateDateMother::random(),
             EvaluationAnswerMother::random(),
@@ -55,8 +55,8 @@ final class EvaluationRepositoryTest extends DoctrineInfrastructureTestCase
         );
 
         self::assertEquals(
-            $evaluationAfterInsert['activityUuid'],
-            $evaluation->activityUuid()
+            $evaluationAfterInsert['activityId'],
+            $evaluation->activityId()
         );
 
         self::assertEquals(

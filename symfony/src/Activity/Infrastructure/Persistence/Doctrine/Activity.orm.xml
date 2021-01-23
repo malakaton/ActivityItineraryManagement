@@ -5,7 +5,7 @@
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <entity name="Academy\Activity\Domain\Activity" table="activities">
-        <id name="uuid" type="activity_uuid" column="uuid" length="36" />
+        <id name="id" type="activity_id" column="id" length="10" />
 
         <embedded name="name"
                   class="Academy\Activity\Domain\ActivityName"

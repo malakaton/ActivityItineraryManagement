@@ -90,7 +90,7 @@ final class EvaluateActivityController
      *                              @OA\Property(
      *                                 property="uuid",
      *                                 type="string",
-     *                                 example="The activity name A31 doesn't exist"
+     *                                 example="The activity id A31 doesn't exist"
      *                              ),
      *                          ),
      *                     ),
@@ -147,10 +147,10 @@ final class EvaluateActivityController
      *     @OA\Schema(type="string")
      * )
      * @OA\Parameter(
-     *     name="activity_name",
+     *     name="activity_id",
      *     in="query",
      *     required=true,
-     *     description="The activity name to evaluate",
+     *     description="The activity id to evaluate",
      *     @OA\Schema(type="string")
      * )
      *
@@ -180,7 +180,7 @@ final class EvaluateActivityController
         $envelope = $this->commandBus->dispatch(new EvaluateActivityCommand(
             $request->get('student_uuid'),
             $request->get('itinerary_uuid'),
-            $request->get('activity_name'),
+            $request->get('activity_id'),
             $requestToArray['answer'],
             $requestToArray['inverted_time']
         ))->last(HandledStamp::class);
